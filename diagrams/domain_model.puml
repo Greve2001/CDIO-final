@@ -9,6 +9,7 @@ object "Chance Card" as chance
 object Deck
 object Square
 object Deed
+object Matador
 
 Die : FaceValue
 Player : Name
@@ -19,15 +20,16 @@ Deed : Rent
 Deed : Pledge Value
 Square : Name
 
-Board "1" -r- "3..6" Player : \t Plays \t
+Matador "1" -r- "3..6" Player : \t Plays \t
 Player "3..6" -r- "1" Bank : \t Deals With \t
 
-Board "1" -u- "1" dicecup : Rolls
-dicecup "1" -u- "2" Die : Holds
+Matador "1" -u- "1" dicecup : Holds
+dicecup "1" -u- "2" Die : Rolls
 
 Deck "1" -l- "28" chance : \t Holds \t
-Board "1" -l- "1" Deck : \t Is on \t
+Matador "1" -l- "1" Deck : \t Is on \t
 
+Board "1" -u- "1" Matador
 Board "1" -d- "40" Square : Consists Of\t
 
 Square "1" -r- "0..1" Deed : \t Has \t\t\t
