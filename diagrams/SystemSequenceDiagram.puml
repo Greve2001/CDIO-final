@@ -7,11 +7,11 @@ hide footbox
 actor Player #lightyellow
 participant ":System" as System
 activate Player #lightgreen
-
+Player -> System : Start game
 Player <-- System: Enter the number of players
 Player -> System: Input the number of players
 
-loop all players
+loop for all players
     Player <-- System : Enter the player's name
     Player -> System : Input player's name
 end
@@ -20,7 +20,6 @@ loop until one player remain
     Player <-- System: Asking for player action
     Player -> System: Player action
     Player <-- System: Update game
-
 end
 
 Player <-- System: End game
