@@ -20,7 +20,7 @@ Deed : Pledge Value
 Square : Name
 
 Board "1" -r- "3..6" Player : \t Plays \t
-Player "3..6" -r- "1" Bank : \t Manages \t
+Player "3..6" -r- "1" Bank : \t Deals With \t
 
 Board "1" -u- "1" dicecup : Rolls
 dicecup "1" -u- "2" Die : Holds
