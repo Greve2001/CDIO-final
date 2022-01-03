@@ -1,0 +1,11 @@
+@startuml
+left to right direction
+
+rectangle "Matador" {
+    usecase (Play Matador) as play
+    usecase (Draw Chance Card) as chance
+}
+
+Player "3..6" -- play
+chance .> play : extends
+@enduml
