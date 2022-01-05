@@ -3,6 +3,7 @@ package Utilities;
 // TODO [] Write a method to trim down the array in size.
 
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -77,5 +78,19 @@ public class CSVReader {
 
     public String[][] getFile() {
         return FILE;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+
+        for (String[] row : FILE) {
+            for (String col : row) {
+                result.append(col + ", ");
+            }
+            result.append("\n");
+        }
+
+        return result.toString();
     }
 }
