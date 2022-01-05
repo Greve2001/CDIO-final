@@ -3,37 +3,32 @@
 object Board
 object Player
 object Die
-object "Dice Cup" as dicecup
+object "Dice Cup" as diceCup
 object Bank
 object "Chance Card" as chance
 object Deck
 object Square
-object Deed
 object Matador
 
 Die : FaceValue
 Player : Name
 Player : Balance
+Player : Position
 chance : Description
-Deed : Cost
-Deed : Rent
-Deed : Pledge Value
 Square : Name
+Square : Rents
+Square : Owner
 
 Matador "1" -r- "3..6" Player : \t Plays \t
-Player "3..6" -r- "1" Bank : \t Deals With \t
+Matador "1" -u- "1 " Bank : Deals With
 
-Matador "1" -u- "1" dicecup : Holds
-dicecup "1" -u- "2" Die : Rolls
+Matador "1  " -u- "1" diceCup : Holds
+diceCup "1" -u- "2" Die : Rolls
 
 Deck "1" -l- "28" chance : \t Holds \t
 Matador "1" -l- "1" Deck : \t Is on \t
 
-Board "1" -u- "1" Matador : Played On \t\t\t\t
+Board "1" -u- "1" Matador : Played On
 Board "1" -d- "40" Square : Consists Of\t
-
-Square "1" -u- "0..1" Deed : Has
-Bank "0..1    " -- "     0..22" Deed : Owns
-Player "0..1" -- "0..22" Deed : Owns
 
 @enduml
