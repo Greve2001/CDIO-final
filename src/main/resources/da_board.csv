@@ -11,7 +11,7 @@ Valby Langgade,8,street,Orance,2000,,1000,100,600,1800,5400,8000,11000
 Allégade,9,street,Orance,2400,,1000,150,800,2000,6000,9000,12000
 I fængsel/På besøg,10,jail,,,,,,,,,,
 Frederiksberg Allé,11,street,Green,2800,,2000,200,1000,3000,9000,12500,15000
-Tuborg Squash,12,brewery,,3000,,,100,200,,,,
+Tuborg Squash,12,brewery,Pink,3000,,,100,200,,,,
 Bülowsvej,13,street,Green,2800,,2000,200,1000,3000,9000,12500,15000
 Gl. Kongevej,14,street,Green,3200,,2000,250,1250,3750,10000,14000,18000
 Mols-Linien,15,ferry,Black,4000,,,500,1000,2000,4000,,
@@ -30,7 +30,7 @@ Grønningen,24,street,"Red
 Gedser - Rostock,25,ferry,Black,4000,,,500,1000,2000,4000,,
 Bredgade,26,street,White,5200,,3000,450,2200,6600,16000,19500,23000
 Kgs. Nytorv,27,street,White,5200,,3000,450,2200,6600,16000,19500,23000
-Coca Cola,28,brewery,,3000,,,100,200,,,,
+Coca Cola,28,brewery,Pink,3000,,,100,200,,,,
 Østergade,29,street,White,5600,,3000,500,2400,7200,17000,20500,24000
 Gå i fængsel,30,GoToJail,,,,,,,,,,
 Amagertorv,31,street,Yellow,6000,,4000,550,2600,7800,18000,22000,25000
