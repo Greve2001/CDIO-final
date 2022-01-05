@@ -49,7 +49,6 @@ public class GUIController {
     }
 
 
-
 /// Player Section ///
     public void movePlayer(Player player, int destination) throws InterruptedException { // Make sure it needs the Player or name of Player
         // Calculate distance to move
@@ -75,6 +74,12 @@ public class GUIController {
         int index = getGuiPlayerIndex(player);
         guiPlayers[index].setBalance(value);
     }
+
+    // Gives access to logic to get the inputted names from the GUI.
+    public String[] getPlayerNames(){
+        return playerNames;
+    }
+
 
 /// Action Section ///
     // Show rolled dice
@@ -132,11 +137,6 @@ public class GUIController {
             }
         }
         return -1;
-    }
-
-    // Gives access to logic to get the inputted names from the GUI.
-    public String[] getPlayerNames(){
-        return playerNames;
     }
 
     private GUI_Street convertToStreet(GUI_Field field){

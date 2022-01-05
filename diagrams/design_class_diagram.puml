@@ -91,6 +91,18 @@ class ChanceCard{
     -description
 }
 
+class GUIController{
+    +movePlayer(Player, destination:int) : void
+    +setPlayerBalance(Player, value:int) : void
+    +showDice(faceValues:int[]) : void
+    +getPlayerAction(Player, msg:String) : void
+    +setHouses(position:int, amount:int) : void
+    +setHotel(position:int, bool:boolean) : void
+    +getPlayerNames() : String[]
+    -getGuiPlayerIndex(Player) : int
+    -getPlayerPosition(Player) : int
+    -convertToStreet(GUI_Field) : GUI_Street
+}
 
 
 @enduml
