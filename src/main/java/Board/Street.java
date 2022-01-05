@@ -17,5 +17,6 @@ public class Street extends Square{
         this.PRICE = price;
         this.HOUSEPRICE = housePrice;
         this.RENT = rent;
+
     }
 }
