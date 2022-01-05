@@ -1,13 +1,12 @@
-package MonopolyJunior;
-
 import Board.*;
-import Utilities.Language;
+import Logic.*;
+import Utilities.*;
 import gui_fields.*;
 import gui_main.GUI;
 
 import java.awt.*;
 
-public class GUIControllerNew {
+public class GUIController {
 
     private static GUI gui;
     private static String[] playerNames;
@@ -19,7 +18,7 @@ public class GUIControllerNew {
     
     private static int moveTime = 20;
 
-    public GUIControllerNew(){
+    public GUIController(){
         gui = new GUI();
     }
 
@@ -43,7 +42,6 @@ public class GUIControllerNew {
             // Add players car to square
             GUI_Field field = gui.getFields()[0];
             guiPlayers[i].getCar().setPosition(field);
-
 
             // Keep track of position since GUI only uses Field for reference
             playerPositions[i] = 0;
@@ -78,8 +76,6 @@ public class GUIControllerNew {
         guiPlayers[index].setBalance(value);
     }
 
-
-
 /// Action Section ///
     // Show rolled dice
     public void showDice(int[] faceValues){
@@ -91,24 +87,26 @@ public class GUIControllerNew {
         gui.showMessage(player.getName() + "; " + msg);
     }
 
-    // Used for more than displayChanceCard. Also just for normal messages.
-    public void displayChanceCard(ChanceCard card) { // Use CSV Reader
-        if (card.getColor() != null){
-            gui.displayChanceCard( "ChanceCard" + "\n" + card.toString() + "\n" +
-                    card.getColor());
-        }else{
-            gui.displayChanceCard("ChanceCard" + "\n" + card.toString());
-        }
+    //TODO when Pi has it made
 
-    }
+    // Used for more than displayChanceCard. Also just for normal messages.
+    //public void displayChanceCard(ChanceCard card) { // Use CSV Reader
+    //    gui.displayChanceCard("ChanceCard" + "\n" + card.toString());
+    //}
 
     public void setHouses(int position, int amount){
-        GUI_Field field = gui.getFields()[position];
-        GUI_Street street = (GUI_Street) field;
-
-        street.setHouses(amount);
+        GUI_Street street = (GUI_Street) convertToStreet(gui.getFields()[position]);
+        if (street != null){
+            street.setHouses(amount);
+        }
     }
 
+    public void setHotel(int position, boolean bool){
+        GUI_Street street = (GUI_Street) convertToStreet(gui.getFields()[position]);
+        if (street != null){
+            street.setHotel(bool);
+        }
+    }
 
 
 
@@ -139,5 +137,14 @@ public class GUIControllerNew {
     // Gives access to logic to get the inputted names from the GUI.
     public String[] getPlayerNames(){
         return playerNames;
+    }
+
+    private GUI_Street convertToStreet(GUI_Field field){
+        if (field instanceof GUI_Street){
+            // Cast it to street
+            return (GUI_Street) field;
+        }
+        // Default case
+        return null;
     }
 }
