@@ -1,5 +1,96 @@
 @startuml
 
+skinparam groupInheritance 2
+
+skinparam linetype polyline
+
 class Board
+class Player
+class Die
+class DiceCup
+class Bank
+class ActionHandler
+class GameController
+class Deck
+class ChanceCard
+class Square
+
+
+class GUIController
+class CSVReader
+
+
+
+
+
+class Board {
+    +hasMonopoly() : boolean
+    +movePlayer(Player, spacesToMove:int) : void
+    +setPlayerPosition(Player, position:int) : void
+    -payStartBonus(Player) : void
+    -stringArrayToIntArray(String[], size:int) : int[]
+}
+
+class Square {
+    -name : String
+    -position : int
+}
+
+
+class Player {
+    -name : String
+    -balance : int
+    -position : int
+    -broke : boolean
+}
+
+class Die {
+    -faceValue : int
+
+    +roll() : void
+}
+
+class DiceCup {
+    -dice : Die[]
+
+    +rollDice() : void
+    +getFaceValues() : void
+}
+
+class Bank {
+    -housesAvailable : int
+    -hotelsAvailable : int
+    -??? Streets ???
+
+    +payToBank(Player, amount:int) : void
+    +payToPlayer(Player, amount:int) : void
+    +payPlayer(Player, amount:int) : void
+    +buyHouses(?) : ?
+    +buyHotel(?) : ?
+}
+
+class ActionHandler {
+
+}
+
+class GameController {
+    -currentPlayer : Player
+
+    -changeTurn() : void
+}
+
+class Deck {
+    -cards : ChanceCard[]
+
+    +pullCard() : ChanceCard
+    -shuffleDeck() : void
+    -createCards() : void
+}
+
+class ChanceCard{
+    -description
+}
+
+
 
 @enduml
