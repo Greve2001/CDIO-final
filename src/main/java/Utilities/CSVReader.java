@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class CSVReader {
     private final Scanner FILE_SCANNER;
     private final String DELIMITER;
+    private final String[][] FILE;
 
     private String[] columnHeaders;
 
@@ -22,10 +23,12 @@ public class CSVReader {
 
         if(hasColumnHeaders)
             columnHeaders = FILE_SCANNER.nextLine().split(delimiter);
+
+        FILE = fileAsArr();
     }
 
     // Returns the line as an array, so it can be stored in a larger array.
-    public String[] readLine() {
+    private String[] readLine() {
         String[] result = new String[0];
 
         if(FILE_SCANNER.hasNextLine())
@@ -35,7 +38,7 @@ public class CSVReader {
     }
 
     // Takes the file and converts it to a 2D array.
-    public String[][] fileAsArr() {
+    private String[][] fileAsArr() {
         String[][] result = new String[20][1];
 
         int line = 0;
@@ -70,5 +73,9 @@ public class CSVReader {
 
     public void setColumnHeaders(String[] columnHeaders) {
         this.columnHeaders = columnHeaders;
+    }
+
+    public String[][] getFile() {
+        return FILE;
     }
 }
