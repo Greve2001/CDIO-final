@@ -5,8 +5,8 @@ public class Street extends Square{
     private final int[] PRICE;
     private Player owner = null;
 
-    public Street(){
-        super(NAME, POSITION);
+    public Street(String name, int position){
+        super(name, position);
 
     }
 }
