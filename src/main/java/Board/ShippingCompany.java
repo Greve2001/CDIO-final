@@ -1,4 +1,4 @@
 package Board;
 
-public class ShippingCompany {
+public class ShippingCompany extends Square{
 }
