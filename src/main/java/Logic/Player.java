@@ -1,3 +1,5 @@
+package Logic;
+
 public class Player {
     private final String name;
     private int position; // Make it through constructor or other
