@@ -10,7 +10,7 @@ public class Brewery extends Square {
     private Player owner = null;
 
     public Brewery (String name, int position, int[] rent, int price, String color) {
-        super(name, position, true);
+        super(name, position, true, "Brewery");
         this.COLOR = color;
         this.RENT = rent;
         this.PRICE = price;

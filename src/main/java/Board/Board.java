@@ -71,7 +71,9 @@ public class Board {
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Square(
                             data[name],
                             Integer.parseInt(data[position]),
-                            false
+                            false,
+                            data[type]
+
                     );
                     break;
             }
