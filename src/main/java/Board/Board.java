@@ -1,5 +1,6 @@
 package Board;
 
+import Logic.Player;
 import Utilities.CSVReader;
 
 public class Board {
@@ -80,4 +81,13 @@ public class Board {
         }
         return result;
     }
+
+    public void payStartBonus(Player currentPlayer)
+    {
+
+    }
+    public Square[] getALL_SQUARES() {
+        return ALL_SQUARES;
+    }
+
 }
