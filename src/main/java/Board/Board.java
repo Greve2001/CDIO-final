@@ -83,8 +83,29 @@ public class Board {
         }
         return result;
     }
-    public boolean hasMonopoly() {
-       return false;
+    public boolean hasMonopoly(int position) {
+        String color;
+        Player owner = null;
+        switch (ALL_SQUARES[position].getClass().getSimpleName()) {
+            case "Street":
+                color = ((Street) ALL_SQUARES[position]).getCOLOR();
+                for (Square square : ALL_SQUARES) {
+                    if (square.getClass().getSimpleName().equals("Street")) {
+                        if (((Street) square).getCOLOR().equals(color)) {
+                            if (owner == null) {
+                                owner = ((Street) square).getOwner();
+                            } else {
+                                if (!((Street) square).getOwner().equals(owner))
+                                    return false;
+                            }
+                        }
+                    }
+                }
+                break;
+
+
+        }
+        return true;
     }
 
 
