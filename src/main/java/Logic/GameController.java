@@ -22,10 +22,8 @@ public class GameController {
         diceCup = new DiceCup();
         board = new Board();
 
-        GUIController gui = new GUIController();
-        setupPlayers(gui.getPlayerNames());
-
-
+        //GUIController gui = new GUIController();
+        //setupPlayers(gui.getPlayerNames());
     }
 
     private void setupPlayers(String[] playerNames) {
