@@ -19,4 +19,12 @@ public class Street extends Square{
         this.RENT = rent;
 
     }
+
+    public String getCOLOR(){
+        return COLOR;
+    }
+
+    public Player getOwner(){
+        return owner;
+    }
 }
