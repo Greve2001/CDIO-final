@@ -12,9 +12,9 @@ public class GUIController {
 
     private static GUI gui;
     private static String[] playerNames;
-    private static Color[] playerColors = {Color.RED, Color.YELLOW, Color.WHITE, Color.BLACK};
     private static GUI_Player[] guiPlayers;
     private static int[] playerPositions;
+    private static Color[] colorsToChooseFrom = new Color[]{Color.blue, Color.green, Color.yellow, Color.red, Color.magenta, Color.orange};
     
     private static int moveTime = 20;
 
@@ -29,21 +29,27 @@ public class GUIController {
         for (int i = 0; i < GUIFields.length; i++) {
             switch (inputSquares[i].getType()){
                 case "street" :
+                    //GUIFields[i] = new GUI_Street();
                     GUIFields[i] = new GUI_Street();
-                    GUIFields[i].setForeGroundColor(convertColor(inputSquares[i].getColor()));
+                    GUIFields[i].setBackGroundColor(convertColor(inputSquares[i].getColor()));
+                    GUIFields[i].setDescription(
+                            "Skal indholde renten"
+                    );
                     break;
 
                 case "ferry" :
                     GUIFields[i] = new GUI_Shipping();
-
+                    GUIFields[i].setBackGroundColor(Color.white);
                     break;
 
                 case "brewery" :
                     GUIFields[i] = new GUI_Brewery();
+                    GUIFields[i].setBackGroundColor(Color.pink);
                     break;
 
                 case "chance" :
                     GUIFields[i] = new GUI_Chance();
+                    GUIFields[i].setBackGroundColor(Color.pink);
                     break;
 
                 case "prison" :
@@ -54,20 +60,19 @@ public class GUIController {
                     GUIFields[i] = new GUI_Street(); // Hopefully change
                     break;
 
-                case "incomeTax" :
+                case "incomeTax", "tax" :
                     GUIFields[i] = new GUI_Tax();
-                    break;
-
-                case "tax" :
-                    GUIFields[i] = new GUI_Tax();
+                    GUIFields[i].setBackGroundColor(Color.red);
                     break;
 
                 case "refugee" : // Parkering
                     GUIFields[i] = new GUI_Refuge();
+                    GUIFields[i].setBackGroundColor(Color.white);
                     break;
 
                 case "start" : // Parkering
                     GUIFields[i] = new GUI_Start();
+                    GUIFields[i].setBackGroundColor(Color.red);
                     break;
 
                 default:
@@ -77,7 +82,7 @@ public class GUIController {
 
             GUIFields[i].setTitle(inputSquares[i].getNAME());
             //TODO not setting subtext cause we need some dynamic handling to show what the price and then rent is.
-            GUIFields[i].setSubText("");
+
 
             // Not using setDescription because it's not giving from csv files.
         }
@@ -161,16 +166,30 @@ public class GUIController {
     //}
 
     public void setHouses(int position, int amount){
-        GUI_Street street = (GUI_Street) convertToStreet(gui.getFields()[position]);
-        if (street != null){
-            street.setHouses(amount);
-        }
+        if (posToStreet(position) != null)
+            posToStreet(position).setHouses(amount);
     }
 
     public void setHotel(int position, boolean bool){
-        GUI_Street street = (GUI_Street) convertToStreet(gui.getFields()[position]);
-        if (street != null){
-            street.setHotel(bool);
+        if (posToStreet(position) != null)
+            posToStreet(position).setHotel(bool);
+
+    }
+
+    public void setOwner(Player player, int position){
+        if (posToStreet(position) != null){
+            posToStreet(position).setOwnerName(player.getName());
+            ((GUI_Ownable) posToStreet(position)).setBorder(Color.black);
+        }
+    }
+
+    private GUI_Street posToStreet(int position){
+        GUI_Field field = gui.getFields()[position];
+        if (field instanceof GUI_Street){
+            return (GUI_Street) field;
+        }else{
+            System.out.println("Error, this square at position: " + position + " is not a street: ");
+            return null;
         }
     }
 
@@ -198,15 +217,6 @@ public class GUIController {
             }
         }
         return -1;
-    }
-
-    private GUI_Street convertToStreet(GUI_Field field){
-        if (field instanceof GUI_Street){
-            // Cast it to street
-            return (GUI_Street) field;
-        }
-        // Default case
-        return null;
     }
 
     private Color convertColor(String colorStr){

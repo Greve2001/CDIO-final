@@ -1,5 +1,6 @@
 import Board.Board;
 import Interface.GUIController;
+import Logic.Player;
 import org.junit.jupiter.api.BeforeEach;
 
 class GUIControllerTest {
@@ -11,6 +12,7 @@ class GUIControllerTest {
         controller.setHouses(3, 4);
 
         controller.setHotel(3, true);
-        controller.setHotel(3, false);
+
+        controller.setOwner(new Player("Test", 10, 0), 3);
     }
 }
