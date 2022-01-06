@@ -2,7 +2,7 @@ package Board;
 
 import Logic.Player;
 
-public class Street extends Square{
+public class Street extends Square {
     private final String COLOR;
     private final int PRICE;
     private final int[] RENT;
@@ -11,7 +11,7 @@ public class Street extends Square{
     private Player owner = null;
     private boolean pledge = false;
 
-    public Street(String name, int position, String color, int price, int housePrice,int[] rent){
+    public Street(String name, int position, String color, int price, int housePrice, int[] rent) {
         super(name, position, true, "street");
         this.COLOR = color;
         this.PRICE = price;
@@ -20,15 +20,35 @@ public class Street extends Square{
 
     }
 
-    public String getColor(){
+    public String getColor() {
         return COLOR;
     }
 
-    public Player getOwner(){
+    public int getPrice() {
+        return PRICE;
+    }
+
+    public int[] getRent() {
+        return RENT;
+    }
+
+    public int getHousePrice() {
+        return HOUSEPRICE;
+    }
+
+    public Player getOwner() {
         return owner;
     }
 
-    public void setOwner(Player p){
-        owner = p;
+    public void setOwner(Player player) {
+        this.owner = player;
+    }
+
+    public boolean getPledge(){
+        return pledge;
+    }
+
+    public void setPledge(boolean condition){
+        this.pledge = condition;
     }
 }

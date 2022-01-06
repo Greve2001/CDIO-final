@@ -9,4 +9,13 @@ public class IncomeTax extends Square{
         this.AMOUNT = price;
         this.percentage = percentPrice;
     }
+
+    public int getAmount(){
+        return AMOUNT;
+    }
+
+    public int getPercentage(){
+        return percentage;
+    }
+
 }

@@ -104,20 +104,17 @@ public class Board {
             }
         }
         else {
-            switch (square.getName()){
-                case "Tax":
-                        actionHandler.bank().payToBank(currentPlayer, square.toPay());
-                    break;
-                case "IncomeTax":
-                        actionHandler.bank().payToBank(currentPlayer, square.toPay());
-                        //TODO dicision if you want to pay 10% or 4000
-                    break;
-                case "ChanceCard":
-                        //TODO logic
-                    break;
-                case "GoToJail":
-                        setPlayerPosition(currentPlayer,10, true);
-                    break;
+            if (square.getName().equals("Tax")) {
+                Tax tempSquare = (Tax) square;
+                actionHandler.bank().payToBank(currentPlayer, tempSquare.getAmount());
+            } else if (square.getName().equals("IncomeTax")) {
+                IncomeTax tempSquare = (IncomeTax) square;
+                actionHandler.bank().payToBank(currentPlayer, tempSquare.getAmount());
+                //TODO dicision if you want to pay 10% or 4000
+            } else if (square.getName().equals("ChanceCard")){
+                //TODO logic
+            } else if(square.getName().equals("GoToJain")){
+                setPlayerPosition(currentPlayer,10, true);
             }
         }
     }

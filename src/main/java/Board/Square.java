@@ -16,7 +16,7 @@ public class Square {
         this.type = type;
     }
 
-    public String getNAME() {
+    public String getName(){
         return NAME;
     }
 
@@ -24,8 +24,27 @@ public class Square {
         return POSITION;
     }
 
+    public boolean getOwnable(){
+        return ownable;
+    }
+
+    public String getType(){
+        return type;
+    }
+
+    //methods for late binding only
+    //used by Street, Ferry and Brewery
+
     public String getColor(){
         return "";
+    }
+
+    public int getPrice(){
+        return 0;
+    }
+
+    public int[] getRent(){
+        return null;
     }
 
     public Player getOwner(){
@@ -36,19 +55,14 @@ public class Square {
 
     }
 
-    public boolean getOwnable(){
-        return ownable;
+    public boolean getPledge(){
+        return false;
     }
 
-    public String getName(){
-        return NAME;
+    public void setPledge(){
+
     }
 
-    public int toPay(){
-        return 0;
-    }
 
-    public String getType(){
-        return type;
-    }
+
 }
