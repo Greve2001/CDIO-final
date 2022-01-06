@@ -40,20 +40,45 @@ public class Bank {
        player.setBalance(balance);
     }
 
-    public boolean buyHouses(int nr){
+    public String buyHouses(Player player,int nr, int price){
+        String msg="";
         if(housesAvailable>=nr){
-            housesAvailable-=nr;
-            return true;
+                if(player.getBalance()>= (price*nr)) {
+                    housesAvailable -= nr;
+                    int balance=player.getBalance()-(price*nr);
+                    player.setBalance(balance);
+                    msg="true";
+                    return msg;
+                }
+                else{
+                    msg="You don't have sufficient money!";
+                }
         }
-        return false;
+        else {
+            msg="There are not enough houses available!";
+        }
+
+        return msg ;
     }
 
-    public boolean buyHotel(int nr){
+    public String buyHotel(Player player,int nr,int price){
+        String msg="";
         if(hotelsAvailable>=nr){
-            hotelsAvailable-=nr;
-            return true;
+            if(player.getBalance()>=(nr*price)){
+                hotelsAvailable-=nr;
+                int balance=player.getBalance()-(nr*price);
+                player.setBalance(balance);
+                msg="true";
+            }
+            else{
+                msg="You don't have sufficient money!";
+            }
         }
-        return false;
+        else{
+          msg="There are not enough hotels available!";
+        }
+
+        return msg;
     }
 
     public int getHousesAvailable(){
