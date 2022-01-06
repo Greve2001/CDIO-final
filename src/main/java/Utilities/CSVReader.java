@@ -1,16 +1,14 @@
 package Utilities;
 
-// TODO [] Write a method to trim down the array in size.
-
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class CSVReader {
     private final Scanner FILE_SCANNER;
     private final String DELIMITER;
-    private final String[][] FILE;
+    private String[][] file;
+    private int size;
 
     private String[] columnHeaders;
 
@@ -22,31 +20,32 @@ public class CSVReader {
         InputStreamReader reader = new InputStreamReader(Objects.requireNonNull(classLoader.getResourceAsStream(fileName)));
         FILE_SCANNER = new Scanner(reader);
 
-        if(hasColumnHeaders)
+        if (hasColumnHeaders)
             columnHeaders = FILE_SCANNER.nextLine().split(delimiter);
 
-        FILE = fileAsArr();
+        file = fileAsArr();
+        file = trimArrLength();
     }
 
     // Returns the line as an array, so it can be stored in a larger array.
     private String[] readLine() {
         String[] result = new String[0];
 
-        if(FILE_SCANNER.hasNextLine())
+        if (FILE_SCANNER.hasNextLine())
             result = FILE_SCANNER.nextLine().split(DELIMITER);
 
-        return  result;
+        return result;
     }
 
     // Takes the file and converts it to a 2D array.
     private String[][] fileAsArr() {
         String[][] result = new String[20][1];
 
-        int line = 0;
-        while(FILE_SCANNER.hasNextLine()) {
+        size = 0;
+        while (FILE_SCANNER.hasNextLine()) {
 
             // Increases the size of the array if the file is longer than 20 lines.
-            if(result.length <= line) {
+            if (result.length <= size) {
                 String[][] temp = new String[result.length * 2][1];
 
                 // Copies the old array to the new array with increased size.
@@ -58,10 +57,20 @@ public class CSVReader {
                 result = temp;
             }
 
-            result[line++] = readLine();
+            result[size++] = readLine();
         }
 
         return result;
+    }
+
+    private String[][] trimArrLength() {
+        String[][] trimmedArray = new String[size][1];
+
+        for (int i = 0; i < size; i++) {
+            trimmedArray[i] = file[i];
+        }
+
+        return trimmedArray;
     }
 
     public void close() {
@@ -77,16 +86,16 @@ public class CSVReader {
     }
 
     public String[][] getFile() {
-        return FILE;
+        return file;
     }
 
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
 
-        for (String[] row : FILE) {
+        for (String[] row : file) {
             for (String col : row) {
-                result.append(col + ", ");
+                result.append(col).append(", ");
             }
             result.append("\n");
         }
