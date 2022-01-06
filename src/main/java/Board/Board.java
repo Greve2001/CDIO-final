@@ -163,6 +163,6 @@ public class Board {
 
     public void payStartBonus(Player currentPlayer, boolean... goingToJail) {
         if (!goingToJail[0])
-            actionHandler.bank().payToBank(currentPlayer, 4000);
+            actionHandler.bank().payPlayer(currentPlayer, 4000);
     }
 }
