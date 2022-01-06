@@ -27,13 +27,15 @@ public class GUIController {
         GUI_Field[] GUIFields = new GUI_Field[inputSquares.length]; // Create empty array
 
         for (int i = 0; i < GUIFields.length; i++) {
-            switch (inputSquares[i].getNAME()){ //TODO CHANGE!
+            switch (inputSquares[i].getType()){
                 case "street" :
                     GUIFields[i] = new GUI_Street();
+                    GUIFields[i].setForeGroundColor(convertColor(inputSquares[i].getColor()));
                     break;
 
                 case "ferry" :
                     GUIFields[i] = new GUI_Shipping();
+
                     break;
 
                 case "brewery" :
@@ -49,7 +51,7 @@ public class GUIController {
                     break;
 
                 case "goToPrison" :
-                    GUIFields[i] = new GUI_Empty(); // Hopefully change
+                    GUIFields[i] = new GUI_Street(); // Hopefully change
                     break;
 
                 case "incomeTax" :
@@ -69,20 +71,18 @@ public class GUIController {
                     break;
 
                 default:
-                    GUIFields[i] = new GUI_Empty();
+                    GUIFields[i] = new GUI_Street(); // Change
                     break;
             }
 
-
             GUIFields[i].setTitle(inputSquares[i].getNAME());
             //TODO not setting subtext cause we need some dynamic handling to show what the price and then rent is.
+            GUIFields[i].setSubText("");
 
             // Not using setDescription because it's not giving from csv files.
         }
 
-
-
-        return null;
+        return GUIFields;
     }
 
     public void createPlayers(int startBalance){
@@ -207,5 +207,40 @@ public class GUIController {
         }
         // Default case
         return null;
+    }
+
+    private Color convertColor(String colorStr){
+        Color result = Color.white;
+
+        switch (colorStr.toLowerCase()) {
+            case "red" :
+                result = Color.red;
+                break;
+            case "green" :
+                result = Color.green;
+                break;
+            case "blue" :
+                result = Color.cyan;
+                break;
+            case "yellow" :
+                result = Color.yellow;
+                break;
+            case "purple" :
+                result = Color.magenta;
+                break;
+            case "orange" :
+                result = Color.orange;
+                break;
+            case "grey" :
+                result = Color.gray; // Make grey
+                break;
+            case "white" :
+                result = Color.white;
+                break;
+            default:
+                result = Color.pink;
+                break;
+        }
+        return result;
     }
 }
