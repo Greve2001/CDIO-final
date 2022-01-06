@@ -122,6 +122,25 @@ public class Board {
             player.setPosition(newPos);
         }
     }
+    
+    public void updatePlayerPosition(Player player, int diceValue){
+        int currentPosition = player.getPosition();
+        int sum = currentPosition + diceValue;
+        int endPosition;
+        int boardSize = ALL_SQUARES.length;
+
+        if (diceValue == Math.abs(diceValue) && sum >= boardSize){
+            endPosition = sum - boardSize;
+            payStartBonus(player);
+            }
+        else if (sum < 0)
+            endPosition = sum + boardSize;
+        else
+            endPosition = sum;
+
+        player.setPosition(endPosition);
+    }
+    
     public void setPlayerPosition(Player player, int endPos){
         player.setPosition(endPos);
     }
