@@ -77,7 +77,6 @@ public class Board {
         for (int i = 0; i < result.length; i++){
             result[i] = Integer.parseInt(arr[offset + i]);
         }
-
         return result;
     }
 }
