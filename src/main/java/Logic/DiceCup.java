@@ -1,9 +1,9 @@
 package Logic;
 
-public class Cup {
+public class DiceCup {
     private Die[] dice;
 
-    public Cup(){
+    public DiceCup(){
         dice=new Die[2];
         dice[0]=new Die();
         dice[1]=new Die();
@@ -21,4 +21,5 @@ public class Cup {
 
         return values;
     }
+    
 }
