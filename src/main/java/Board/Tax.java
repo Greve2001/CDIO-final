@@ -7,4 +7,8 @@ public class Tax extends Square{
         super(name, position, false);
         this.AMOUNT = amount;
     }
+
+    public int toPay(){
+        return AMOUNT;
+    }
 }

@@ -88,6 +88,37 @@ public class Board {
         return result;
     }
 
+    public void handleField(Player currentPlayer){
+        Square square = ALL_SQUARES[currentPlayer.getPosition()];
+        if (square.getOwnable()){ //check if player land on a Street, Ferry or Brewery.
+            if (square.getOwner() == null){
+                //TODO logik to handle purchase
+            }
+            else{
+                switch (square.getName()){
+                    case "Street":
+                }
+            }
+        }
+        else {
+            switch (square.getName()){
+                case "Tax":
+                        actionHandler.bank().payToBank(currentPlayer, square.toPay());
+                    break;
+                case "IncomeTax":
+                        actionHandler.bank().payToBank(currentPlayer, square.toPay());
+                        //TODO dicision if you want to pay 10% or 4000
+                    break;
+                case "ChanceCard":
+                        //TODO logic
+                    break;
+                case "GoToJail":
+                        setPlayerPosition(currentPlayer,10, true);
+                    break;
+            }
+        }
+    }
+
     public boolean hasMonopoly(int position, Player... player) {
         String color = ALL_SQUARES[position].getColor();
         Player owner = ALL_SQUARES[position].getOwner();
@@ -124,16 +155,14 @@ public class Board {
         player.setPosition(endPosition);
     }
     
-    public void setPlayerPosition(Player player, int endPos){
+    public void setPlayerPosition(Player player, int endPos, boolean goingToJail){
+        if (endPos < player.getPosition() && !goingToJail)
+            payStartBonus(player);
         player.setPosition(endPos);
     }
 
-    public void payStartBonus(Player currentPlayer, boolean goingToJail) {
-        if (!goingToJail)
+    public void payStartBonus(Player currentPlayer, boolean... goingToJail) {
+        if (!goingToJail[0])
             actionHandler.bank().payToBank(currentPlayer, 4000);
     }
-    public Square[] getALL_SQUARES() {
-        return ALL_SQUARES;
-    }
-
 }

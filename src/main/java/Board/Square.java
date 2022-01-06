@@ -37,4 +37,12 @@ public class Square {
     public boolean getOwnable(){
         return ownable;
     }
+
+    public String getName(){
+        return NAME;
+    }
+
+    public int toPay(){
+        return 0;
+    }
 }
