@@ -69,6 +69,7 @@ public class Board {
                     break;
             }
         }
+        reader.close();
     }
 
     private int[] stringArrayToIntArray(String[] arr, int size) {
