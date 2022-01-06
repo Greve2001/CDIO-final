@@ -1,12 +1,16 @@
+import Board.Board;
 import Interface.GUIController;
+import org.junit.jupiter.api.BeforeEach;
 
 class GUIControllerTest {
     public static void main(String[] args) {
-        /*GUIController controller = new GUIController();
+        Board board = new Board();
+
+        GUIController controller = new GUIController(board.getALL_SQUARES());
 
         controller.setHouses(3, 4);
 
         controller.setHotel(3, true);
-        controller.setHotel(3, false);*/
+        controller.setHotel(3, false);
     }
 }
