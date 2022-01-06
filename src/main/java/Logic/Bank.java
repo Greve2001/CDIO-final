@@ -3,15 +3,8 @@ package Logic;
 import java.lang.reflect.Field;
 
 public class Bank {
-    private int housesAvailable;
-    private int hotelsAvailable;
-    private Field[] streets;
-
-    public Bank(int housesAvailable,int hotelsAvailable,Field[] streets){
-       this.hotelsAvailable=hotelsAvailable;
-       this.housesAvailable=housesAvailable;
-       this.streets=streets;
-    }
+    private int housesAvailable = 100;
+    private int hotelsAvailable = 20;
 
     public void payToBank(Player player, int amount){
        int balance=player.getBalance()-amount;
@@ -87,10 +80,6 @@ public class Bank {
 
     public int getHotelsAvailable(){
        return hotelsAvailable;
-    }
-
-    public Field[] getStreets(){
-       return streets;
     }
 
 }
