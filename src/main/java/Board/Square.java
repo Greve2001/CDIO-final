@@ -48,7 +48,7 @@ public class Square {
         return 0;
     }
 
-    public String getType(int position){
+    public String getType(){
         return type;
     }
 }
