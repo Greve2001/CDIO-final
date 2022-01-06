@@ -67,7 +67,8 @@ public class Board {
                 default:
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Square(
                             data[name],
-                            Integer.parseInt(data[position])
+                            Integer.parseInt(data[position]),
+                            false
                     );
                     break;
             }
@@ -83,29 +84,26 @@ public class Board {
         }
         return result;
     }
-    public boolean hasMonopoly(int position) {
-        String color;
-        Player owner = null;
-        switch (ALL_SQUARES[position].getClass().getSimpleName()) {
-            case "Street":
-                color = ((Street) ALL_SQUARES[position]).getCOLOR();
-                for (Square square : ALL_SQUARES) {
-                    if (square.getClass().getSimpleName().equals("Street")) {
-                        if (((Street) square).getCOLOR().equals(color)) {
-                            if (owner == null) {
-                                owner = ((Street) square).getOwner();
-                            } else {
-                                if (!((Street) square).getOwner().equals(owner))
-                                    return false;
-                            }
-                        }
-                    }
-                }
-                break;
-            case "Ferry":
+
+    public boolean hasMonopoly(int position, Player... player) {
+        String color = ALL_SQUARES[position].getColor();
+        Player owner = ALL_SQUARES[position].getOwner();
+        boolean result = false;
+
+        if (owner != null && !ALL_SQUARES[position].getOwnable()) {
+            result = true;
+            if (player != null) //handle out of bounce
+                owner = player[0];
+
+            for (Square square : ALL_SQUARES) {
+                if (square.getColor().equals(color) && !square.getOwner().equals(owner))
+                    result = false;
+            }
         }
-        return true;
+        return result;
     }
+
+
 
     public void movePlayer(Player player, int spacesToMove) {
         Board board = new Board();

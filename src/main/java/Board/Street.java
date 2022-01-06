@@ -12,7 +12,7 @@ public class Street extends Square{
     private boolean pledge = false;
 
     public Street(String name, int position, String color, int price, int housePrice,int[] rent){
-        super(name, position);
+        super(name, position, true);
         this.COLOR = color;
         this.PRICE = price;
         this.HOUSEPRICE = housePrice;
@@ -20,11 +20,15 @@ public class Street extends Square{
 
     }
 
-    public String getCOLOR(){
+    public String getColor(){
         return COLOR;
     }
 
     public Player getOwner(){
         return owner;
+    }
+
+    public void setOwner(Player p){
+        owner = p;
     }
 }
