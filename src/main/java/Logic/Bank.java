@@ -6,13 +6,11 @@ public class Bank {
     private int housesAvailable;
     private int hotelsAvailable;
     private Field[] streets;
-    private Field[] shipping;
 
-    public Bank(int housesAvailable,int hotelsAvailable,Field[] streets,Field[] shipping){
+    public Bank(int housesAvailable,int hotelsAvailable,Field[] streets){
        this.hotelsAvailable=hotelsAvailable;
        this.housesAvailable=housesAvailable;
        this.streets=streets;
-       this.shipping=shipping;
     }
 
     public void payToBank(Player player, int amount){
@@ -20,18 +18,42 @@ public class Bank {
        player.setBalance(balance);
     }
 
-    public void payToPlayer(Player player1,Player player2,int amount){
+    /**
+     * I implement this method to handle 2 situation
+     *- when a chanceCard states that all players pay to a player
+     *- when a player has to pay to another player(pay rent)
+    **/
+    public void payToPlayer(Player player,int amount,Player... players){
        int balance;
-       balance=player1.getBalance()-amount;
-       player1.setBalance(balance);
+        for(int i=0; i<players.length; i++){
+            balance=players[i].getBalance()-amount;
+            players[i].setBalance(balance);
 
-       balance=player2.getBalance()+amount;
-       player2.setBalance(balance);
+            balance=player.getBalance()+amount;
+            player.setBalance(balance);
+        }
     }
 
-    public void payToPlayer(Player player,int amount){
+    //this method is responsible for bank to pay to a player
+    public void payPlayer(Player player,int amount){
        int balance=player.getBalance()+amount;
        player.setBalance(balance);
+    }
+
+    public boolean buyHouses(int nr){
+        if(housesAvailable>=nr){
+            housesAvailable-=nr;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean buyHotel(int nr){
+        if(hotelsAvailable>=nr){
+            hotelsAvailable-=nr;
+            return true;
+        }
+        return false;
     }
 
     public int getHousesAvailable(){
@@ -44,10 +66,6 @@ public class Bank {
 
     public Field[] getStreets(){
        return streets;
-    }
-
-    public Field[] getShipping(){
-       return shipping;
     }
 
 }
