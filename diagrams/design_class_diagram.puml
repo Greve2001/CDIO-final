@@ -41,6 +41,7 @@ class Player {
     -name : String
     -balance : int
     -position : int
+    -color : Color
     -broke : boolean
 }
 

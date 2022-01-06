@@ -13,6 +13,8 @@ class GUIControllerTest {
 
         controller.setHotel(3, true);
 
-        controller.setOwner(new Player("Test", 10, 0), 3);
+        //controller.setOwner(new Player("Test", 10, 0), 3);
+        controller.setOwner(null, 3);
+        controller.setOwner(null, 1);
     }
 }

@@ -1,8 +1,11 @@
 package Logic;
 
+import java.awt.Color;
+
 public class Player {
     private final String name;
     private int position; // Make it through constructor or other
+    private Color color = Color.white;
     private int balance;
     private boolean active = true; // Used to determinate when a player gone broken.
 
@@ -45,5 +48,13 @@ public class Player {
     }
     public void setActive(boolean active){
         this.active = active;
+    }
+
+    // Color for GUI
+    public Color getColor(){
+        return color;
+    }
+    public void setColor(Color color){
+        this.color = color;
     }
 }

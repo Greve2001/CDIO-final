@@ -11,10 +11,11 @@ import java.awt.*;
 public class GUIController {
 
     private static GUI gui;
+    private static Color[] colorsToChooseFrom = new Color[]{Color.blue, Color.green, Color.yellow, Color.red, Color.magenta, Color.orange};
     private static String[] playerNames;
     private static GUI_Player[] guiPlayers;
     private static int[] playerPositions;
-    private static Color[] colorsToChooseFrom = new Color[]{Color.blue, Color.green, Color.yellow, Color.red, Color.magenta, Color.orange};
+
     
     private static int moveTime = 20;
 
@@ -98,7 +99,7 @@ public class GUIController {
         playerPositions = new int[numberOfPlayers];
 
         for (int i = 0; i < numberOfPlayers; i++) {
-            // Get players name
+            // Get players name and car color
             playerNames[i] = gui.getUserString("Enter name"); //TODO Use CSV Reader
 
             // Add the player
@@ -107,6 +108,7 @@ public class GUIController {
 
             // Add players car to square
             GUI_Field field = gui.getFields()[0];
+            guiPlayers[i].getCar().setPrimaryColor(colorsToChooseFrom[i]);
             guiPlayers[i].getCar().setPosition(field);
 
             // Keep track of position since GUI only uses Field for reference
@@ -145,6 +147,10 @@ public class GUIController {
     public String[] getPlayerNames(){
         return playerNames;
     }
+    //TODO implement solution to let player select colors
+    public Color[] getPlayerColors(){
+        return colorsToChooseFrom;
+    }
 
 
 /// Action Section ///
@@ -178,8 +184,18 @@ public class GUIController {
 
     public void setOwner(Player player, int position){
         if (posToStreet(position) != null){
-            posToStreet(position).setOwnerName(player.getName());
-            ((GUI_Ownable) posToStreet(position)).setBorder(Color.black);
+            if (player != null){
+                posToStreet(position).setOwnerName(player.getName());
+                ((GUI_Ownable) posToStreet(position)).setBorder(player.getColor());
+            }else{
+                posToStreet(position).setOwnerName(null);
+                ((GUI_Ownable) posToStreet(position)).setBorder(null);
+                // FOR READERS:
+                // The GUI does not have functionally to remove a already existing border. So when setting it to null i will be black.
+            }
+
+        }else{
+            System.out.println("Not a street. Cant own it");
         }
     }
 
@@ -192,7 +208,6 @@ public class GUIController {
             return null;
         }
     }
-
 
 
     /////////////////////////// UTILITY SECTION /////////////////////////////
