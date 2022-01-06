@@ -5,7 +5,7 @@ import Interface.GUIController;
 
 public class GameController {
     //object to be created
-    private DiceCup diceCup();
+    //private DiceCup diceCup();
     private Board board;
     private Player[] players;
 
@@ -19,7 +19,7 @@ public class GameController {
     private int playersLeft;
 
     public void setupGame() {
-        diceCup() = new Dicecup();
+        //diceCup() = new Dicecup();
         board = new Board();
 
         GUIController gui = new GUIController();
