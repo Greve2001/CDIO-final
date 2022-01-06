@@ -3,9 +3,10 @@ package Utilities;
 // TODO: Implement error handling
 
 public class Language {
+    private static Language instance;
     private static CSVReader language;
 
-    public Language(){
+    private Language(){
         try {
             language = new CSVReader("languages/" + System.getProperty("user.language") + ".csv",
                     ",", true);
@@ -13,6 +14,13 @@ public class Language {
             language = new CSVReader("languages/da.csv",
                     ",", true);
         }
+    }
+
+    public static Language getInstance() {
+        if(instance == null)
+            instance = new Language();
+
+        return instance;
     }
 
     public static String get(String textToRetrieve) {
