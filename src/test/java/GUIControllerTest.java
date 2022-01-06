@@ -1,4 +1,4 @@
-import static org.junit.jupiter.api.Assertions.*;
+import Interface.GUIController;
 
 class GUIControllerTest {
     public static void main(String[] args) {
