@@ -167,4 +167,8 @@ public class Board {
         if (!goingToJail[0])
             actionHandler.bank().payPlayer(currentPlayer, 4000);
     }
+
+    public Square[] getALL_SQUARES(){
+        return ALL_SQUARES;
+    }
 }
