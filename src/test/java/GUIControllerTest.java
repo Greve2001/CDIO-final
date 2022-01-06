@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 class GUIControllerTest {
     public static void main(String[] args) {
         Board board = new Board();
+        Player test = new Player("Test", 0, 0);
 
         GUIController controller = new GUIController(board.getALL_SQUARES());
 
@@ -14,7 +15,7 @@ class GUIControllerTest {
         controller.setHotel(3, true);
 
         //controller.setOwner(new Player("Test", 10, 0), 3);
-        controller.setOwner(null, 3);
-        controller.setOwner(null, 1);
+        controller.setOwner(test, 3);
+        controller.setOwner(test, 1);
     }
 }

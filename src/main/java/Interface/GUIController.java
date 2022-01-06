@@ -34,46 +34,59 @@ public class GUIController {
                     GUIFields[i] = new GUI_Street();
                     GUIFields[i].setBackGroundColor(convertColor(inputSquares[i].getColor()));
                     GUIFields[i].setDescription(
-                            "Skal indholde renten"
+                            "Skal indholde renten, titlen, house-cost etc."
                     );
+                    // TODO changes this to use squares actual rent
+                    ((GUI_Ownable) GUIFields[i]).setRent("");
+                    GUIFields[i].setSubText("Den nuværende rent/pris");
                     break;
+
+                // TODO ALT skal implementeres med CSV Reader, det er midlertidigt
 
                 case "ferry" :
                     GUIFields[i] = new GUI_Shipping();
                     GUIFields[i].setBackGroundColor(Color.white);
+                    GUIFields[i].setSubText("Den nuværende rent/pris");
                     break;
 
                 case "brewery" :
                     GUIFields[i] = new GUI_Brewery();
                     GUIFields[i].setBackGroundColor(Color.pink);
+                    GUIFields[i].setSubText("Den nuværende rent/pris");
                     break;
 
                 case "chance" :
                     GUIFields[i] = new GUI_Chance();
                     GUIFields[i].setBackGroundColor(Color.pink);
+                    GUIFields[i].setSubText("");
                     break;
 
                 case "prison" :
                     GUIFields[i] = new GUI_Jail();
+                    GUIFields[i].setSubText("Prison");
                     break;
 
                 case "goToPrison" :
                     GUIFields[i] = new GUI_Street(); // Hopefully change
+                    GUIFields[i].setSubText("");
                     break;
 
                 case "incomeTax", "tax" :
                     GUIFields[i] = new GUI_Tax();
                     GUIFields[i].setBackGroundColor(Color.red);
+                    GUIFields[i].setSubText("");
                     break;
 
                 case "refugee" : // Parkering
                     GUIFields[i] = new GUI_Refuge();
                     GUIFields[i].setBackGroundColor(Color.white);
+                    GUIFields[i].setSubText("Parking");
                     break;
 
                 case "start" : // Parkering
                     GUIFields[i] = new GUI_Start();
                     GUIFields[i].setBackGroundColor(Color.red);
+                    GUIFields[i].setSubText("");
                     break;
 
                 default:
@@ -187,6 +200,7 @@ public class GUIController {
             if (player != null){
                 posToStreet(position).setOwnerName(player.getName());
                 ((GUI_Ownable) posToStreet(position)).setBorder(player.getColor());
+                //TODO set the current rent or make another function for more uses
             }else{
                 posToStreet(position).setOwnerName(null);
                 ((GUI_Ownable) posToStreet(position)).setBorder(null);
