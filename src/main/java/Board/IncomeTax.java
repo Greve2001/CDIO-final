@@ -5,7 +5,7 @@ public class IncomeTax extends Square{
     private final int percentage;
 
     public IncomeTax(String name, int position, int price, int percentPrice){
-        super(name, position, false, "IncomeTax");
+        super(name, position, false, "incomeTax");
         this.AMOUNT = price;
         this.percentage = percentPrice;
     }

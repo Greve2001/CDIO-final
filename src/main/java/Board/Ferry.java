@@ -11,7 +11,7 @@ public class Ferry extends Square{
 
 
     public Ferry(String name, int position, int[] rent, int price, String color) {
-        super(name, position, true, "Ferry");
+        super(name, position, true, "ferry");
         this.COLOR = color;
         this.RENT = rent;
         this.PRICE = price;

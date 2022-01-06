@@ -12,7 +12,7 @@ public class Street extends Square{
     private boolean pledge = false;
 
     public Street(String name, int position, String color, int price, int housePrice,int[] rent){
-        super(name, position, true, "Street");
+        super(name, position, true, "street");
         this.COLOR = color;
         this.PRICE = price;
         this.HOUSEPRICE = housePrice;
