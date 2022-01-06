@@ -10,6 +10,7 @@ public class Board {
     private final ActionHandler actionHandler;
 
 
+    //hej
     public Board(){
         actionHandler = new ActionHandler();
         CSVReader reader;
