@@ -2,9 +2,11 @@ package Board;
 
 import Logic.Player;
 import Utilities.CSVReader;
+import org.jetbrains.annotations.Debug;
 
 public class Board {
     private final Square[] ALL_SQUARES;
+
 
     public Board(){
         CSVReader reader;
@@ -81,9 +83,33 @@ public class Board {
         }
         return result;
     }
+    public boolean hasMonopoly() {
+       return false;
+    }
 
-    public void payStartBonus(Player currentPlayer)
-    {
+
+    public void movePlayer(Player player, int spacesToMove) {
+        Board board = new Board();
+        int BOARD_SIZE = board.getALL_SQUARES().length;
+        int endPos = player.getPosition() + spacesToMove;
+        int newPos;
+        if (spacesToMove == Math.abs(spacesToMove)){
+            if (endPos > BOARD_SIZE)
+                newPos = endPos - BOARD_SIZE;
+            else{
+                if (endPos < 0)
+                    newPos = endPos + BOARD_SIZE;
+                else
+                    newPos = endPos;
+            }
+            player.setPosition(newPos);
+        }
+    }
+    public void setPlayerPosition(Player player, int endPos){
+        player.setPosition(endPos);
+    }
+
+    public void payStartBonus(Player currentPlayer) {
 
     }
     public Square[] getALL_SQUARES() {
