@@ -41,7 +41,7 @@ public class Bank {
     }
 
     public String buyHouses(Player player,int nr, int price){
-        String msg="";
+        String msg;
         if(housesAvailable>=nr){
                 if(player.getBalance()>= (price*nr)) {
                     housesAvailable -= nr;
@@ -61,8 +61,8 @@ public class Bank {
         return msg ;
     }
 
-    public String buyHotel(Player player,int nr,int price){
-        String msg="";
+    public String buyHotels(Player player,int nr,int price){
+        String msg;
         if(hotelsAvailable>=nr){
             if(player.getBalance()>=(nr*price)){
                 hotelsAvailable-=nr;
