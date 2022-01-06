@@ -1,14 +1,17 @@
 package Board;
 
+import Logic.ActionHandler;
 import Logic.Player;
 import Utilities.CSVReader;
 import org.jetbrains.annotations.Debug;
 
 public class Board {
     private final Square[] ALL_SQUARES;
+    private final ActionHandler actionHandler;
 
 
     public Board(){
+        actionHandler = new ActionHandler();
         CSVReader reader;
         try {
             reader = new CSVReader(System.getProperty("user.language") + "_board.csv", ",", true);
@@ -67,7 +70,10 @@ public class Board {
                 default:
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Square(
                             data[name],
-                            Integer.parseInt(data[position])
+                            Integer.parseInt(data[position]),
+                            false,
+                            data[type]
+
                     );
                     break;
             }
@@ -83,56 +89,82 @@ public class Board {
         }
         return result;
     }
-    public boolean hasMonopoly(int position) {
-        String color;
-        Player owner = null;
-        switch (ALL_SQUARES[position].getClass().getSimpleName()) {
-            case "Street":
-                color = ((Street) ALL_SQUARES[position]).getCOLOR();
-                for (Square square : ALL_SQUARES) {
-                    if (square.getClass().getSimpleName().equals("Street")) {
-                        if (((Street) square).getCOLOR().equals(color)) {
-                            if (owner == null) {
-                                owner = ((Street) square).getOwner();
-                            } else {
-                                if (!((Street) square).getOwner().equals(owner))
-                                    return false;
-                            }
-                        }
-                    }
+
+    public void handleField(Player currentPlayer){
+        Square square = ALL_SQUARES[currentPlayer.getPosition()];
+        if (square.getOwnable()){ //check if player land on a Street, Ferry or Brewery.
+            if (square.getOwner() == null){
+                //TODO logik to handle purchase
+            }
+            else{
+                switch (square.getName()){
+                    case "Street":
                 }
-                break;
-            case "Ferry":
+            }
         }
-        return true;
+        else {
+            switch (square.getName()){
+                case "Tax":
+                        actionHandler.bank().payToBank(currentPlayer, square.toPay());
+                    break;
+                case "IncomeTax":
+                        actionHandler.bank().payToBank(currentPlayer, square.toPay());
+                        //TODO dicision if you want to pay 10% or 4000
+                    break;
+                case "ChanceCard":
+                        //TODO logic
+                    break;
+                case "GoToJail":
+                        setPlayerPosition(currentPlayer,10, true);
+                    break;
+            }
+        }
     }
 
-    public void movePlayer(Player player, int spacesToMove) {
-        Board board = new Board();
-        int BOARD_SIZE = board.getALL_SQUARES().length;
-        int endPos = player.getPosition() + spacesToMove;
-        int newPos;
-        if (spacesToMove == Math.abs(spacesToMove)){
-            if (endPos > BOARD_SIZE)
-                newPos = endPos - BOARD_SIZE;
-            else{
-                if (endPos < 0)
-                    newPos = endPos + BOARD_SIZE;
-                else
-                    newPos = endPos;
+    public boolean hasMonopoly(int position, Player... player) {
+        String color = ALL_SQUARES[position].getColor();
+        Player owner = ALL_SQUARES[position].getOwner();
+        boolean result = false;
+
+        if (owner != null && !ALL_SQUARES[position].getOwnable()) {
+            result = true;
+            if (player != null) //handle out of bounce
+                owner = player[0];
+
+            for (Square square : ALL_SQUARES) {
+                if (square.getColor().equals(color) && !square.getOwner().equals(owner))
+                    result = false;
             }
-            player.setPosition(newPos);
         }
+        return result;
     }
-    public void setPlayerPosition(Player player, int endPos){
+
+    public void updatePlayerPosition(Player player, int diceValue){
+        int currentPosition = player.getPosition();
+        int sum = currentPosition + diceValue;
+        int endPosition;
+        int boardSize = ALL_SQUARES.length;
+
+        if (diceValue == Math.abs(diceValue) && sum >= boardSize){
+            endPosition = sum - boardSize;
+            payStartBonus(player, false);
+            }
+        else if (sum < 0)
+            endPosition = sum + boardSize;
+        else
+            endPosition = sum;
+
+        player.setPosition(endPosition);
+    }
+    
+    public void setPlayerPosition(Player player, int endPos, boolean goingToJail){
+        if (endPos < player.getPosition() && !goingToJail)
+            payStartBonus(player);
         player.setPosition(endPos);
     }
 
-    public void payStartBonus(Player currentPlayer) {
-
+    public void payStartBonus(Player currentPlayer, boolean... goingToJail) {
+        if (!goingToJail[0])
+            actionHandler.bank().payPlayer(currentPlayer, 4000);
     }
-    public Square[] getALL_SQUARES() {
-        return ALL_SQUARES;
-    }
-
 }
