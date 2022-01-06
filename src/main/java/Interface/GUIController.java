@@ -15,16 +15,75 @@ public class GUIController {
     private static Color[] playerColors = {Color.RED, Color.YELLOW, Color.WHITE, Color.BLACK};
     private static GUI_Player[] guiPlayers;
     private static int[] playerPositions;
-    private static Square[] allSquares;
-    private static GUI_Field[] squares;
     
     private static int moveTime = 20;
 
-    public GUIController(){
-        gui = new GUI();
+    public GUIController(Square[] inputSquares){
+        GUI_Field[] GUIFields = createBoard(inputSquares);
+        gui = new GUI(GUIFields);
     }
 
-    //public void createBoard(){}           Needs implementation when streets are created.
+    public GUI_Field[] createBoard(Square[] inputSquares){
+        GUI_Field[] GUIFields = new GUI_Field[inputSquares.length]; // Create empty array
+
+        for (int i = 0; i < GUIFields.length; i++) {
+            switch (inputSquares[i].getNAME()){ //TODO CHANGE!
+                case "street" :
+                    GUIFields[i] = new GUI_Street();
+                    break;
+
+                case "ferry" :
+                    GUIFields[i] = new GUI_Shipping();
+                    break;
+
+                case "brewery" :
+                    GUIFields[i] = new GUI_Brewery();
+                    break;
+
+                case "chance" :
+                    GUIFields[i] = new GUI_Chance();
+                    break;
+
+                case "prison" :
+                    GUIFields[i] = new GUI_Jail();
+                    break;
+
+                case "goToPrison" :
+                    GUIFields[i] = new GUI_Empty(); // Hopefully change
+                    break;
+
+                case "incomeTax" :
+                    GUIFields[i] = new GUI_Tax();
+                    break;
+
+                case "tax" :
+                    GUIFields[i] = new GUI_Tax();
+                    break;
+
+                case "refugee" : // Parkering
+                    GUIFields[i] = new GUI_Refuge();
+                    break;
+
+                case "start" : // Parkering
+                    GUIFields[i] = new GUI_Start();
+                    break;
+
+                default:
+                    GUIFields[i] = new GUI_Empty();
+                    break;
+            }
+
+
+            GUIFields[i].setTitle(inputSquares[i].getNAME());
+            //TODO not setting subtext cause we need some dynamic handling to show what the price and then rent is.
+
+            // Not using setDescription because it's not giving from csv files.
+        }
+
+
+
+        return null;
+    }
 
     public void createPlayers(int startBalance){
         int numberOfPlayers = Integer.parseInt(gui.getUserSelection("Select number of players", "3", "4", "5", "6")); //TODO Use CSVReader
