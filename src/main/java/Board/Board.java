@@ -102,12 +102,10 @@ public class Board {
                     }
                 }
                 break;
-
-
+            case "Ferry":
         }
         return true;
     }
-
 
     public void movePlayer(Player player, int spacesToMove) {
         Board board = new Board();

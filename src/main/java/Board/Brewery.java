@@ -15,4 +15,8 @@ public class Brewery extends Square {
         this.RENT = rent;
         this.PRICE = price;
     }
+
+    public String getColor() {
+        return COLOR;
+    }
 }

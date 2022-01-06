@@ -3,7 +3,7 @@ import java.awt.*;
 import Logic.Player;
 
 public class Ferry extends Square{
-    private final String color;
+    private final String COLOR;
     private final int[]  RENT;
     private final int PRICE;
     private boolean pledge = false;
@@ -12,8 +12,12 @@ public class Ferry extends Square{
 
     public Ferry(String name, int position, int[] rent, int price, String color) {
         super(name, position);
-        this.color = color;
+        this.COLOR = color;
         this.RENT = rent;
         this.PRICE = price;
+    }
+
+    public String getColor() {
+        return COLOR;
     }
 }
