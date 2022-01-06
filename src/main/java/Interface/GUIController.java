@@ -97,8 +97,6 @@ public class GUIController {
             GUIFields[i].setTitle(inputSquares[i].getNAME());
             //TODO not setting subtext cause we need some dynamic handling to show what the price and then rent is.
 
-
-            // Not using setDescription because it's not giving from csv files.
         }
 
         return GUIFields;
@@ -172,11 +170,6 @@ public class GUIController {
         gui.setDice(faceValues[0], faceValues[1]);
     }
 
-    // Stops game-flow until button is pressed. Used for UX.
-    public void getPlayerAction(Player player, String msg){
-        gui.showMessage(player.getName() + "; " + msg);
-    }
-
     //TODO when Pi has it made
 
     // Used for more than displayChanceCard. Also just for normal messages.
@@ -221,6 +214,29 @@ public class GUIController {
             System.out.println("Error, this square at position: " + position + " is not a street: ");
             return null;
         }
+    }
+
+
+//// Player choice and inputs ////
+    public String givePlayerChoice(String msg, String[] choices){
+        return gui.getUserSelection(msg, choices);
+    }
+
+    public boolean askPlayerAccept(String msg){
+        String answer = gui.getUserSelection(msg, "yes", "no");
+        if (answer.equals("yes"))
+            return true;
+        else
+            return false;
+    }
+
+    // Stops game-flow until button is pressed. Used for UX.
+    public void getPlayerAction(Player player, String msg){
+        gui.showMessage(player.getName() + "; " + msg);
+    }
+
+    public int getPlayerInteger(String msg){
+        return gui.getUserInteger(msg);
     }
 
 
