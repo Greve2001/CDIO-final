@@ -4,15 +4,13 @@ import Board.Board;
 import Board.IncomeTax;
 import Board.Square;
 import Board.Tax;
-import Logic.Player;
-import javax.swing.*;
+import Logic.Player;import javax.swing.*;
 
 public class ActionHandler {
     private final Bank bank;
     ActionHandler actionHandler = new ActionHandler();
     Square[] ALL_SQUARES;
     Board board = new Board();
-
 
     public ActionHandler(){
         bank = new Bank();
@@ -22,7 +20,7 @@ public class ActionHandler {
         return bank;
     }
 
-    public void handleField(Player currentPlayer){
+    public void squareAction(Player currentPlayer){
         Square square = ALL_SQUARES[currentPlayer.getPosition()];
         if (square.getOwnable()){ //check if player land on a Street, Ferry or Brewery.
             if (square.getOwner() == null){
