@@ -152,4 +152,14 @@ public class Board {
     public void setPlayerInJail(Player player){
         setPlayerPosition(player, jailPosition,true);
     }
+
+    public int getCurrentCost(int position){
+        int result;
+        if (ALL_SQUARES[position].getOwner() != null)
+            result = ALL_SQUARES[position].getRent()[ALL_SQUARES[position].getAmountOfHouses()];
+        else
+            result = ALL_SQUARES[position].getPrice();
+        return result;
+
+    }
 }

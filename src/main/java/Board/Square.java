@@ -60,10 +60,11 @@ public class Square {
         return false;
     }
 
-    public void setPledge(){
-
+    public void setPledge() {
+        return;
     }
 
-
-
+    public int getAmountOfHouses(){
+        return 0;
+    }
 }
