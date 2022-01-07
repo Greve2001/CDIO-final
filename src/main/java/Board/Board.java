@@ -11,7 +11,7 @@ public class Board {
     private int jailPosition;
 
     public Board(DiceCup diceCup){
-        actionHandler = new ActionHandler(this, diceCup);
+        actionHandler = new ActionHandler(this);
         CSVReader reader;
         try {
             reader = new CSVReader(System.getProperty("user.language") + "_board.csv", ",", true);

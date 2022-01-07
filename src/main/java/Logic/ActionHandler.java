@@ -7,20 +7,18 @@ import Utilities.Language;
 public class ActionHandler {
     private final Bank bank = new Bank();
     private Board board;
-    private DiceCup diceCup;
 
-    public ActionHandler(Board board, DiceCup diceCup) {
+    public ActionHandler(Board board) {
         this.board = board;
-        this.diceCup = diceCup;
     }
 
-    public void squareAction(Player player, Square square) {
+    public void squareAction(Player player, Square square, int diceSum) {
         switch (square.getType()) {
             case "street":
                 streetAction(player, square);
                 break;
             case "brewery":
-                breweryAction(player, square);
+                breweryAction(player, square, diceSum);
                 break;
             case "ferry":
                 ferryAction(player, square);
@@ -53,18 +51,17 @@ public class ActionHandler {
 
     }
 
-    public void breweryAction(Player player, Square square) {
+    public void breweryAction(Player player, Square square, int diceSum) {
         if (square.getOwner() == null) {
             buySquare(player, square, "buyBrewery");
         } else {
             boolean payDouble = board.hasMonopoly(square.getPOSITION(), square.getOwner());
-            int faceValueSum = diceCup.getFaceValues()[0] + diceCup.getFaceValues()[1];
 
             int priceToPay;
             if (!payDouble) {
-                priceToPay = faceValueSum * 100;
+                priceToPay = diceSum * square.getRent()[0];
             } else {
-                priceToPay = faceValueSum * 200;
+                priceToPay = diceSum * square.getRent()[1];
             }
             bank.payToPlayer(square.getOwner(), priceToPay, player);
         }
