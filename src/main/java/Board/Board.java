@@ -145,7 +145,7 @@ public class Board {
 
         if (diceValue == Math.abs(diceValue) && sum >= boardSize){
             endPosition = sum - boardSize;
-            payStartBonus(player, false);
+            payStartBonus(player);
             }
         else if (sum < 0)
             endPosition = sum + boardSize;
@@ -161,9 +161,8 @@ public class Board {
         player.setPosition(endPos);
     }
 
-    public void payStartBonus(Player currentPlayer, boolean... goingToJail) {
-        if (!goingToJail[0])
-            actionHandler.bank().payPlayer(currentPlayer, 4000);
+    public void payStartBonus(Player currentPlayer) {
+        actionHandler.bank().payPlayer(currentPlayer, 4000);
     }
 
     public Square[] getALL_SQUARES(){
