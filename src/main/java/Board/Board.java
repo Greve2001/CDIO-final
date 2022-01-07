@@ -9,8 +9,6 @@ public class Board {
     private final ActionHandler actionHandler;
     private int jailPosition;
 
-
-    //hej
     public Board(){
         actionHandler = new ActionHandler();
         CSVReader reader;
@@ -142,7 +140,7 @@ public class Board {
     }
 
     public void payStartBonus(Player currentPlayer) {
-        actionHandler.getBank().payPlayer(currentPlayer, 4000);
+        //TODO sent to a method in AH, what have to be payed to who.
     }
 
     public Square[] getALL_SQUARES(){
