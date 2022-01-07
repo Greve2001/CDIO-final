@@ -52,7 +52,7 @@ public class Square {
         return null;
     }
 
-    public void setOwner(){
+    public void setOwner(Player player){
 
     }
 
@@ -60,7 +60,7 @@ public class Square {
         return false;
     }
 
-    public void setPledge() {
+    public void setPledge(boolean nun) {
         return;
     }
 
