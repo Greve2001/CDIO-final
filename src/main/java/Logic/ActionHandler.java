@@ -42,11 +42,14 @@ public class ActionHandler {
     }
 
     private void streetAction(Player player, Square square) {
-        if (square.getOwner() == null) {
+        if (square.getOwner() == null) { // Buy it
             buySquare(player, square, "buyStreet");
-        } else {
+
+        } else { // Pay the rent
             int amountToPay = board.getCurrentCost(square.getPOSITION());
-            bank.payToPlayer(square.getOwner(), amountToPay, player);
+
+            if (!square.getOwner().isInJail())
+                Bank.payToPlayer(square.getOwner(), amountToPay, player);
         }
 
     }
@@ -63,7 +66,8 @@ public class ActionHandler {
             } else {
                 priceToPay = diceSum * square.getRent()[1];
             }
-            bank.payToPlayer(square.getOwner(), priceToPay, player);
+            if (!square.getOwner().isInJail())
+                Bank.payToPlayer(square.getOwner(), priceToPay, player);
         }
 
     }
@@ -71,6 +75,8 @@ public class ActionHandler {
     private void ferryAction(Player player, Square square) {
         if (square.getOwner() == null) {
             buySquare(player, square, "buyFerry");
+            // Use this when making payment method:
+            // if (!square.getOwner().isInJail())
         }
 
     }
@@ -79,14 +85,14 @@ public class ActionHandler {
         boolean answer = GUIController.askPlayerAccept(Language.get(msg));
 
         if (answer) {
-            bank.payToBank(player, square.getPrice());
+            Bank.payToBank(player, square.getPrice());
             square.setOwner(player);
             GUIController.setOwner(player, square.getPOSITION());
         }
     }
 
     private void taxAction(Player player, Square square) {
-        bank.payToBank(player, ((Tax) square).getAmount());
+        Bank.payToBank(player, ((Tax) square).getAmount());
     }
 
     private void incomeTaxAction(Player player, Square square) {
@@ -96,9 +102,9 @@ public class ActionHandler {
 
         if (chosen.equals(choices[0])) {
             // TODO Calculate player fortune and make the player pay 10% of this to the bank
-            bank.payToBank(player, ((IncomeTax) square).getAmount());
+            Bank.payToBank(player, ((IncomeTax) square).getAmount());
         } else {
-            bank.payToBank(player, ((IncomeTax) square).getAmount());
+            Bank.payToBank(player, ((IncomeTax) square).getAmount());
         }
     }
 
