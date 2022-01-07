@@ -6,12 +6,17 @@ skinparam linetype polyline
 
 package Board
 {
-class Board {
+     class Board {
+     -ALL_SQUARES : square[]
+     -ACTIONHANDLER : ActionHandler
+     -jailposition : int
+
+    -payStartBonus(Player) : void
+    -stringArrayToIntArray(String[], size:int) : int[]
     +hasMonopoly() : boolean
     +movePlayer(Player, spacesToMove:int) : void
     +setPlayerPosition(Player, position:int) : void
-    -payStartBonus(Player) : void
-    -stringArrayToIntArray(String[], size:int) : int[]
+
     }
      class Square {
          -name : String
@@ -31,27 +36,18 @@ class Board {
 
 
      }
-     class Brewey
-     {
-       -COLOR : String
-       -RENT : int[]
-       -PRICE : int
-       -owner : Player
-       -pledge : boolean
+     class Ownable{
+        -COLOR : String
+        -PRICE : int
+        -RENT : int[]
+        -owner : Player
+        -pledge : boolean
      }
-     class Ferry
-     {
-       -COLOR : String
-       -RENT : int[]
-       -PRICE : int
-     }
-     class incomeTax
-     {
+     class incomeTax{
        AMOUNT : int
        PERCENTAGE : int
      }
-     class Tax
-     {
+     class Tax{
         -AMOUNT : int
      }
 }
@@ -66,31 +62,25 @@ package cards
        +updateBalanceNegative(double amount) : double
        +moveNumOfFields(int fieldsmove) : int
    }
-   class Deck
-   {
+   class Deck{
       -chanceCardCheck :Chancecard[]
       -drawCardCoubt : int
 
       +pullCard(): chanceCard
    }
-   class MoveFieldsChanceCard
-   {
+   class MoveFieldsChanceCard{
 
    }
-   class PayMoneyChanceCard
-   {
+   class PayMoneyChanceCard{
 
    }
-   class ReceiveMoneyChanceCard
-   {
+   class ReceiveMoneyChanceCard{
 
    }
 }
 
-package Logic
-{
-   class Player
-    {
+package Logic{
+   class Player{
     -NAME : String
     -balance : int
     -position : int
@@ -124,6 +114,17 @@ package Logic
 
      }
      class ActionHandler {
+         -BANK : Bank
+         -board : Board
+
+         +squareAction(Player player, Square square): void
+         +streetAction(Player player, Square square): void
+         +breweryAction(Player player, Square square): void
+         +ferryAction(Player player, Square square): void
+         +taxAction(Player player, Square square): void
+         +incomeTaxAction(Player player, Square square): void
+         +goToPrison(Player player): void
+         +cardAction(): void
 
 
      }
@@ -146,26 +147,37 @@ package Logic
 
      }
 }
-package interface
-{
+package interface{
 class GUIController{
-    +movePlayer(Player, destination:int) : void
-    +setPlayerBalance(Player, value:int) : void
-    +showDice(faceValues:int[]) : void
-    +getPlayerAction(Player, msg:String) : void
-    +setHouses(position:int, amount:int) : void
-    +setHotel(position:int, bool:boolean) : void
-    +getPlayerNames() : String[]
-    -getGuiPlayerIndex(Player) : int
-    -getPlayerPosition(Player) : int
-    -convertToStreet(GUI_Field) : GUI_Street
+      {static} -testing : boolean
+      {static} -gui : GUI
+      {static} -colorToChooseFrom : Color[]
+      {static} -playerNames : String[]
+      {static} -guiPlayers : GUI_Player
+      {static} -playerPositions : int[]
+      {static} -GUIFields : GUI_Field[]
+      {static} -fields : Square[]
+      {static} -gameBoard : Board
+      {static} -moveTime : int
+
+      {static} +createBoard(Square[] inputSquares): GUI_FIELD
+      {static} +createPlayers(int startBalance): void
+      {static} +movePlayer(Player player, int destination: void)
+      {static} +showDice(int[] facevalues): void
+      {static} +setHouses(int position, int amount): void
+      {static} +setHotel(int position, boolean bool): void
+      {static} +setOwner(Player player, int position): void
+      {static} +updateRent(int position): void
+      {static} +posToStreet(int position): GUI_Street
+      {static} +givePlayerChoice(String msg, String[] choices): String
+      {static} +askPlayerAccept(String msg): boolean
+      {static} +convertColor(String colorStr): Color
 }
 
 }
 package Utilities
 {
-  class CSVReader
-  {
+  class CSVReader{
     -FILESCANNER :Scnaner
     -DELIMITER : String
     -file : String[][]
@@ -177,8 +189,7 @@ package Utilities
     +close(): void
     +toString(): String
   }
-  class Language
-  {
+  class Language{
      {static} instance : Language
      {static} language : CSVReader
      {static} langInUse: String
@@ -191,18 +202,17 @@ package Utilities
   }
 }
 
-GameController -- GUIController
+GameController -l- GUIController
 Bank -- ActionHandler
-GameController -l- ActionHandler
+GameController -u- ActionHandler
 GameController -- DiceCup
 DiceCup -- Die
 GameController -r- Player
 
-ActionHandler -l- Deck
-GameController -u- Board
+ActionHandler -u- Deck
+GameController -d- Board
 Board *-d- Square
-Square <|-- Brewey
-Square <|-- Ferry
+Square <|-- Ownable
 Square <|-- incomeTax
 Square <|-- Street
 Square <|-- Tax
@@ -211,6 +221,8 @@ Deck -- chanceCard
 chanceCard <|-- MoveFieldsChanceCard
 chanceCard <|-- PayMoneyChanceCard
 chanceCard <|-- ReceiveMoneyChanceCard
+
+Board -l- CSVReader
 
 
 
