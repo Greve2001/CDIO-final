@@ -8,7 +8,7 @@ import Logic.Player;import javax.swing.*;
 
 public class ActionHandler {
     private final Bank bank;
-    ActionHandler actionHandler = new ActionHandler();
+    ActionHandler actionHandler;
     Square[] ALL_SQUARES;
     Board board = new Board();
 
