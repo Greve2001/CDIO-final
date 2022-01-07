@@ -12,7 +12,7 @@ public class Bank {
     }
 
     /**
-     * I implement this method to handle 2 situation
+     * this method is responsible to handle 2 situation
      *- when a chanceCard states that all players pay to a player
      *- when a player has to pay to another player(pay rent)
     **/
@@ -33,45 +33,28 @@ public class Bank {
        player.setBalance(balance);
     }
 
-    public String buyHouses(Player player,int nr, int price){
-        String msg;
+    public void buyHouses(Player player,int nr, int price){
+
         if(housesAvailable>=nr){
                 if(player.getBalance()>= (price*nr)) {
                     housesAvailable -= nr;
                     int balance=player.getBalance()-(price*nr);
                     player.setBalance(balance);
-                    msg="true";
-                    return msg;
                 }
-                else{
-                    msg="You don't have sufficient money!";
-                }
-        }
-        else {
-            msg="There are not enough houses available!";
+
         }
 
-        return msg ;
+
     }
 
-    public String buyHotels(Player player,int nr,int price){
-        String msg;
+    public void buyHotels(Player player,int nr,int price){
         if(hotelsAvailable>=nr){
             if(player.getBalance()>=(nr*price)){
                 hotelsAvailable-=nr;
                 int balance=player.getBalance()-(nr*price);
                 player.setBalance(balance);
-                msg="true";
-            }
-            else{
-                msg="You don't have sufficient money!";
             }
         }
-        else{
-          msg="There are not enough hotels available!";
-        }
-
-        return msg;
     }
 
     public int getHousesAvailable(){

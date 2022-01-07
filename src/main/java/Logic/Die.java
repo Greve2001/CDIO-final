@@ -2,12 +2,14 @@ package Logic;
 
 public class Die {
     private int faceValue;
+    private int NROFSIDES;
 
+    public Die(int NROFSIDES){
+        this.NROFSIDES=NROFSIDES;
+    }
     public void roll(){
-        int max=6;
-        int min =1;
 
-        faceValue=(int)(Math.random() * ((max - min) + 1)) + min;
+        faceValue=(int)(Math.random() * NROFSIDES ) + 1;
     }
 
     public int getFaceValue(){

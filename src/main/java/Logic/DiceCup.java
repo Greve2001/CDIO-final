@@ -5,8 +5,8 @@ public class DiceCup {
 
     public DiceCup(){
         dice=new Die[2];
-        dice[0]=new Die();
-        dice[1]=new Die();
+        dice[0]=new Die(6);
+        dice[1]=new Die(6);
     }
 
     public void rollDice(){
