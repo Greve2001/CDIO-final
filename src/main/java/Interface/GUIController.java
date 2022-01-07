@@ -24,7 +24,7 @@ public class GUIController {
         gui = new GUI(GUIFields);
     }
 
-    public GUI_Field[] createBoard(Square[] inputSquares){
+    public static GUI_Field[] createBoard(Square[] inputSquares){
         GUI_Field[] GUIFields = new GUI_Field[inputSquares.length]; // Create empty array
 
         for (int i = 0; i < GUIFields.length; i++) {
@@ -94,7 +94,7 @@ public class GUIController {
                     break;
             }
 
-            GUIFields[i].setTitle(inputSquares[i].getNAME());
+            GUIFields[i].setTitle(inputSquares[i].getName());
             //TODO not setting subtext cause we need some dynamic handling to show what the price and then rent is.
 
         }
@@ -102,7 +102,7 @@ public class GUIController {
         return GUIFields;
     }
 
-    public void createPlayers(int startBalance){
+    public static void createPlayers(int startBalance){
         int numberOfPlayers = Integer.parseInt(gui.getUserSelection("Select number of players", "3", "4", "5", "6")); //TODO Use CSVReader
 
         playerNames = new String[numberOfPlayers]; // Empty name array
@@ -129,7 +129,7 @@ public class GUIController {
 
 
 /// Player Section ///
-    public void movePlayer(Player player, int destination) throws InterruptedException { // Make sure it needs the Player or name of Player
+    public static void movePlayer(Player player, int destination) throws InterruptedException { // Make sure it needs the Player or name of Player
         // Calculate distance to move
         int playerStartPos = getPlayerPosition(player);
         int deltaSquares = destination - playerStartPos;
@@ -149,24 +149,24 @@ public class GUIController {
         }
     }
 
-    public void setPlayerBalance(Player player, int value){
+    public static void setPlayerBalance(Player player, int value){
         int index = getGuiPlayerIndex(player);
         guiPlayers[index].setBalance(value);
     }
 
     // Gives access to logic to get the inputted names from the GUI.
-    public String[] getPlayerNames(){
+    public static String[] getPlayerNames(){
         return playerNames;
     }
     //TODO implement solution to let player select colors
-    public Color[] getPlayerColors(){
+    public static Color[] getPlayerColors(){
         return colorsToChooseFrom;
     }
 
 
 /// Action Section ///
     // Show rolled dice
-    public void showDice(int[] faceValues){
+    public static void showDice(int[] faceValues){
         gui.setDice(faceValues[0], faceValues[1]);
     }
 
@@ -177,18 +177,18 @@ public class GUIController {
     //    gui.displayChanceCard("ChanceCard" + "\n" + card.toString());
     //}
 
-    public void setHouses(int position, int amount){
+    public static void setHouses(int position, int amount){
         if (posToStreet(position) != null)
             posToStreet(position).setHouses(amount);
     }
 
-    public void setHotel(int position, boolean bool){
+    public static void setHotel(int position, boolean bool){
         if (posToStreet(position) != null)
             posToStreet(position).setHotel(bool);
 
     }
 
-    public void setOwner(Player player, int position){
+    public static void setOwner(Player player, int position){
         if (posToStreet(position) != null){
             if (player != null){
                 posToStreet(position).setOwnerName(player.getName());
@@ -206,7 +206,7 @@ public class GUIController {
         }
     }
 
-    private GUI_Street posToStreet(int position){
+    private static GUI_Street posToStreet(int position){
         GUI_Field field = gui.getFields()[position];
         if (field instanceof GUI_Street){
             return (GUI_Street) field;
@@ -218,11 +218,11 @@ public class GUIController {
 
 
 //// Player choice and inputs ////
-    public String givePlayerChoice(String msg, String[] choices){
+    public static String givePlayerChoice(String msg, String[] choices){
         return gui.getUserSelection(msg, choices);
     }
 
-    public boolean askPlayerAccept(String msg){
+    public static boolean askPlayerAccept(String msg){
         String answer = gui.getUserSelection(msg, "yes", "no");
         if (answer.equals("yes"))
             return true;
@@ -231,11 +231,11 @@ public class GUIController {
     }
 
     // Stops game-flow until button is pressed. Used for UX.
-    public void getPlayerAction(Player player, String msg){
+    public static void getPlayerAction(Player player, String msg){
         gui.showMessage(player.getName() + "; " + msg);
     }
 
-    public int getPlayerInteger(String msg){
+    public static int getPlayerInteger(String msg){
         return gui.getUserInteger(msg);
     }
 
@@ -243,7 +243,7 @@ public class GUIController {
     /////////////////////////// UTILITY SECTION /////////////////////////////
 
     //Used for getting player index since thats the only way we can find the corresponding GUI_Player
-    private int getGuiPlayerIndex(Player player) {
+    private static int getGuiPlayerIndex(Player player) {
         for (int i = 0; i < guiPlayers.length; i++) {
             if (guiPlayers[i].getName().equals(player.getName())) {
                 return i;
@@ -253,7 +253,7 @@ public class GUIController {
     }
 
     // Used for finding the players position, since the GUI does not hold the position as a numerical value.
-    private int getPlayerPosition(Player player){
+    private static int getPlayerPosition(Player player){
         for (int i = 0; i < gui.getFields().length; i++) {
             GUI_Player guiPlayer = guiPlayers[getGuiPlayerIndex(player)];
 
@@ -264,7 +264,7 @@ public class GUIController {
         return -1;
     }
 
-    private Color convertColor(String colorStr){
+    private static Color convertColor(String colorStr){
         Color result = Color.white;
 
         switch (colorStr.toLowerCase()) {
