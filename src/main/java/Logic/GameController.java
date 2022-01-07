@@ -21,6 +21,7 @@ public class GameController {
 
     //final variable
     private final int START_MONEY = 30000;
+    private final int BRIBE = 1000;
 
     //other variables
     private int playersLeft;
@@ -60,12 +61,14 @@ public class GameController {
             String case1 = Language.get("choice1");
             String case2 = Language.get("choice2");
 
-            // We have tried making a switch case. But we cannot use the switch case because of the use of Language
-            // So we need to chain if-else statements even though it's not pretty
-            if (answer.equals(case1)){
-                takeTurn(); // Only if player wants to throw dice
 
-            }else if(answer.equals(case2)){
+            if (currentPlayer.isInJail()){ // In jail
+                jailAttempt();
+
+            } else if (answer.equals(case1)){ // Throw Dice
+                takeTurn();
+
+            } else if(answer.equals(case2)){ // Buy Property
                 // Make more indepth logic to buy houses, hotels, sell them, place them
                 // Temp text for GUI. REMOVE
                 GUIController.getPlayerAction(currentPlayer, Language.get("choice2"));
@@ -90,13 +93,13 @@ public class GameController {
         // Roll dice and get results
         diceCup.rollDice();
         int[] faceValues = diceCup.getFaceValues();
-        int sum = faceValues[0] + faceValues[1];
+
 
         // Show dice on GUI
         GUIController.showDice(faceValues);
 
         // Rolled double gives extra turn.
-        if (faceValues[0] == faceValues[1]) { // Means that player has rolled doubles
+        if (isDoubles(faceValues)) { // Means that player has rolled doubles
             hasExtraTurn = true;
             doublesRolled++;
 
@@ -105,7 +108,7 @@ public class GameController {
         }
 
         // TODO make sure that the player positions then get update in the Board class
-        board.updatePlayerPosition(currentPlayer, sum);
+        board.updatePlayerPosition(currentPlayer, diceSum(faceValues));
         
 
     }
@@ -121,6 +124,46 @@ public class GameController {
         }
     }
 
-    //private void updateRemainingPlayerCount() {
-    //}
+    private void jailAttempt(){
+        // Give player choices between paying or trying to throw dice
+        String msg = "Choose";
+        String[] choices = {"Attempt Escaping", "Pay 1000"}; // Make Dynamic
+        String answer = GUIController.givePlayerChoice(msg, choices);
+
+        if (answer.equals(choices[0])){ // Attempt escaping
+            // Throw Dice
+            diceCup.rollDice();
+            int[] diceRoll = diceCup.getFaceValues();
+            GUIController.showDice(diceRoll);
+
+            // See if doubles
+            if (isDoubles(diceRoll)){
+                escapeJail(diceSum(diceRoll));
+
+            } else {
+                currentPlayer.addJailEscapeAttempt();
+
+                if (currentPlayer.getJailEscapeAttempts() >= 3){
+                    Bank.payToBank(currentPlayer, BRIBE);
+                }
+                escapeJail(diceSum(diceRoll));
+            }
+
+        } else { // Pay the bribe
+            Bank.payToBank(currentPlayer, BRIBE);
+
+        }
+    }
+    private void escapeJail(int diceSum){
+        currentPlayer.setInJail(false); // Break out of jail
+        currentPlayer.resetJailEscapeAttempts();
+        board.updatePlayerPosition(currentPlayer, diceSum);
+    }
+
+    private boolean isDoubles(int[] faceValues){
+        return faceValues[0] == faceValues[1];
+    }
+    private int diceSum(int[] faceValues){
+        return faceValues[0] + faceValues[1];
+    }
 }

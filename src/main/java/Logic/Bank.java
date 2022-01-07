@@ -6,7 +6,7 @@ public class Bank {
     private int housesAvailable = 100;
     private int hotelsAvailable = 20;
 
-    public void payToBank(Player player, int amount){
+    public static void payToBank(Player player, int amount){
        int balance=player.getBalance()-amount;
        player.setBalance(balance);
     }
@@ -16,7 +16,7 @@ public class Bank {
      *- when a chanceCard states that all players pay to a player
      *- when a player has to pay to another player(pay rent)
     **/
-    public void payToPlayer(Player player,int amount,Player... players){
+    public static void payToPlayer(Player player,int amount,Player... players){
        int balance;
         for(int i=0; i<players.length; i++){
             balance=players[i].getBalance()-amount;
@@ -28,7 +28,7 @@ public class Bank {
     }
 
     //this method is responsible for bank to pay to a player
-    public void payPlayer(Player player,int amount){
+    public static void payPlayer(Player player,int amount){
        int balance=player.getBalance()+amount;
        player.setBalance(balance);
     }
