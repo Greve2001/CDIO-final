@@ -74,7 +74,7 @@ public class ActionHandler {
     public void ferryAction(Player player, Square square) {
         if (square.getOwner() == null) {
             buySquare(player, square, "buyFerry");
-        } 
+        }
 
     }
 

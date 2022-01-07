@@ -1,6 +1,8 @@
 translate,varName,comments
 Vælg antallet af spillere: ,enterName
 Ønsker du at købe skødet? ,buyStreet
+Ønsker du at købe rederiet? ,buyFerry
+Ønsker du at købe bryggeriet? ,buyBrewery
 
 ,,GameController
 Vælg handling,askAction
