@@ -9,10 +9,8 @@ public class Board {
     private final ActionHandler actionHandler;
     private int jailPosition;
 
-
-    //hej
     public Board(){
-        actionHandler = new ActionHandler(this);
+        actionHandler = new ActionHandler();
         CSVReader reader;
         try {
             reader = new CSVReader(System.getProperty("user.language") + "_board.csv", ",", true);
@@ -142,7 +140,7 @@ public class Board {
     }
 
     public void payStartBonus(Player currentPlayer) {
-        actionHandler.bank().payPlayer(currentPlayer, 4000);
+        //TODO sent to a method in AH, what have to be payed to who.
     }
 
     public Square[] getALL_SQUARES(){
@@ -151,5 +149,15 @@ public class Board {
 
     public void setPlayerInJail(Player player){
         setPlayerPosition(player, jailPosition,true);
+    }
+
+    public int getCurrentCost(int position){
+        int result;
+        if (ALL_SQUARES[position].getOwner() != null)
+            result = ALL_SQUARES[position].getRent()[ALL_SQUARES[position].getAmountOfHouses()];
+        else
+            result = ALL_SQUARES[position].getPrice();
+        return result;
+
     }
 }

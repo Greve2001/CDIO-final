@@ -1,56 +1,74 @@
 package Logic;
 
-import Board.Board;
-import Board.IncomeTax;
-import Board.Square;
-import Board.Tax;
-import Logic.Player;import javax.swing.*;
+import Board.*;
 
 public class ActionHandler {
-    private final Bank bank;
-    ActionHandler actionHandler;
-    Square[] ALL_SQUARES;
-    Board board;
+    private final Bank bank = new Bank();
+    private Board board;
 
-    public ActionHandler(Board board){
-        bank = new Bank();
-        this.board = board;
+    public void squareAction(Player player, Square square) {
+        switch (square.getType()) {
+            case "street" :
+                streetAction(player, square);
+                break;
+            case "brewery" :
+                breweryAction(player, square);
+                break;
+            case "ferry" :
+                ferryAction(player, square);
+                break;
+            case "tax" :
+                taxAction(player, square);
+                break;
+            case "incomeTax" :
+                incomeTaxAction(player, square);
+                break;
+            case "chance" :
+                cardAction(player);
+                break;
+            case "goToPrison" :
+                goToPrison(player);
+                break;
+            default:
+                // TODO Implement default case
+                break;
+        }
     }
 
-    public Bank bank(){
+    public void streetAction(Player player, Square square) {
+        if (square.getOwner() == null) {
+            // TODO Handle purchase / Auction
+        } else {
+            // TODO Handle pay owner
+        }
+
+    }
+
+    public void breweryAction(Player player, Square square) {
+
+    }
+
+    public void ferryAction(Player player, Square square) {
+
+    }
+
+    public void taxAction(Player player, Square square) {
+        bank.payToBank(player, ((Tax) square).getAmount());
+    }
+
+    public void incomeTaxAction(Player player, Square square){
+        bank.payToBank(player, ((IncomeTax) square).getAmount());
+    }
+
+    public void goToPrison(Player player) {
+        board.setPlayerInJail(player);
+    }
+
+    public void cardAction(Player player) {
+
+    }
+
+    public Bank getBank() {
         return bank;
-    }
-
-    public void squareAction(Player currentPlayer){
-        Square square = ALL_SQUARES[currentPlayer.getPosition()];
-        if (square.getOwnable()){ //check if player land on a Street, Ferry or Brewery.
-            if (square.getOwner() == null){
-                //TODO logik to handle purchase
-            }
-            else{
-                switch (square.getName()){
-                    case "Street":
-                }
-            }
-        }
-        else {
-            if (square.getName().equals("Tax")) {
-                Tax tempSquare = (Tax) square;
-                actionHandler.bank().payToBank(currentPlayer, tempSquare.getAmount());
-            } else if (square.getName().equals("IncomeTax")) {
-                IncomeTax tempSquare = (IncomeTax) square;
-                actionHandler.bank().payToBank(currentPlayer, tempSquare.getAmount());
-                //TODO dicision if you want to pay 10% or 4000
-            } else if (square.getName().equals("ChanceCard")){
-                //TODO logic
-            } else if(square.getName().equals("GoToJain")){
-                board.setPlayerPosition(currentPlayer,10, true);
-            }
-        }
-    }
-    public void cardAction(Player player)
-    {
-
-
     }
 }
