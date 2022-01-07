@@ -12,7 +12,7 @@ public class Board {
 
     //hej
     public Board(){
-        actionHandler = new ActionHandler(this);
+        actionHandler = new ActionHandler();
         CSVReader reader;
         try {
             reader = new CSVReader(System.getProperty("user.language") + "_board.csv", ",", true);
@@ -142,7 +142,7 @@ public class Board {
     }
 
     public void payStartBonus(Player currentPlayer) {
-        actionHandler.bank().payPlayer(currentPlayer, 4000);
+        actionHandler.getBank().payPlayer(currentPlayer, 4000);
     }
 
     public Square[] getALL_SQUARES(){
