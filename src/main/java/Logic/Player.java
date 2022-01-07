@@ -8,6 +8,7 @@ public class Player {
     private Color color = Color.white;
     private int balance;
     private boolean active = true; // Used to determinate when a player gone broken.
+    private boolean inJail = false;
 
     public Player(String name, int startBalance, int startPosition){
         this.name = name;
@@ -56,5 +57,13 @@ public class Player {
     }
     public void setColor(Color color){
         this.color = color;
+    }
+
+    // Jail
+    public boolean isInJail(){
+        return inJail;
+    }
+    public void setInJail(boolean bool){
+        inJail = bool;
     }
 }
