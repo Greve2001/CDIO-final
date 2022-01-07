@@ -1,6 +1,8 @@
 package Logic;
 
 import Board.*;
+import Interface.GUIController;
+import Utilities.Language;
 
 public class ActionHandler {
     private final Bank bank = new Bank();
@@ -37,9 +39,16 @@ public class ActionHandler {
 
     public void streetAction(Player player, Square square) {
         if (square.getOwner() == null) {
-            // TODO Handle purchase / Auction
+            boolean answer = GUIController.askPlayerAccept(Language.get("buyStreet"));
+
+            if(answer) {
+                bank.payToBank(player, square.getPrice());
+                square.setOwner(player);
+                GUIController.setOwner(player, square.getPOSITION());
+            }
         } else {
-            // TODO Handle pay owner
+            int amountToPay = board.getCurrentCost(square.getPOSITION());
+            bank.payToPlayer(square.getOwner(), amountToPay, player);
         }
 
     }
