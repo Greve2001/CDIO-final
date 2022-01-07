@@ -1,6 +1,7 @@
 package Board;
 
 import Logic.ActionHandler;
+import Logic.DiceCup;
 import Logic.Player;
 import Utilities.CSVReader;
 
@@ -9,8 +10,8 @@ public class Board {
     private final ActionHandler actionHandler;
     private int jailPosition;
 
-    public Board(){
-        actionHandler = new ActionHandler();
+    public Board(DiceCup diceCup){
+        actionHandler = new ActionHandler(this, diceCup);
         CSVReader reader;
         try {
             reader = new CSVReader(System.getProperty("user.language") + "_board.csv", ",", true);
