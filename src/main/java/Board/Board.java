@@ -24,6 +24,7 @@ public class Board {
 
         int name = 0, position = 1, type = 2, color = 3, price = 4, percentagePrice = 5, housePrice = 6;
 
+        //Runs through the CSV file, for each row and created a Square with a specific supclass depending on the data found
         for(String[] data: reader.getFile()){
             switch (data[type]){
                 case "street":
@@ -76,7 +77,7 @@ public class Board {
                             false,
                             data[type]
                     );
-                    if(data[type].equals("prison")) {
+                    if(data[type].equals("prison")) {//check if the type is prison, and save it for later uses
                         jailPosition = Integer.parseInt(data[position]);
                     }
                     break;
