@@ -4,94 +4,150 @@ skinparam groupInheritance 2
 
 skinparam linetype polyline
 
-class Board
-class Player
-class Die
-class DiceCup
-class Bank
-class ActionHandler
-class GameController
-class Deck
-class ChanceCard
-class Square
-
-
-class GUIController
-class CSVReader
-
-
-
-
-
+package Board
+{
 class Board {
     +hasMonopoly() : boolean
     +movePlayer(Player, spacesToMove:int) : void
     +setPlayerPosition(Player, position:int) : void
     -payStartBonus(Player) : void
     -stringArrayToIntArray(String[], size:int) : int[]
+    }
+     class Square {
+         -name : String
+         -position : int
+         -ownable : boolean
+         -type : String
+
+     }
+     class Street{
+
+        -COLOR : String
+        -PRICE : int
+        -RENT : int[]
+        -HOUSEPRICE : int
+        -owner : Player
+        -pledge : boolean
+
+
+     }
+     class Brewey
+     {
+       -COLOR : String
+       -RENT : int[]
+       -PRICE : int
+       -owner : Player
+       -pledge : boolean
+     }
+     class Ferry
+     {
+       -COLOR : String
+       -RENT : int[]
+       -PRICE : int
+     }
+     class incomeTax
+     {
+       AMOUNT : int
+       PERCENTAGE : int
+     }
+     class Tax
+     {
+        -AMOUNT : int
+     }
+}
+package cards
+{
+   abstract class chanceCard{
+       #amount :dobule
+       #fieldToMove :int
+       -description
+
+       +updateBalancePositive(double amount) : double
+       +updateBalanceNegative(double amount) : double
+       +moveNumOfFields(int fieldsmove) : int
+   }
+   class Deck
+   {
+      -chanceCardCheck :Chancecard[]
+      -drawCardCoubt : int
+
+      +pullCard(): chanceCard
+   }
+   class MoveFieldsChanceCard
+   {
+
+   }
+   class PayMoneyChanceCard
+   {
+
+   }
+   class ReceiveMoneyChanceCard
+   {
+
+   }
 }
 
-class Square {
-    -name : String
-    -position : int
-}
-
-
-class Player {
-    -name : String
+package Logic
+{
+   class Player
+    {
+    -NAME : String
     -balance : int
     -position : int
     -color : Color
-    -broke : boolean
+    -active : boolean
+    -inJail : boolean
+
+    +toString(): String
+
+     }
+     class Die {
+         -faceValue : int
+
+         +roll() : void
+     }
+
+     class DiceCup {
+         -dice : Die[]
+
+         +rollDice() : void
+         +getFaceValues() : void
+     }
+     class Bank {
+         -housesAvailable : int
+         -hotelsAvailable : int
+
+
+         +payToBank(Player, amount:int) : void
+         +payToPlayer(Player, amount:int) : void
+         +payPlayer(Player, amount:int) : void
+
+     }
+     class ActionHandler {
+
+
+     }
+     class GameController {
+         -START_MONEY : int
+         -doublesRolled :int
+         -hasExtraTurn : boolean
+         -currentPlayer : Player
+         -diceCup :DiceCup
+         -board : Board
+         -players : Player[]
+         -playerLeft : int
+
+         -setupPlayers(String[] playernames)
+         -takeTurn(): void
+         -changeTurn() : void
+         +setupGame() : void
+         +playGame() : void
+
+
+     }
 }
-
-class Die {
-    -faceValue : int
-
-    +roll() : void
-}
-
-class DiceCup {
-    -dice : Die[]
-
-    +rollDice() : void
-    +getFaceValues() : void
-}
-
-class Bank {
-    -housesAvailable : int
-    -hotelsAvailable : int
-    -??? Streets ???
-
-    +payToBank(Player, amount:int) : void
-    +payToPlayer(Player, amount:int) : void
-    +payPlayer(Player, amount:int) : void
-    +buyHouses(?) : ?
-    +buyHotel(?) : ?
-}
-
-class ActionHandler {
-
-}
-
-class GameController {
-    -currentPlayer : Player
-
-    -changeTurn() : void
-}
-
-class Deck {
-    -cards : ChanceCard[]
-
-    +pullCard() : ChanceCard
-    -shuffleDeck() : void
-    -createCards() : void
-}
-
-class ChanceCard{
-    -description
-}
-
+package interface
+{
 class GUIController{
     +movePlayer(Player, destination:int) : void
     +setPlayerBalance(Player, value:int) : void
@@ -104,6 +160,61 @@ class GUIController{
     -getPlayerPosition(Player) : int
     -convertToStreet(GUI_Field) : GUI_Street
 }
+
+}
+package Utilities
+{
+  class CSVReader
+  {
+    -FILESCANNER :Scnaner
+    -DELIMITER : String
+    -file : String[][]
+    -size : int
+
+    -readLine(): String[]
+    -fileAsArr(): String[][]
+    -trimArrLength(): String[][]
+    +close(): void
+    +toString(): String
+  }
+  class Language
+  {
+     {static} instance : Language
+     {static} language : CSVReader
+     {static} langInUse: String
+
+     {static} -chooseLanguage(String lang): void
+     {static} +getInstace() : Language
+     {static} +get(String textToRetrieve) : String
+
+
+  }
+}
+
+GameController -- GUIController
+Bank -- ActionHandler
+GameController -l- ActionHandler
+GameController -- DiceCup
+DiceCup -- Die
+GameController -r- Player
+
+ActionHandler -l- Deck
+GameController -u- Board
+Board *-d- Square
+Square <|-- Brewey
+Square <|-- Ferry
+Square <|-- incomeTax
+Square <|-- Street
+Square <|-- Tax
+
+Deck -- chanceCard
+chanceCard <|-- MoveFieldsChanceCard
+chanceCard <|-- PayMoneyChanceCard
+chanceCard <|-- ReceiveMoneyChanceCard
+
+
+
+
 
 
 @enduml
