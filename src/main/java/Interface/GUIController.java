@@ -16,16 +16,22 @@ public class GUIController {
     private static GUI_Player[] guiPlayers;
     private static int[] playerPositions;
 
-    
+    private static GUI_Field[] GUIFields;
+    private static Square[] fields;
+    private static Board gameBoard;
+
     private static int moveTime = 20;
 
-    public GUIController(Square[] inputSquares){
+    public GUIController(Board board){
+        gameBoard = board;
+        Square[] inputSquares = board.getALL_SQUARES();
         GUI_Field[] GUIFields = createBoard(inputSquares);
         gui = new GUI(GUIFields);
     }
 
     public static GUI_Field[] createBoard(Square[] inputSquares){
-        GUI_Field[] GUIFields = new GUI_Field[inputSquares.length]; // Create empty array
+        GUIFields = new GUI_Field[inputSquares.length]; // Create empty array7
+        fields = inputSquares;
 
         for (int i = 0; i < GUIFields.length; i++) {
             switch (inputSquares[i].getType()){
@@ -33,8 +39,14 @@ public class GUIController {
                     //GUIFields[i] = new GUI_Street();
                     GUIFields[i] = new GUI_Street();
                     GUIFields[i].setBackGroundColor(convertColor(inputSquares[i].getColor()));
-                    GUIFields[i].setDescription(
-                            "Skal indholde renten, titlen, house-cost etc."
+
+                    GUIFields[i].setDescription( // Rents
+                                    "Base rent: " + inputSquares[i].getRent()[0] + "<br>" +
+                                    "1 house: " + inputSquares[i].getRent()[1] + "<br>" +
+                                    "2 houses: " + inputSquares[i].getRent()[2] + "<br>" +
+                                    "3 houses: " + inputSquares[i].getRent()[3] + "<br>" +
+                                    "4 houses: " + inputSquares[i].getRent()[4] + "<br>" +
+                                    "1 hotel: " + inputSquares[i].getRent()[5] + "<br>"
                     );
                     // TODO changes this to use squares actual rent
                     ((GUI_Ownable) GUIFields[i]).setRent("");
@@ -204,6 +216,11 @@ public class GUIController {
         }else{
             System.out.println("Not a street. Cant own it");
         }
+    }
+
+    public static void updateRent(int position){
+        // TODO
+        //GUIFields[position].setSubText(String.valueOf(board.getCurrentCost(position)));
     }
 
     private static GUI_Street posToStreet(int position){
