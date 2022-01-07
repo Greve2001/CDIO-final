@@ -43,6 +43,7 @@ public class Language {
         try {
             language = new CSVReader("languages/" + lang + ".csv",
                     ",", true);
+            langInUse = lang;
         } catch (NullPointerException e) {
             language = new CSVReader("languages/da.csv",
                     ",", true);
