@@ -34,7 +34,7 @@ public class Language {
             chooseLanguage("da");
             result = get(textToRetrieve);
 
-            chooseLanguage(System.getProperty(langInUse));
+            chooseLanguage(System.getProperty("user.language"));
         }
 
         // Default to empty string if no matches found.

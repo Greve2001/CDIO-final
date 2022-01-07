@@ -1,6 +1,5 @@
 package Utilities;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +22,9 @@ class LanguageTest {
 
     @Test
     void emptyLineInTranslateFile() {
-        Language.get("emptyLineAbove");
+        String expected = "the line above is empty";
+        String actual = Language.get("emptyLineAbove");
+
+        assertEquals(expected, actual);
     }
 }
