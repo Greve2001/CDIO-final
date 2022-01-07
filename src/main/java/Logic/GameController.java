@@ -29,10 +29,10 @@ public class GameController {
         diceCup = new DiceCup();
         board = new Board();
 
-        //GUIController gui = new GUIController(board.getALL_SQUARES());
-        setupPlayers(new String[]{"1", "2", "3", "4"});
+        GUIController gui = new GUIController(board.getALL_SQUARES());
 
-
+        GUIController.createPlayers(START_MONEY);
+        setupPlayers(GUIController.getPlayerNames());
 
     }
 
@@ -48,8 +48,24 @@ public class GameController {
     public void playGame() {
         do {
             // Ask if want to buy houses etc.
+            String msg = currentPlayer.getName() + ": Choose action";
+            String[] choices = new String[]{"throwDice", "buyProperty"};
+            String answer = GUIController.givePlayerChoice(msg, choices);
 
-            takeTurn(); // Only if player wants to throw dice
+            switch (answer){
+                case "throwDice" :
+                    takeTurn(); // Only if player wants to throw dice
+                    break;
+
+                case "buyProperty" :
+                    // Make more indepth logic to buy houses, hotels, sell them, place them
+                    // Temp text for GUI. REMOVE
+                    GUIController.getPlayerAction(currentPlayer, "Buy properties");
+
+                    // When done buying, take turn.
+                    takeTurn();
+                    break;
+            }
 
             if (!hasExtraTurn)
                 changeTurn();
@@ -62,19 +78,21 @@ public class GameController {
     }
 
     private void takeTurn() {
-        input.nextLine();
-
         // Roll dice and get results
         diceCup.rollDice();
         int[] faceValues = diceCup.getFaceValues();
         int sum = faceValues[0] + faceValues[1];
+
+        // Show dice on GUI
+        GUIController.showDice(faceValues);
 
         // Rolled double gives extra turn.
         // TODO if double 3times -> jail. (Could have)
         if (faceValues[0] == faceValues[1]) { // Means that player has rolled doubles
             hasExtraTurn = true;
         }
-        
+
+        // TODO make sure that the player positions then get update in the Board class
         board.updatePlayerPosition(currentPlayer, sum);
 
     }
