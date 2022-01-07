@@ -10,6 +10,8 @@ public class Ownable extends Square{
     private Player owner = null;
     private boolean pledge = false;
 
+    private int amountOfHouses = 0;
+
     public Ownable(String name, int position, String type, String color, int[] rent, int price){
         super(name, position, true, type);
         this.COLOR = color;
@@ -43,5 +45,9 @@ public class Ownable extends Square{
 
     public void setOwner (Player player){
         this.owner = player;
+    }
+
+    public int getAmountOfHouses(){
+        return amountOfHouses;
     }
 }
