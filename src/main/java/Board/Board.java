@@ -3,7 +3,6 @@ package Board;
 import Logic.ActionHandler;
 import Logic.Player;
 import Utilities.CSVReader;
-import org.jetbrains.annotations.Debug;
 
 public class Board {
     private final Square[] ALL_SQUARES;
@@ -31,28 +30,22 @@ public class Board {
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Street(
                             data[name],
                             Integer.parseInt(data[position]),
+                            data[type],
                             data[color],
+                            stringArrayToIntArray(data, data[type]),
                             Integer.parseInt(data[price]),
-                            Integer.parseInt(data[housePrice]),
-                            stringArrayToIntArray(data, 6)
+                            Integer.parseInt(data[housePrice])
                     );
                     break;
                 case "ferry":
-                    ALL_SQUARES[Integer.parseInt(data[position])] = new Ferry(
-                            data[name],
-                            Integer.parseInt(data[position]),
-                            stringArrayToIntArray(data, 4),
-                            Integer.parseInt(data[price]),
-                            data[color]
-                    );
-                    break;
                 case "brewery":
-                    ALL_SQUARES[Integer.parseInt(data[position])] = new Brewery(
+                    ALL_SQUARES[Integer.parseInt(data[position])] = new Ownable(
                             data[name],
                             Integer.parseInt(data[position]),
-                            stringArrayToIntArray(data, 2),
-                            Integer.parseInt(data[price]),
-                            data[color]
+                            data[type],
+                            data[color],
+                            stringArrayToIntArray(data, data[type]),
+                            Integer.parseInt(data[price])
                     );
                     break;
                 case "tax":
@@ -86,9 +79,18 @@ public class Board {
         reader.close();
     }
 
-    private int[] stringArrayToIntArray(String[] arr, int size) {
+    private int[] stringArrayToIntArray(String[] arr, String type) {
         int offset = 7;
-        int[] result = new int[size];
+        int[] result;
+
+        //set the size of the array based on with type
+        if (type.equals("street"))
+            result = new int [6];
+        else if(type.equals("ferry"))
+            result = new int[4];
+        else
+            result = new int[2];
+
         for (int i = 0; i < result.length; i++){
             result[i] = Integer.parseInt(arr[offset + i]);
         }

@@ -1,17 +1,17 @@
 package Board;
-import java.awt.*;
+
 import Logic.Player;
 
-public class Ferry extends Square{
+public class Ownable extends Square{
     private final String COLOR;
     private final int[]  RENT;
     private final int PRICE;
 
-    private boolean pledge = false;
     private Player owner = null;
+    private boolean pledge = false;
 
-    public Ferry(String name, int position, int[] rent, int price, String color) {
-        super(name, position, true, "ferry");
+    public Ownable(String name, int position, String type, String color, int[] rent, int price){
+        super(name, position, true, type);
         this.COLOR = color;
         this.RENT = rent;
         this.PRICE = price;
@@ -21,7 +21,7 @@ public class Ferry extends Square{
         return COLOR;
     }
 
-    public int[] getRent() {
+    public int[] getRent(){
         return RENT;
     }
 
@@ -30,7 +30,7 @@ public class Ferry extends Square{
     }
 
     public boolean getPledge(){
-        return this.pledge;
+        return pledge;
     }
 
     public void setPledge(boolean condition){
@@ -41,7 +41,7 @@ public class Ferry extends Square{
         return owner;
     }
 
-    public void setOwner(Player player){
+    public void setOwner (Player player){
         this.owner = player;
     }
 }

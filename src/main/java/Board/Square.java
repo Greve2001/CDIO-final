@@ -5,7 +5,8 @@ import Logic.Player;
 public class Square {
     private final String NAME;
     private final int POSITION;
-    private boolean ownable;
+
+    private final boolean ownable;
     private final String type;
 
     public Square (String name, int position, boolean ownable, String type)
