@@ -151,4 +151,11 @@ public class Board {
         setPlayerPosition(player, jailPosition,true);
     }
 
+    public int getCurrentCost(int position){
+        int result = ALL_SQUARES[position].getCurrentCost();
+        if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
+            result = result * 2;
+        return result;
+    }
+
 }
