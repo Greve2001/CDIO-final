@@ -67,4 +67,8 @@ public class Square {
     public int getAmountOfHouses(){
         return 0;
     }
+
+    public int getCurrentCost(){
+        return 0;
+    }
 }
