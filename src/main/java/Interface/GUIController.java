@@ -10,6 +10,11 @@ import java.awt.*;
 
 public class GUIController {
 
+    //OBS OBS OBS OBS
+    // This variable is to toggle for testing purposes. This allows us to test classes that have the GUI
+    // incoorperated in them, by itself.
+    private static boolean testing = false;
+
     private static GUI gui;
     private static Color[] colorsToChooseFrom = new Color[]{Color.blue, Color.green, Color.yellow, Color.red, Color.magenta, Color.orange};
     private static String[] playerNames;
@@ -23,6 +28,8 @@ public class GUIController {
     private static int moveTime = 20;
 
     public GUIController(Board board){
+        if (testing) return;
+
         gameBoard = board;
         Square[] inputSquares = board.getALL_SQUARES();
         GUI_Field[] GUIFields = createBoard(inputSquares);
@@ -115,6 +122,9 @@ public class GUIController {
     }
 
     public static void createPlayers(int startBalance){
+        // Needs an input
+        if (testing) return;
+
         int numberOfPlayers = Integer.parseInt(gui.getUserSelection("Select number of players", "3", "4", "5", "6")); //TODO Use CSVReader
 
         playerNames = new String[numberOfPlayers]; // Empty name array
@@ -142,6 +152,8 @@ public class GUIController {
 
 /// Player Section ///
     public static void movePlayer(Player player, int destination) throws InterruptedException { // Make sure it needs the Player or name of Player
+        if (testing) return;
+
         // Calculate distance to move
         int playerStartPos = getPlayerPosition(player);
         int deltaSquares = destination - playerStartPos;
@@ -162,16 +174,22 @@ public class GUIController {
     }
 
     public static void setPlayerBalance(Player player, int value){
+        if (testing) return;
+
         int index = getGuiPlayerIndex(player);
         guiPlayers[index].setBalance(value);
     }
 
     // Gives access to logic to get the inputted names from the GUI.
     public static String[] getPlayerNames(){
+        if (testing) return new String[]{"1", "2", "3"};
+
         return playerNames;
     }
     //TODO implement solution to let player select colors
     public static Color[] getPlayerColors(){
+        if (testing) return new Color[]{Color.red, Color.orange, Color.blue};
+
         return colorsToChooseFrom;
     }
 
@@ -179,6 +197,8 @@ public class GUIController {
 /// Action Section ///
     // Show rolled dice
     public static void showDice(int[] faceValues){
+        if (testing) return;
+
         gui.setDice(faceValues[0], faceValues[1]);
     }
 
@@ -190,17 +210,23 @@ public class GUIController {
     //}
 
     public static void setHouses(int position, int amount){
+        if (testing) return;
+
         if (posToStreet(position) != null)
             posToStreet(position).setHouses(amount);
     }
 
     public static void setHotel(int position, boolean bool){
+        if (testing) return;
+
         if (posToStreet(position) != null)
             posToStreet(position).setHotel(bool);
 
     }
 
     public static void setOwner(Player player, int position){
+        if (testing) return;
+
         if (posToStreet(position) != null){
             if (player != null){
                 posToStreet(position).setOwnerName(player.getName());
@@ -219,6 +245,8 @@ public class GUIController {
     }
 
     public static void updateRent(int position){
+        if (testing) return;
+
         // TODO
         //GUIFields[position].setSubText(String.valueOf(board.getCurrentCost(position)));
     }
@@ -236,10 +264,14 @@ public class GUIController {
 
 //// Player choice and inputs ////
     public static String givePlayerChoice(String msg, String[] choices){
+        if (testing) return choices[0];
+
         return gui.getUserSelection(msg, choices);
     }
 
     public static boolean askPlayerAccept(String msg){
+        if (testing) return true;
+
         String answer = gui.getUserSelection(msg, "yes", "no");
         if (answer.equals("yes"))
             return true;
@@ -249,10 +281,14 @@ public class GUIController {
 
     // Stops game-flow until button is pressed. Used for UX.
     public static void getPlayerAction(Player player, String msg){
+        if (testing) return;
+
         gui.showMessage(player.getName() + "; " + msg);
     }
 
     public static int getPlayerInteger(String msg){
+        if (testing) return 1;
+
         return gui.getUserInteger(msg);
     }
 
