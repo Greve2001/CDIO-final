@@ -19,10 +19,12 @@ public class Language {
 
     public static String get(String textToRetrieve) {
         for (int i = 0; i < language.getFile().length; i++) {
-            String varName = language.getFile()[i][1];
+            if(language.getFile()[i].length >= 2) {
+                String varName = language.getFile()[i][1];
 
-            if(varName.equals(textToRetrieve)) {
-                return language.getFile()[i][0];
+                if (varName.equals(textToRetrieve)) {
+                    return language.getFile()[i][0];
+                }
             }
         }
 

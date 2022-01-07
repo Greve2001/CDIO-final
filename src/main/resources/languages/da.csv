@@ -1,12 +1,11 @@
 translate,varName,comments
 Vælg antallet af spillere: ,enterName
 Ønsker du at købe skødet? ,buyStreet
-,
 ,,GameController
 Vælg handling,askAction
 kast terning,choice1
 køb egendom,choice2
-,
+
 ,,GUIController
 grund rente,baseRent
 1 hus,1house
@@ -24,11 +23,11 @@ Fængsel,prison
 Parkering,parking
 Vælg antallet af spillere,selectPlayers
 Indtast navn,enterName
-,
+
 ,,GUIErrors
 Ikke en vej. Den kan ikke ejes!,notAStreet
 Fejl. Dette felt er ikke en vej på position: ,notAStreetAt
-,
+
 ,,General
 Ja,yes
 Nej,no
