@@ -13,7 +13,10 @@ public class GameController {
 
     //other object references
     private Player currentPlayer;
+
+    // Extra turn varaibles
     private boolean hasExtraTurn = false;
+    private int doublesRolled = 0;
 
     //final variable
     private final int START_MONEY = 30000;
@@ -67,8 +70,10 @@ public class GameController {
                     break;
             }
 
-            if (!hasExtraTurn)
+            if (!hasExtraTurn){
                 changeTurn();
+                doublesRolled = 0;
+            }
 
             hasExtraTurn = false; // Make sure that extra turn is reset
 
@@ -87,9 +92,12 @@ public class GameController {
         GUIController.showDice(faceValues);
 
         // Rolled double gives extra turn.
-        // TODO if double 3times -> jail. (Could have)
         if (faceValues[0] == faceValues[1]) { // Means that player has rolled doubles
             hasExtraTurn = true;
+            doublesRolled++;
+
+            // If 3 doubles are rolled, go to jail
+            // TODO
         }
 
         // TODO make sure that the player positions then get update in the Board class
