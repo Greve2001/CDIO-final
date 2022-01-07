@@ -12,7 +12,7 @@ public class Board {
 
     //hej
     public Board(){
-        actionHandler = new ActionHandler();
+        actionHandler = new ActionHandler(this);
         CSVReader reader;
         try {
             reader = new CSVReader(System.getProperty("user.language") + "_board.csv", ",", true);

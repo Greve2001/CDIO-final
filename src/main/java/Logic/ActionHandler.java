@@ -10,10 +10,11 @@ public class ActionHandler {
     private final Bank bank;
     ActionHandler actionHandler;
     Square[] ALL_SQUARES;
-    Board board = new Board();
+    Board board;
 
-    public ActionHandler(){
+    public ActionHandler(Board board){
         bank = new Bank();
+        this.board = board;
     }
 
     public Bank bank(){
