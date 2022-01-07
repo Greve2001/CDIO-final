@@ -52,7 +52,7 @@ public class Square {
         return null;
     }
 
-    public void setOwner(){
+    public void setOwner(Player player){
 
     }
 
@@ -60,11 +60,15 @@ public class Square {
         return false;
     }
 
-    public void setPledge() {
+    public void setPledge(boolean nun) {
         return;
     }
 
     public int getAmountOfHouses(){
+        return 0;
+    }
+
+    public int getCurrentCost(){
         return 0;
     }
 }

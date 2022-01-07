@@ -50,4 +50,13 @@ public class Ownable extends Square{
     public int getAmountOfHouses(){
         return amountOfHouses;
     }
+
+    public int getCurrentCost(){
+        int result;
+        if (owner != null)
+            result = RENT[amountOfHouses];
+        else
+            result = PRICE;
+        return result;
+    }
 }

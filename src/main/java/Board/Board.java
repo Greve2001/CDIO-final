@@ -152,12 +152,10 @@ public class Board {
     }
 
     public int getCurrentCost(int position){
-        int result;
-        if (ALL_SQUARES[position].getOwner() != null)
-            result = ALL_SQUARES[position].getRent()[ALL_SQUARES[position].getAmountOfHouses()];
-        else
-            result = ALL_SQUARES[position].getPrice();
+        int result = ALL_SQUARES[position].getCurrentCost();
+        if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
+            result = result * 2;
         return result;
-
     }
+
 }
