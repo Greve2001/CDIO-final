@@ -32,7 +32,7 @@ public class GameController {
         diceCup = new DiceCup();
         board = new Board();
 
-        GUIController gui = new GUIController(board.getALL_SQUARES());
+        GUIController gui = new GUIController(board);
 
         GUIController.createPlayers(START_MONEY);
         setupPlayers(GUIController.getPlayerNames());
