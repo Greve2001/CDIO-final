@@ -2,6 +2,7 @@ package Logic;
 
 import Board.Board;
 import Interface.GUIController;
+import Utilities.Language;
 
 import java.util.Scanner;
 
@@ -29,6 +30,7 @@ public class GameController {
     Scanner input = new Scanner(System.in);
 
     public void setupGame() {
+        Language.getInstance();
         diceCup = new DiceCup();
         board = new Board();
 
@@ -51,23 +53,25 @@ public class GameController {
     public void playGame() {
         do {
             // Ask if want to buy houses etc.
-            String msg = currentPlayer.getName() + ": Choose action";
-            String[] choices = new String[]{"throwDice", "buyProperty"};
+            String msg = currentPlayer.getName() + ": " + Language.get("askAction");
+            String[] choices = new String[]{Language.get("choice1"), Language.get("choice2")};
             String answer = GUIController.givePlayerChoice(msg, choices);
 
-            switch (answer){
-                case "throwDice" :
-                    takeTurn(); // Only if player wants to throw dice
-                    break;
+            String case1 = Language.get("choice1");
+            String case2 = Language.get("choice2");
 
-                case "buyProperty" :
-                    // Make more indepth logic to buy houses, hotels, sell them, place them
-                    // Temp text for GUI. REMOVE
-                    GUIController.getPlayerAction(currentPlayer, "Buy properties");
+            // We have tried making a switch case. But we cannot use the switch case because of the use of Language
+            // So we need to chain if-else statements even though it's not pretty
+            if (answer.equals(case1)){
+                takeTurn(); // Only if player wants to throw dice
 
-                    // When done buying, take turn.
-                    takeTurn();
-                    break;
+            }else if(answer.equals(case2)){
+                // Make more indepth logic to buy houses, hotels, sell them, place them
+                // Temp text for GUI. REMOVE
+                GUIController.getPlayerAction(currentPlayer, Language.get("choice2"));
+
+                // When done buying, take turn.
+                takeTurn();
             }
 
             if (!hasExtraTurn){

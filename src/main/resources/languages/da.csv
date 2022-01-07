@@ -1,3 +1,34 @@
 translate,varName,comments
 Vælg antallet af spillere: ,enterName
 Ønsker du at købe skødet? ,buyStreet
+,
+,,GameController
+Vælg handling,askAction
+kast terning,choice1
+køb egendom,choice2
+,
+,,GUIController
+grund rente,baseRent
+1 hus,1house
+2 huse,2house
+3 huse,3house
+4 huse,4house
+1 hotel,hotel
+2 færger,2ferries
+3 færger,3ferries
+4 færger,4ferries
+Ejer 1 bryggeri: <br>Betal 100x det antal øjne terningerne viser,1brewery
+Ejer 2 bryggerier: <br>Betal 200x det antal øjne terningerne viser,2brewery
+Træk et prøvlykken kort,pullChancecard
+Fængsel,prison
+Parkering,parking
+Vælg antallet af spillere,selectPlayers
+Indtast navn,enterName
+,
+,,GUIErrors
+Ikke en vej. Den kan ikke ejes!,notAStreet
+Fejl. Dette felt er ikke en vej på position: ,notAStreetAt
+,
+,,General
+Ja,yes
+Nej,no

@@ -51,16 +51,16 @@ public class GUIController {
                     GUIFields[i].setBackGroundColor(convertColor(inputSquares[i].getColor()));
 
                     GUIFields[i].setDescription( // Rents
-                                    "Base rent: " + inputSquares[i].getRent()[0] + "<br>" +
-                                    "1 house: " + inputSquares[i].getRent()[1] + "<br>" +
-                                    "2 houses: " + inputSquares[i].getRent()[2] + "<br>" +
-                                    "3 houses: " + inputSquares[i].getRent()[3] + "<br>" +
-                                    "4 houses: " + inputSquares[i].getRent()[4] + "<br>" +
-                                    "1 hotel: " + inputSquares[i].getRent()[5] + "<br>"
+                                    Language.get("baseRent") + ": " + inputSquares[i].getRent()[0] + "<br>" +
+                                    Language.get("1house") + ": " + inputSquares[i].getRent()[1] + "<br>" +
+                                    Language.get("2house") + ": " + inputSquares[i].getRent()[2] + "<br>" +
+                                    Language.get("3house") + ": " + inputSquares[i].getRent()[3] + "<br>" +
+                                    Language.get("4house") + ": " + inputSquares[i].getRent()[4] + "<br>" +
+                                    Language.get("hotel") + ": " + inputSquares[i].getRent()[5] + "<br>"
                     );
                     // TODO changes this to use squares actual rent
                     ((GUI_Ownable) GUIFields[i]).setRent("");
-                    GUIFields[i].setSubText("Den nuværende rent/pris");
+                    GUIFields[i].setSubText("$Den nuværende rent/pris$");
                     break;
 
                 // TODO ALT skal implementeres med CSV Reader, det er midlertidigt
@@ -69,32 +69,33 @@ public class GUIController {
                     GUIFields[i] = new GUI_Shipping();
                     GUIFields[i].setBackGroundColor(Color.white);
                     GUIFields[i].setDescription( // Rents
-                            "Base rent: " + inputSquares[i].getRent()[0] + "<br>" +
-                                    "Owns 2 ferries: " + inputSquares[i].getRent()[1] + "<br>" +
-                                    "Owns 3 ferries: " + inputSquares[i].getRent()[2] + "<br>" +
-                                    "Owns 4 ferries: " + inputSquares[i].getRent()[3] + "<br>"
+                            Language.get("baseRent") + ": " + inputSquares[i].getRent()[0] + "<br>" +
+                                    Language.get("2ferries") + ": "  + inputSquares[i].getRent()[1] + "<br>" +
+                                    Language.get("3ferries") + ": "  + inputSquares[i].getRent()[2] + "<br>" +
+                                    Language.get("4ferries") + ": "  + inputSquares[i].getRent()[3] + "<br>"
                     );
-                    GUIFields[i].setSubText("Den nuværende rent/pris");
+                    GUIFields[i].setSubText("$Den nuværende rent/pris$");
                     break;
 
                 case "brewery" :
                     GUIFields[i] = new GUI_Brewery();
                     GUIFields[i].setBackGroundColor(Color.pink);
-                    GUIFields[i].setDescription("Owns 1 brewery: <br>Pay 100x the number of eyes on the dice." + "<br><br>" +
-                            "Owns 2 breweries: <br>Pay 200x the number of eyes of the dice");
+                    GUIFields[i].setDescription(Language.get("1brewery") +
+                            "<br><br>" +
+                            Language.get("2brewery"));
                     GUIFields[i].setSubText("Den nuværende rent/pris");
                     break;
 
                 case "chance" :
                     GUIFields[i] = new GUI_Chance();
                     GUIFields[i].setBackGroundColor(Color.pink);
-                    GUIFields[i].setDescription("Pull a chancecard and do the action the card tells you.");
+                    GUIFields[i].setDescription(Language.get("pullChancecard"));
                     GUIFields[i].setSubText("");
                     break;
 
                 case "prison" :
                     GUIFields[i] = new GUI_Jail();
-                    GUIFields[i].setSubText("Prison");
+                    GUIFields[i].setSubText(Language.get("prison"));
                     break;
 
                 case "goToPrison" :
@@ -111,7 +112,7 @@ public class GUIController {
                 case "refugee" : // Parkering
                     GUIFields[i] = new GUI_Refuge();
                     GUIFields[i].setBackGroundColor(Color.white);
-                    GUIFields[i].setSubText("Parking");
+                    GUIFields[i].setSubText(Language.get("parking"));
                     break;
 
                 case "start" : // Parkering
@@ -137,7 +138,7 @@ public class GUIController {
         // Needs an input
         if (testing) return;
 
-        int numberOfPlayers = Integer.parseInt(gui.getUserSelection("Select number of players", "3", "4", "5", "6")); //TODO Use CSVReader
+        int numberOfPlayers = Integer.parseInt(gui.getUserSelection(Language.get("selectPlayers"), "3", "4", "5", "6")); //TODO Use CSVReader
 
         playerNames = new String[numberOfPlayers]; // Empty name array
         guiPlayers = new GUI_Player[numberOfPlayers];
@@ -145,7 +146,7 @@ public class GUIController {
 
         for (int i = 0; i < numberOfPlayers; i++) {
             // Get players name and car color
-            playerNames[i] = gui.getUserString("Enter name"); //TODO Use CSV Reader
+            playerNames[i] = gui.getUserString(Language.get("enterName")); //TODO Use CSV Reader
 
             // Add the player
             guiPlayers[i] = new GUI_Player(playerNames[i], startBalance); // To our array
@@ -252,7 +253,7 @@ public class GUIController {
             }
 
         }else{
-            System.out.println("Not a street. Cant own it");
+            System.out.println(Language.get("notAStreet"));
         }
     }
 
@@ -267,7 +268,7 @@ public class GUIController {
         if (field instanceof GUI_Street){
             return (GUI_Street) field;
         }else{
-            System.out.println("Error, this square at position: " + position + " is not a street: ");
+            System.out.println(Language.get("notAStreetAt" + position));
             return null;
         }
     }
@@ -283,8 +284,8 @@ public class GUIController {
     public static boolean askPlayerAccept(String msg){
         if (testing) return true;
 
-        String answer = gui.getUserSelection(msg, "yes", "no");
-        if (answer.equals("yes"))
+        String answer = gui.getUserSelection(msg, Language.get("yes"), Language.get("no"));
+        if (answer.equals(Language.get("yes")))
             return true;
         else
             return false;
