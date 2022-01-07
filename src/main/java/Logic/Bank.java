@@ -3,8 +3,8 @@ package Logic;
 import java.lang.reflect.Field;
 
 public class Bank {
-    private int housesAvailable = 100;
-    private int hotelsAvailable = 20;
+    private static int housesAvailable = 100;
+    private static int hotelsAvailable = 20;
 
     public static void payToBank(Player player, int amount){
         if(player.getBalance()>=amount){
@@ -42,21 +42,20 @@ public class Bank {
        player.setBalance(balance);
     }
 
-    public void buyHouses(Player player,int nr, int price){
+    public static void buyHouses(Player player,int nr, int price){
 
         if(housesAvailable>=nr){
-                if(player.getBalance()>= (price*nr)) {
-                    housesAvailable -= nr;
-                    int balance=player.getBalance()-(price*nr);
-                    player.setBalance(balance);
-                }
+            if(player.getBalance()>= (price*nr)) {
+                housesAvailable -= nr;
+                int balance=player.getBalance()-(price*nr);
+                player.setBalance(balance);
+            }
 
         }
 
-
     }
 
-    public void buyHotels(Player player,int nr,int price){
+    public static void buyHotels(Player player,int nr,int price){
         if(hotelsAvailable>=nr){
             if(player.getBalance()>=(nr*price)){
                 hotelsAvailable-=nr;
@@ -66,11 +65,11 @@ public class Bank {
         }
     }
 
-    public int getHousesAvailable(){
+    public static int getHousesAvailable(){
       return housesAvailable;
     }
 
-    public int getHotelsAvailable(){
+    public static int getHotelsAvailable(){
        return hotelsAvailable;
     }
 

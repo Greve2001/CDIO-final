@@ -7,6 +7,7 @@ public class Die {
     public Die(int NROFSIDES){
         this.NROFSIDES=NROFSIDES;
     }
+
     public void roll(){
 
         faceValue=(int)(Math.random() * NROFSIDES ) + 1;
