@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Debug;
 public class Board {
     private final Square[] ALL_SQUARES;
     private final ActionHandler actionHandler;
+    private int jailPosition;
 
 
     //hej
@@ -74,8 +75,10 @@ public class Board {
                             Integer.parseInt(data[position]),
                             false,
                             data[type]
-
                     );
+                    if(data[type].equals("prison")) {
+                        jailPosition = Integer.parseInt(data[position]);
+                    }
                     break;
             }
         }
@@ -130,6 +133,8 @@ public class Board {
     public void setPlayerPosition(Player player, int endPos, boolean goingToJail){
         if (endPos < player.getPosition() && !goingToJail)
             payStartBonus(player);
+        else
+            player.setInJail(true);
         player.setPosition(endPos);
     }
 
@@ -139,5 +144,9 @@ public class Board {
 
     public Square[] getALL_SQUARES(){
         return ALL_SQUARES;
+    }
+
+    public void setPlayerInJail(Player player){
+        setPlayerPosition(player, jailPosition,true);
     }
 }
