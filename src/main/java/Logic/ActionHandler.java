@@ -41,7 +41,7 @@ public class ActionHandler {
         }
     }
 
-    public void streetAction(Player player, Square square) {
+    private void streetAction(Player player, Square square) {
         if (square.getOwner() == null) {
             buySquare(player, square, "buyStreet");
         } else {
@@ -51,7 +51,7 @@ public class ActionHandler {
 
     }
 
-    public void breweryAction(Player player, Square square, int diceSum) {
+    private void breweryAction(Player player, Square square, int diceSum) {
         if (square.getOwner() == null) {
             buySquare(player, square, "buyBrewery");
         } else {
@@ -68,14 +68,14 @@ public class ActionHandler {
 
     }
 
-    public void ferryAction(Player player, Square square) {
+    private void ferryAction(Player player, Square square) {
         if (square.getOwner() == null) {
             buySquare(player, square, "buyFerry");
         }
 
     }
 
-    public void buySquare(Player player, Square square, String msg) {
+    private void buySquare(Player player, Square square, String msg) {
         boolean answer = GUIController.askPlayerAccept(Language.get(msg));
 
         if (answer) {
@@ -85,16 +85,16 @@ public class ActionHandler {
         }
     }
 
-    public void taxAction(Player player, Square square) {
+    private void taxAction(Player player, Square square) {
         bank.payToBank(player, ((Tax) square).getAmount());
     }
 
-    public void incomeTaxAction(Player player, Square square) {
+    private void incomeTaxAction(Player player, Square square) {
         // TODO get percentage from csv
         String[] choices = {Language.get("pay10pct"), "4000 kr."};
         String chosen = GUIController.givePlayerChoice(Language.get("payIncomeTax"), choices);
 
-        if(chosen.equals(choices[0])) {
+        if (chosen.equals(choices[0])) {
             // TODO Calculate player fortune and make the player pay 10% of this to the bank
             bank.payToBank(player, ((IncomeTax) square).getAmount());
         } else {
@@ -102,7 +102,7 @@ public class ActionHandler {
         }
     }
 
-    public void goToPrison(Player player) {
+    private void goToPrison(Player player) {
         board.setPlayerInJail(player);
     }
 
