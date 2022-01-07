@@ -9,6 +9,7 @@ public class Player {
     private int balance;
     private boolean active = true; // Used to determinate when a player gone broken.
     private boolean inJail = false;
+    private int getOutJailCards = 0;
 
     public Player(String name, int startBalance, int startPosition){
         this.name = name;
@@ -65,5 +66,22 @@ public class Player {
     }
     public void setInJail(boolean bool){
         inJail = bool;
+    }
+
+    // Get out of jail
+    // Not sure if all these functions are to be used
+    public void setGetOutJailCards(int amount){
+        getOutJailCards = amount;
+    }
+    public void useOneGetOutOfJailCard(){
+        if (getOutJailCards > 0){
+            getOutJailCards--;
+        }
+    }
+    public void giveOneGetOutOfJailCard() {
+        getOutJailCards++;
+    }
+    public int getGetOutJailCards(){
+        return getOutJailCards;
     }
 }
