@@ -252,12 +252,12 @@ public class GUIController {
         boolean ownable = fields[position].getOwnable();
         if (ownable){
             if (player != null){
-                posToStreet(position).setOwnerName(player.getName());
-                ((GUI_Ownable) posToStreet(position)).setBorder(player.getColor());
+                ((GUI_Ownable) GUIFields[position]).setOwnerName(player.getName());
+                ((GUI_Ownable) GUIFields[position]).setBorder(player.getColor());
                 //TODO set the current rent or make another function for more uses
             }else{
-                posToStreet(position).setOwnerName(null);
-                ((GUI_Ownable) posToStreet(position)).setBorder(null);
+                ((GUI_Ownable) GUIFields[position]).setOwnerName(null);
+                ((GUI_Ownable) GUIFields[position]).setBorder(null);
                 // FOR READERS:
                 // The GUI does not have functionally to remove a already existing border. So when setting it to null it will be black.
             }

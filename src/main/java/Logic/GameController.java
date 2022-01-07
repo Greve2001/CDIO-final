@@ -106,9 +106,7 @@ public class GameController {
 
         // TODO make sure that the player positions then get update in the Board class
         board.updatePlayerPosition(currentPlayer, sum);
-
-        //TODO REMOVE
-        GUIController.movePlayer(currentPlayer, 3);
+        
 
     }
 
