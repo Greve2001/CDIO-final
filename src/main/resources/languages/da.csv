@@ -1,13 +1,14 @@
 translate,varName,comments
 Vælg antallet af spillere: ,enterName
 Ønsker du at købe skødet? ,buyStreet
+
 ,,GameController
 Vælg handling,askAction
-kast terning,choice1
-køb egendom,choice2
+Kast terning,choice1
+Køb egendom,choice2
 
 ,,GUIController
-grund rente,baseRent
+Grund rente,baseRent
 1 hus,1house
 2 huse,2house
 3 huse,3house
@@ -23,6 +24,9 @@ Fængsel,prison
 Parkering,parking
 Vælg antallet af spillere,selectPlayers
 Indtast navn,enterName
+Ekstraordinær skat,extraTax
+Indkomst skat,incomeTax
+Start her!,startHere
 
 ,,GUIErrors
 Ikke en vej. Den kan ikke ejes!,notAStreet
@@ -31,3 +35,4 @@ Fejl. Dette felt er ikke en vej på position: ,notAStreetAt
 ,,General
 Ja,yes
 Nej,no
+Pris,price

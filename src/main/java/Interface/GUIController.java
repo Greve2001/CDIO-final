@@ -60,7 +60,7 @@ public class GUIController {
                     );
                     // TODO changes this to use squares actual rent
                     ((GUI_Ownable) GUIFields[i]).setRent("");
-                    GUIFields[i].setSubText("$Den nuværende rent/pris$");
+                    GUIFields[i].setSubText(Language.get("price") +": " + String.valueOf(fields[i].getPrice()));
                     break;
 
                 // TODO ALT skal implementeres med CSV Reader, det er midlertidigt
@@ -74,7 +74,7 @@ public class GUIController {
                                     Language.get("3ferries") + ": "  + inputSquares[i].getRent()[2] + "<br>" +
                                     Language.get("4ferries") + ": "  + inputSquares[i].getRent()[3] + "<br>"
                     );
-                    GUIFields[i].setSubText("$Den nuværende rent/pris$");
+                    GUIFields[i].setSubText(Language.get("price") +": " + String.valueOf(fields[i].getPrice()));
                     break;
 
                 case "brewery" :
@@ -83,7 +83,7 @@ public class GUIController {
                     GUIFields[i].setDescription(Language.get("1brewery") +
                             "<br><br>" +
                             Language.get("2brewery"));
-                    GUIFields[i].setSubText("Den nuværende rent/pris");
+                    GUIFields[i].setSubText(Language.get("price") +": " + String.valueOf(fields[i].getPrice()));
                     break;
 
                 case "chance" :
@@ -103,9 +103,17 @@ public class GUIController {
                     GUIFields[i].setSubText("");
                     break;
 
-                case "incomeTax", "tax" :
+                case "incomeTax" :
                     GUIFields[i] = new GUI_Tax();
                     GUIFields[i].setBackGroundColor(Color.red);
+                    GUIFields[i].setDescription(Language.get("incomeTax"));
+                    GUIFields[i].setSubText("");
+                    break;
+
+                case "tax" :
+                    GUIFields[i] = new GUI_Tax();
+                    GUIFields[i].setBackGroundColor(Color.red);
+                    GUIFields[i].setDescription(Language.get("extraTax"));
                     GUIFields[i].setSubText("");
                     break;
 
@@ -118,7 +126,8 @@ public class GUIController {
                 case "start" : // Parkering
                     GUIFields[i] = new GUI_Start();
                     GUIFields[i].setBackGroundColor(Color.red);
-                    GUIFields[i].setSubText("");
+                    GUIFields[i].setDescription(Language.get("startHere"));
+                    GUIFields[i].setSubText(Language.get("startHere"));
                     break;
 
                 default:
@@ -240,7 +249,8 @@ public class GUIController {
     public static void setOwner(Player player, int position){
         if (testing) return;
 
-        if (posToStreet(position) != null){
+        boolean ownable = fields[position].getOwnable();
+        if (ownable){
             if (player != null){
                 posToStreet(position).setOwnerName(player.getName());
                 ((GUI_Ownable) posToStreet(position)).setBorder(player.getColor());
@@ -251,16 +261,15 @@ public class GUIController {
                 // FOR READERS:
                 // The GUI does not have functionally to remove a already existing border. So when setting it to null it will be black.
             }
-
         }else{
             System.out.println(Language.get("notAStreet"));
         }
     }
 
-    public static void updateRent(int position){
+    public static void updateRent(int position, int currentCost){
         if (testing) return;
 
-        GUIFields[position].setSubText(String.valueOf(gameBoard.getCurrentCost(position)));
+        GUIFields[position].setSubText(String.valueOf(currentCost));
     }
 
     private static GUI_Street posToStreet(int position){

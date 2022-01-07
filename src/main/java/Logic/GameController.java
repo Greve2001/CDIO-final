@@ -50,7 +50,7 @@ public class GameController {
         currentPlayer = players[0];
     }
 
-    public void playGame() {
+    public void playGame() throws InterruptedException {
         do {
             // Ask if want to buy houses etc.
             String msg = currentPlayer.getName() + ": " + Language.get("askAction");
@@ -86,7 +86,7 @@ public class GameController {
         // Stop game. Find winner
     }
 
-    private void takeTurn() {
+    private void takeTurn() throws InterruptedException {
         // Roll dice and get results
         diceCup.rollDice();
         int[] faceValues = diceCup.getFaceValues();
@@ -106,6 +106,9 @@ public class GameController {
 
         // TODO make sure that the player positions then get update in the Board class
         board.updatePlayerPosition(currentPlayer, sum);
+
+        //TODO REMOVE
+        GUIController.movePlayer(currentPlayer, 3);
 
     }
 
