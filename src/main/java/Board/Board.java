@@ -91,34 +91,6 @@ public class Board {
         return result;
     }
 
-    public void handleField(Player currentPlayer){
-        Square square = ALL_SQUARES[currentPlayer.getPosition()];
-        if (square.getOwnable()){ //check if player land on a Street, Ferry or Brewery.
-            if (square.getOwner() == null){
-                //TODO logik to handle purchase
-            }
-            else{
-                switch (square.getName()){
-                    case "Street":
-                }
-            }
-        }
-        else {
-            if (square.getName().equals("Tax")) {
-                Tax tempSquare = (Tax) square;
-                actionHandler.bank().payToBank(currentPlayer, tempSquare.getAmount());
-            } else if (square.getName().equals("IncomeTax")) {
-                IncomeTax tempSquare = (IncomeTax) square;
-                actionHandler.bank().payToBank(currentPlayer, tempSquare.getAmount());
-                //TODO dicision if you want to pay 10% or 4000
-            } else if (square.getName().equals("ChanceCard")){
-                //TODO logic
-            } else if(square.getName().equals("GoToJain")){
-                setPlayerPosition(currentPlayer,10, true);
-            }
-        }
-    }
-
     public boolean hasMonopoly(int position, Player... player) {
         String color = ALL_SQUARES[position].getColor();
         Player owner = ALL_SQUARES[position].getOwner();
@@ -145,7 +117,7 @@ public class Board {
 
         if (diceValue == Math.abs(diceValue) && sum >= boardSize){
             endPosition = sum - boardSize;
-            payStartBonus(player, false);
+            payStartBonus(player);
             }
         else if (sum < 0)
             endPosition = sum + boardSize;
@@ -161,9 +133,8 @@ public class Board {
         player.setPosition(endPos);
     }
 
-    public void payStartBonus(Player currentPlayer, boolean... goingToJail) {
-        if (!goingToJail[0])
-            actionHandler.bank().payPlayer(currentPlayer, 4000);
+    public void payStartBonus(Player currentPlayer) {
+        actionHandler.bank().payPlayer(currentPlayer, 4000);
     }
 
     public Square[] getALL_SQUARES(){
