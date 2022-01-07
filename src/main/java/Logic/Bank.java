@@ -7,8 +7,12 @@ public class Bank {
     private int hotelsAvailable = 20;
 
     public static void payToBank(Player player, int amount){
-       int balance=player.getBalance()-amount;
-       player.setBalance(balance);
+        if(player.getBalance()>=amount){
+            player.setBalance(player.getBalance()-amount);
+        }
+        else{
+            player.setBalance(0);
+        }
     }
 
     /**
@@ -19,11 +23,16 @@ public class Bank {
     public static void payToPlayer(Player player,int amount,Player... players){
        int balance;
         for(int i=0; i<players.length; i++){
-            balance=players[i].getBalance()-amount;
-            players[i].setBalance(balance);
+            if(players[i].getBalance()>=amount){
+                player.setBalance(player.getBalance()+amount);
 
-            balance=player.getBalance()+amount;
-            player.setBalance(balance);
+                players[i].setBalance(players[i].getBalance()-amount);
+            }
+            else{
+                player.setBalance(player.getBalance()+players[i].getBalance());
+
+                players[i].setBalance(0);
+            }
         }
     }
 
