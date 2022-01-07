@@ -97,7 +97,7 @@ public class GameController {
             doublesRolled++;
 
             // If 3 doubles are rolled, go to jail
-            // TODO
+            board.setPlayerInJail(currentPlayer);
         }
 
         // TODO make sure that the player positions then get update in the Board class
