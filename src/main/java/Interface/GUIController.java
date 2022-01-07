@@ -10,6 +10,9 @@ import java.awt.*;
 
 public class GUIController {
 
+    //TODO overall
+    //TODO Implement Language for all text
+
     //OBS OBS OBS OBS
     // This variable is to toggle for testing purposes. This allows us to test classes that have the GUI
     // incoorperated in them, by itself.
@@ -65,18 +68,27 @@ public class GUIController {
                 case "ferry" :
                     GUIFields[i] = new GUI_Shipping();
                     GUIFields[i].setBackGroundColor(Color.white);
+                    GUIFields[i].setDescription( // Rents
+                            "Base rent: " + inputSquares[i].getRent()[0] + "<br>" +
+                                    "Owns 2 ferries: " + inputSquares[i].getRent()[1] + "<br>" +
+                                    "Owns 3 ferries: " + inputSquares[i].getRent()[2] + "<br>" +
+                                    "Owns 4 ferries: " + inputSquares[i].getRent()[3] + "<br>"
+                    );
                     GUIFields[i].setSubText("Den nuværende rent/pris");
                     break;
 
                 case "brewery" :
                     GUIFields[i] = new GUI_Brewery();
                     GUIFields[i].setBackGroundColor(Color.pink);
+                    GUIFields[i].setDescription("Owns 1 brewery: <br>Pay 100x the number of eyes on the dice." + "<br><br>" +
+                            "Owns 2 breweries: <br>Pay 200x the number of eyes of the dice");
                     GUIFields[i].setSubText("Den nuværende rent/pris");
                     break;
 
                 case "chance" :
                     GUIFields[i] = new GUI_Chance();
                     GUIFields[i].setBackGroundColor(Color.pink);
+                    GUIFields[i].setDescription("Pull a chancecard and do the action the card tells you.");
                     GUIFields[i].setSubText("");
                     break;
 
@@ -236,7 +248,7 @@ public class GUIController {
                 posToStreet(position).setOwnerName(null);
                 ((GUI_Ownable) posToStreet(position)).setBorder(null);
                 // FOR READERS:
-                // The GUI does not have functionally to remove a already existing border. So when setting it to null i will be black.
+                // The GUI does not have functionally to remove a already existing border. So when setting it to null it will be black.
             }
 
         }else{
@@ -247,8 +259,7 @@ public class GUIController {
     public static void updateRent(int position){
         if (testing) return;
 
-        // TODO
-        //GUIFields[position].setSubText(String.valueOf(board.getCurrentCost(position)));
+        GUIFields[position].setSubText(String.valueOf(gameBoard.getCurrentCost(position)));
     }
 
     private static GUI_Street posToStreet(int position){
