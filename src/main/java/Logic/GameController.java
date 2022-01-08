@@ -53,28 +53,30 @@ public class GameController {
 
     public void playGame() throws InterruptedException {
         do {
-            // Ask if want to buy houses etc.
-            String msg = currentPlayer.getName() + ": " + Language.get("askAction");
-            String[] choices = new String[]{Language.get("choice1"), Language.get("choice2")};
-            String answer = GUIController.givePlayerChoice(msg, choices);
-
-            String case1 = Language.get("choice1");
-            String case2 = Language.get("choice2");
-
-
-            if (currentPlayer.isInJail()){ // In jail
+            if (currentPlayer.isInJail()){ // In jail. No other options
                 jailAttempt();
 
-            } else if (answer.equals(case1)){ // Throw Dice
-                takeTurn();
+            } else { // Not in jail. Options to choose from
 
-            } else if(answer.equals(case2)){ // Buy Property
-                // Make more indepth logic to buy houses, hotels, sell them, place them
-                // Temp text for GUI. REMOVE
-                GUIController.getPlayerAction(currentPlayer, Language.get("choice2"));
+                // Ask if want to buy houses etc.
+                String msg = currentPlayer.getName() + ": " + Language.get("askAction");
+                String[] choices = new String[]{Language.get("choice1"), Language.get("choice2")};
+                String answer = GUIController.givePlayerChoice(msg, choices);
 
-                // When done buying, take turn.
-                takeTurn();
+                String case1 = Language.get("choice1");
+                String case2 = Language.get("choice2");
+
+                if (answer.equals(case1)){ // Throw Dice
+                    takeTurn();
+
+                } else if(answer.equals(case2)){ // Buy Property
+                    // Make more indepth logic to buy houses, hotels, sell them, place them
+                    // Temp text for GUI. REMOVE
+                    GUIController.getPlayerAction(currentPlayer, Language.get("choice2"));
+
+                    // When done buying, take turn.
+                    takeTurn();
+                }
             }
 
             if (!hasExtraTurn){
@@ -83,7 +85,6 @@ public class GameController {
             }
 
             hasExtraTurn = false; // Make sure that extra turn is reset
-
 
         }while (playersLeft != 1);
         // Stop game. Find winner
@@ -104,12 +105,14 @@ public class GameController {
             doublesRolled++;
 
             // If 3 doubles are rolled, go to jail
-            board.setPlayerInJail(currentPlayer);
+            if (doublesRolled >= 3){
+                board.setPlayerInJail(currentPlayer);
+            }
+
         }
 
         // TODO make sure that the player positions then get update in the Board class
         board.updatePlayerPosition(currentPlayer, diceSum(faceValues));
-        
 
     }
 
