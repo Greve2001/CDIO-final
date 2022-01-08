@@ -1,5 +1,6 @@
 package Board;
 
+import Interface.GUIController;
 import Logic.ActionHandler;
 import Logic.DiceCup;
 import Logic.Player;
@@ -12,6 +13,7 @@ public class Board {
 
     public Board(DiceCup diceCup){
         actionHandler = new ActionHandler(this);
+
         CSVReader reader;
         try {
             reader = new CSVReader(System.getProperty("user.language") + "_board.csv", ",", true);
@@ -130,6 +132,9 @@ public class Board {
             endPosition = sum;
 
         player.setPosition(endPosition);
+        System.out.println(player.getName() + " " + player.getPosition());
+
+        GUIMove(player);
     }
     
     public void setPlayerPosition(Player player, int endPos, boolean goingToJail){
@@ -138,6 +143,16 @@ public class Board {
         else
             player.setInJail(true);
         player.setPosition(endPos);
+
+        GUIMove(player);
+    }
+
+    private void GUIMove(Player player){
+        try { // Only to handle errors made from the GUI
+            GUIController.movePlayer(player, player.getPosition());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void payStartBonus(Player currentPlayer) {

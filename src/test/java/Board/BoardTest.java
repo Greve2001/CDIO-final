@@ -1,5 +1,6 @@
 package Board;
 
+import Logic.DiceCup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import Logic.Player;
@@ -12,7 +13,7 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board();
+        board = new Board(new DiceCup());
         player = new Player("test", 30000, 0);
     }
 
