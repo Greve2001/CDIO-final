@@ -131,8 +131,10 @@ public class Board {
         else
             endPosition = sum;
 
+        int startPos = player.getPosition();
         player.setPosition(endPosition);
-        GUIMove(player);
+        GUIMove(player, startPos, diceValue);
+
         actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], diceValue);
     }
     
@@ -142,14 +144,24 @@ public class Board {
         else
             player.setInJail(true);
 
+        int startPos = player.getPosition();
         player.setPosition(endPos);
-        GUIMove(player);
+        GUIMove(player, startPos, calculateSpaceToMove(startPos, endPos));
+
         actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], 0);
     }
 
-    private void GUIMove(Player player){
+    private int calculateSpaceToMove(int startPosition, int endPosition){
+        if (startPosition < endPosition){
+            return endPosition - startPosition;
+        }else{
+            return (endPosition + ALL_SQUARES.length) - startPosition;
+        }
+    }
+
+    private void GUIMove(Player player, int startPos, int spaceToMove){
         try { // Only to handle errors made from the GUI
-            GUIController.movePlayer(player, player.getPosition());
+            GUIController.movePlayer(player, startPos ,spaceToMove);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

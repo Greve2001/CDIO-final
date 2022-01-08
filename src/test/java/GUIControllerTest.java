@@ -14,8 +14,5 @@ class GUIControllerTest {
 
         GUIController controller = new GUIController(board);
 
-
-
-
     }
 }
