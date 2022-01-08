@@ -132,8 +132,6 @@ public class Board {
             endPosition = sum;
 
         player.setPosition(endPosition);
-        System.out.println(player.getName() + " " + player.getPosition());
-
         GUIMove(player);
     }
     
@@ -142,8 +140,8 @@ public class Board {
             payStartBonus(player);
         else
             player.setInJail(true);
-        player.setPosition(endPos);
 
+        player.setPosition(endPos);
         GUIMove(player);
     }
 

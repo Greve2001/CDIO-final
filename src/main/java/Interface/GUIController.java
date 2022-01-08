@@ -178,12 +178,13 @@ public class GUIController {
 
         // Calculate distance to move
         int playerStartPos = getPlayerPosition(player);
+        System.out.println(player.getName() + " " + playerStartPos);
         int deltaSquares = destination - playerStartPos;
         int time = moveTime * deltaSquares; // Number of frames
 
         for (int i = 1; i <= deltaSquares; i++) {
             // Get informations
-            GUI_Field toField = gui.getFields()[i];
+            GUI_Field toField = gui.getFields()[i+playerStartPos];
             int guiPlayerIndex = getGuiPlayerIndex(player);
 
             // Set the car
