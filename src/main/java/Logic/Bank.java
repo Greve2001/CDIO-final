@@ -1,5 +1,7 @@
 package Logic;
 
+import Interface.GUIController;
+
 import java.lang.reflect.Field;
 
 public class Bank {
@@ -13,6 +15,7 @@ public class Bank {
         else{
             player.setBalance(0);
         }
+        GUIController.setPlayerBalance(player, player.getBalance());
     }
 
     /**
@@ -33,13 +36,16 @@ public class Bank {
 
                 players[i].setBalance(0);
             }
+            GUIController.setPlayerBalance(player, player.getBalance());
+            GUIController.setPlayerBalance(players[i], players[i].getBalance());
         }
     }
 
     //this method is responsible for bank to pay to a player
     public static void payPlayer(Player player,int amount){
-       int balance=player.getBalance()+amount;
-       player.setBalance(balance);
+        int balance=player.getBalance()+amount;
+        player.setBalance(balance);
+        GUIController.setPlayerBalance(player, player.getBalance());
     }
 
     public static void buyHouses(Player player,int nr, int price){
