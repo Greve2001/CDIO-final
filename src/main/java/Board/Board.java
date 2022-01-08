@@ -133,6 +133,7 @@ public class Board {
 
         player.setPosition(endPosition);
         GUIMove(player);
+        actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], diceValue);
     }
     
     public void setPlayerPosition(Player player, int endPos, boolean goingToJail){
@@ -143,6 +144,7 @@ public class Board {
 
         player.setPosition(endPos);
         GUIMove(player);
+        actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], 0);
     }
 
     private void GUIMove(Player player){
