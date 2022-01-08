@@ -46,6 +46,7 @@ public class GameController {
         players = new Player[playerNames.length];
         for (int i = 0; i < playerNames.length; i++){
             players[i] = new Player(playerNames[i], START_MONEY, 0);
+            players[i].setColor(GUIController.getPlayerColors()[i]);
         }
         playersLeft = players.length;
         currentPlayer = players[0];

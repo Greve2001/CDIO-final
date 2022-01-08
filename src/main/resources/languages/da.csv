@@ -38,3 +38,7 @@ Fejl. Dette felt er ikke en vej på position: ,notAStreetAt
 Ja,yes
 Nej,no
 Pris,price
+
+,,ActionHandler
+Betal 10%,pay10pct
+Betal indkomstskat.,payIncomeTax
