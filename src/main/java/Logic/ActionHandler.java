@@ -50,7 +50,7 @@ public class ActionHandler {
             int amountToPay = board.getCurrentCost(square.getPOSITION());
 
             if (!square.getOwner().isInJail())
-                Bank.payToPlayer(square.getOwner(), amountToPay, player);
+                bank.payToPlayer(square.getOwner(), amountToPay, player);
         }
 
     }
@@ -67,8 +67,8 @@ public class ActionHandler {
             } else {
                 priceToPay = diceSum * square.getRent()[1];
             }
-            if (!square.getOwner().isInJail()) //TODO man kan godt modtage penge selvom man er i fængsel
-                Bank.payToPlayer(square.getOwner(), priceToPay, player);
+            if (!square.getOwner().isInJail())
+                bank.payToPlayer(square.getOwner(), priceToPay, player);
         }
 
     }
@@ -91,14 +91,14 @@ public class ActionHandler {
         boolean answer = GUIController.askPlayerAccept(Language.get(msg));
 
         if (answer) {
-            Bank.payToBank(player, square.getPrice());
+            bank.payToBank(player, square.getPrice());
             square.setOwner(player);
             GUIController.setOwner(player, square.getPOSITION());
         }
     }
 
     private void taxAction(Player player, Square square) {
-        Bank.payToBank(player, ((Tax) square).getAmount());
+        bank.payToBank(player, ((Tax) square).getAmount());
     }
 
     private void incomeTaxAction(Player player, Square square) {
@@ -108,9 +108,9 @@ public class ActionHandler {
 
         if (chosen.equals(choices[0])) {
             // TODO Calculate player fortune and make the player pay 10% of this to the bank
-            Bank.payToBank(player, ((IncomeTax) square).getAmount());
+            bank.payToBank(player, ((IncomeTax) square).getAmount());
         } else {
-            Bank.payToBank(player, ((IncomeTax) square).getAmount());
+            bank.payToBank(player, ((IncomeTax) square).getAmount());
         }
     }
 
@@ -122,7 +122,7 @@ public class ActionHandler {
 
     }
 
-    public Bank getBank() {
-        return bank;
+    public void boardPaymentsToBank(Player player, int amount){
+        bank.payToBank(player, amount);
     }
 }
