@@ -10,15 +10,33 @@ public class Deck {
     public Deck(){
         this.chanceCardDeck = new ChanceCard[6];
 
-        chanceCardDeck[0] = new PayMoneyChanceCard(1000);
-        chanceCardDeck[1] = new PayMoneyChanceCard(300);
-        chanceCardDeck[2] = new ReceiveMoneyChanceCard(500);
-        chanceCardDeck[3] = new ReceiveMoneyChanceCard(1000);
-        chanceCardDeck[4] = new MoveFieldsChanceCard(3);
-        chanceCardDeck[5] = new MoveFieldsChanceCard(-3);
+        chanceCardDeck[0] = new PayMoneyCard(1000);
+        chanceCardDeck[1] = new PayMoneyCard(300);
+        chanceCardDeck[2] = new ReceiveMoneyCard(500);
+        chanceCardDeck[3] = new ReceiveMoneyCard(1000);
+        chanceCardDeck[4] = new MoveFieldsCard(3);
+        chanceCardDeck[5] = new MoveFieldsCard(-3);
 
     }
 
+    /**
+     * One-argument constructor, that initializes the deck with the input array.
+     * Primarily used for unit-testing.
+     *
+     * @param chanceCards
+     */
+    public Deck(ChanceCard[] chanceCards){
+        if (chanceCards == null){
+            throw new IllegalArgumentException("You cannot initialize an empty array.");
+        }else {
+            this.chanceCardDeck = chanceCards;
+        }
+
+    }
+
+    /**
+     * @returns the ChanceCard that is currently at the top of the deck.
+     */
     public ChanceCard pullCard() {
         try {
             return chanceCardDeck[drawCardCount++];
