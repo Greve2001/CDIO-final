@@ -220,4 +220,14 @@ public class Board {
         return result;
     }
 
+    public int amountOwnedWithinTheColor(int position){
+        int result = 0;
+        String color = ALL_SQUARES[position].getColor();
+        for (Square field: ALL_SQUARES){
+            if (field.getColor().equals(color))
+                result++;
+        }
+        return result;
+    }
+
 }

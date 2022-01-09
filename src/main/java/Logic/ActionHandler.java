@@ -59,7 +59,7 @@ public class ActionHandler {
         if (square.getOwner() == null) {
             buySquare(player, square, "buyBrewery");
         } else {
-            boolean payDouble = board.hasMonopoly(square.getPOSITION(), square.getOwner());
+            boolean payDouble = board.amountOwnedWithinTheColor(square.getPOSITION()) == 2;
 
             int priceToPay;
             if (!payDouble) {
@@ -67,7 +67,7 @@ public class ActionHandler {
             } else {
                 priceToPay = diceSum * square.getRent()[1];
             }
-            if (!square.getOwner().isInJail())
+            if (!square.getOwner().isInJail()) //TODO man kan godt modtage penge selvom man er i fængsel
                 Bank.payToPlayer(square.getOwner(), priceToPay, player);
         }
 
@@ -78,6 +78,10 @@ public class ActionHandler {
             buySquare(player, square, "buyFerry");
             // Use this when making payment method:
             // if (!square.getOwner().isInJail())
+        }
+        else{
+            int amountOwned = board.amountOwnedWithinTheColor(square.getPOSITION());
+            int amountToPay = square.getCurrentCost()
         }
 
     }
