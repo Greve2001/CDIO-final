@@ -8,10 +8,12 @@ public class ChanceCardLogic {
 
     Board board;
     Deck deck;
+    Bank bank;
 
-    public ChanceCardLogic(Board board) {
+    public ChanceCardLogic(Board board, Bank bank) {
         this.deck = new Deck();
         this.board = board;
+        this.bank = bank;
     }
 
     /**
@@ -44,7 +46,7 @@ public class ChanceCardLogic {
     private void handleReceiveMoney(ChanceCard card, Player player){
         int amount = card.updateBalancePositive();
         if (amount != 0) {
-            Bank.payPlayer(player, amount);
+            bank.payPlayer(player, amount);
         }
     }
 
@@ -53,24 +55,8 @@ public class ChanceCardLogic {
     private void handlePayMoney(ChanceCard card, Player player){
         int amount = card.updateBalanceNegative();
         if (amount != 0) {
-            Bank.payToBank(player, amount);
+            bank.payToBank(player, amount);
         }
     }
-
-
-
-
-
-
-
-
-    public int chanceCardPayment (int pricePerHouse, int pricePerHotel){
-
-    int houseTax = currentPlayer.numberOfHouses*pricePerHouse;
-    int hotelTax = currentPlayer.numberOfHotels*pricePerHotel;
-
-    int mustPay = houseTax + hotelTax;
-
-    return mustPay;
-    }
+    
 }
