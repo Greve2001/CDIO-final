@@ -13,6 +13,8 @@ public class Board {
 
     public Board(DiceCup diceCup){
         actionHandler = new ActionHandler(this);
+        
+        int passStartAmount = 4000;
 
         CSVReader reader;
         try {
@@ -39,8 +41,16 @@ public class Board {
                     );
                     break;
                 case "ferry":
+                    ALL_SQUARES[Integer.parseInt(data[position])] = new Ferry(
+                            data[name],
+                            Integer.parseInt(data[position]),
+                            data[type],
+                            data[color],
+                            stringArrayToIntArray(data, data[type]),
+                            Integer.parseInt(data[price])
+                    );
                 case "brewery":
-                    ALL_SQUARES[Integer.parseInt(data[position])] = new Ownable(
+                    ALL_SQUARES[Integer.parseInt(data[position])] = new Brewery(
                             data[name],
                             Integer.parseInt(data[position]),
                             data[type],
@@ -64,16 +74,39 @@ public class Board {
                             Integer.parseInt(data[percentagePrice])
                     );
                     break;
-                default:
-                    ALL_SQUARES[Integer.parseInt(data[position])] = new Square(
+                case "start":
+                    ALL_SQUARES[Integer.parseInt(data[position])] = new Start(
                             data[name],
                             Integer.parseInt(data[position]),
-                            false,
-                            data[type]
+                            passStartAmount
                     );
-                    if(data[type].equals("prison")) {//check if the type is prison, and save it for later uses
-                        jailPosition = Integer.parseInt(data[position]);
-                    }
+                    break;
+                case "chance":
+                    ALL_SQUARES[Integer.parseInt(data[position])] = new Chance(
+                            data[name],
+                            Integer.parseInt(data[position])
+                    );
+                    break;
+                case "prison":
+                    ALL_SQUARES[Integer.parseInt(data[position])] = new Prison(
+                            data[name],
+                            Integer.parseInt(data[position])
+                    );
+                    jailPosition = Integer.parseInt(data[position]);
+                case "goToPrison":
+                    ALL_SQUARES[Integer.parseInt(data[position])] = new GoToPrison(
+                            data[name],
+                            Integer.parseInt(data[position])
+                    );
+                    break;
+                case "refugee":
+                    ALL_SQUARES[Integer.parseInt(data[position])] = new Refugee(
+                            data[name],
+                            Integer.parseInt(data[position])
+                    );
+                    break;
+                default:
+                    //TODO error handling
                     break;
             }
         }
@@ -99,20 +132,20 @@ public class Board {
     }
 
     public boolean hasMonopoly(int position, Player... player) {
-        String color = ALL_SQUARES[position].getColor();
-        Player owner = ALL_SQUARES[position].getOwner();
-        boolean result = false;
-
-        if (owner != null && !ALL_SQUARES[position].getOwnable()) {
-            result = true;
-            if (player != null) //handle out of bounce
-                owner = player[0];
-
-            for (Square square : ALL_SQUARES) {
-                if (square.getColor().equals(color) && !square.getOwner().equals(owner))
-                    result = false;
+            String color = ALL_SQUARES[position].getColor();
+            Player owner = ALL_SQUARES[position].getOwner();
+            boolean result = false;
+        
+            if (owner != null && !ALL_SQUARES[position].getOwnable()) {
+                result = true;
+                if (player != null) //handle out of bounce
+                    owner = player[0];
+        
+                for (Square square : ALL_SQUARES) {
+                    if (square.getColor().equals(color) && !square.getOwner().equals(owner))
+                        result = false;
+                }
             }
-        }
         return result;
     }
 

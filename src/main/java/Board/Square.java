@@ -2,14 +2,13 @@ package Board;
 
 import Logic.Player;
 
-public class Square {
+abstract class Square {
     private final String NAME;
     private final int POSITION;
 
-    private final boolean ownable;
     private final String type;
 
-    public Square (String name, int position, boolean ownable, String type)
+    public Square (String name, int position)
     {
         this.NAME = name;
         this.POSITION = position;
@@ -26,7 +25,7 @@ public class Square {
     }
 
     public boolean getOwnable(){
-        return ownable;
+        return false;
     }
 
     public String getType(){
