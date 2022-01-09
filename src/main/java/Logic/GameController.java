@@ -33,7 +33,7 @@ public class GameController {
     public void setupGame() {
         Language.getInstance();
         diceCup = new DiceCup();
-        board = new Board(diceCup);
+        board = new Board();
 
         GUIController gui = new GUIController(board);
 
@@ -53,11 +53,14 @@ public class GameController {
     }
 
     public void playGame() throws InterruptedException {
+        boolean allowedDicision;
         do {
+            allowedDicision = true;
             if (currentPlayer.isInJail()){ // In jail. No other options
-                jailAttempt();
+                allowedDicision = jailAttempt();
 
-            } else { // Not in jail. Options to choose from
+            }
+            if (allowedDicision){ // Not in jail or gotten out in good standing.
 
                 // Ask if want to buy houses etc.
                 String msg = currentPlayer.getName() + ": " + Language.get("askAction");
@@ -128,40 +131,53 @@ public class GameController {
         }
     }
 
-    private void jailAttempt(){
+    private boolean jailAttempt() {
         // Give player choices between paying or trying to throw dice
         String msg = "Choose";
-        String[] choices = {"Attempt Escaping", "Pay 1000"}; // Make Dynamic
+
+        //construction the different disicions the player have access to
+        String[] choices = new String[3];
+        choices[0] = "Attempt Escaping";
+        choices[1] = "Pay 1000";
+        if (currentPlayer.getGetOutJailCards() > 0)
+            choices[2] = "Use escape Card"; // Make Dynamic
         String answer = GUIController.givePlayerChoice(msg, choices);
 
-        if (answer.equals(choices[0])){ // Attempt escaping
-            // Throw Dice
-            diceCup.rollDice();
-            int[] diceRoll = diceCup.getFaceValues();
-            GUIController.showDice(diceRoll);
+        boolean forcedToMove = false, haveToPay = false, usedChanceCard = false;
+        boolean result = true;
 
-            // See if doubles
-            if (isDoubles(diceRoll)){
-                escapeJail(diceSum(diceRoll));
+        switch (answer){
+            case "Attempt Escaping":
+                forcedToMove = true;//if player escape, they are forced to move what ever they rolled
 
-            } else {
-                currentPlayer.addJailEscapeAttempt();
+                // Throw Dice
+                diceCup.rollDice();
+                int[] diceRoll = diceCup.getFaceValues();
+                GUIController.showDice(diceRoll);
 
-                if (currentPlayer.getJailEscapeAttempts() >= 3){
-                    Bank.payToBank(currentPlayer, BRIBE);
+                // See if doubles
+                if (!isDoubles(diceRoll)) {
+                    result = false;
+                    currentPlayer.addJailEscapeAttempt();
+                    if (currentPlayer.getJailEscapeAttempts() >= 3) {
+                        haveToPay = true;
+                        result = true;
+                    }
                 }
-                escapeJail(diceSum(diceRoll));
-            }
-
-        } else { // Pay the bribe
-            Bank.payToBank(currentPlayer, BRIBE);
-
+                break;
+            case "Pay 1000":
+                haveToPay = true;
+                break;
+            case "Use escape Card":
+                usedChanceCard = true;
+                break;
+            default:
+                //TODO exeption handling?!
+                break;
         }
-    }
-    private void escapeJail(int diceSum){
-        currentPlayer.setInJail(false); // Break out of jail
-        currentPlayer.resetJailEscapeAttempts();
-        board.updatePlayerPosition(currentPlayer, diceSum);
+        if(result)
+            board.escapeJail(currentPlayer, diceCup.getSum(),forcedToMove, haveToPay, usedChanceCard);
+        return !forcedToMove;
     }
 
     private boolean isDoubles(int[] faceValues){

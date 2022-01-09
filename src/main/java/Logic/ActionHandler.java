@@ -13,26 +13,26 @@ public class ActionHandler {
     }
 
     public void squareAction(Player player, Square square, int diceSum) {
-        switch (square.getType()) {
-            case "street":
+        switch (square.getClass().getSimpleName()) {
+            case "Street":
                 streetAction(player, square);
                 break;
-            case "brewery":
+            case "Brewery":
                 breweryAction(player, square, diceSum);
                 break;
-            case "ferry":
+            case "Ferry":
                 ferryAction(player, square);
                 break;
-            case "tax":
+            case "Tax":
                 taxAction(player, square);
                 break;
-            case "incomeTax":
+            case "IncomeTax":
                 incomeTaxAction(player, square);
                 break;
-            case "chance":
+            case "Chance":
                 cardAction(player);
                 break;
-            case "goToPrison":
+            case "GoToPrison":
                 goToPrison(player);
                 break;
             default:
@@ -50,7 +50,7 @@ public class ActionHandler {
             int amountToPay = board.getCurrentCost(square.getPOSITION());
 
             if (!square.getOwner().isInJail())
-                Bank.payToPlayer(square.getOwner(), amountToPay, player);
+                bank.payToPlayer(square.getOwner(), amountToPay, player);
         }
 
     }
@@ -59,7 +59,7 @@ public class ActionHandler {
         if (square.getOwner() == null) {
             buySquare(player, square, "buyBrewery");
         } else {
-            boolean payDouble = board.hasMonopoly(square.getPOSITION(), square.getOwner());
+            boolean payDouble = board.amountOwnedWithinTheColor(square.getPOSITION()) == 2;
 
             int priceToPay;
             if (!payDouble) {
@@ -68,7 +68,7 @@ public class ActionHandler {
                 priceToPay = diceSum * square.getRent()[1];
             }
             if (!square.getOwner().isInJail())
-                Bank.payToPlayer(square.getOwner(), priceToPay, player);
+                bank.payToPlayer(square.getOwner(), priceToPay, player);
         }
 
     }
@@ -79,6 +79,11 @@ public class ActionHandler {
             // Use this when making payment method:
             // if (!square.getOwner().isInJail())
         }
+        else{
+            int amountOwned = board.amountOwnedWithinTheColor(square.getPOSITION());
+            int amountToPay = square.getCurrentCost(amountOwned);
+            bank.payToPlayer(player, amountToPay, square.getOwner());
+        }
 
     }
 
@@ -86,14 +91,14 @@ public class ActionHandler {
         boolean answer = GUIController.askPlayerAccept(Language.get(msg));
 
         if (answer) {
-            Bank.payToBank(player, square.getPrice());
+            bank.payToBank(player, square.getPrice());
             square.setOwner(player);
             GUIController.setOwner(player, square.getPOSITION());
         }
     }
 
     private void taxAction(Player player, Square square) {
-        Bank.payToBank(player, ((Tax) square).getAmount());
+        bank.payToBank(player, ((Tax) square).getAmount());
     }
 
     private void incomeTaxAction(Player player, Square square) {
@@ -103,9 +108,9 @@ public class ActionHandler {
 
         if (chosen.equals(choices[0])) {
             // TODO Calculate player fortune and make the player pay 10% of this to the bank
-            Bank.payToBank(player, ((IncomeTax) square).getAmount());
+            bank.payToBank(player, ((IncomeTax) square).getAmount());
         } else {
-            Bank.payToBank(player, ((IncomeTax) square).getAmount());
+            bank.payToBank(player, ((IncomeTax) square).getAmount());
         }
     }
 
@@ -117,7 +122,7 @@ public class ActionHandler {
 
     }
 
-    public Bank getBank() {
-        return bank;
+    public void boardPaymentsToBank(Player player, int amount){
+        bank.payToBank(player, amount);
     }
 }

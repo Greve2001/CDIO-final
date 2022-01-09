@@ -4,8 +4,8 @@ public class Die {
     private int faceValue;
     private int NROFSIDES;
 
-    public Die(int NROFSIDES){
-        this.NROFSIDES=NROFSIDES;
+    public Die(int nrOfSides){
+        this.NROFSIDES=nrOfSides;
     }
 
     public void roll(){

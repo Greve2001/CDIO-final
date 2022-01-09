@@ -1,0 +1,57 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam groupInheritance 2
+
+class GameController
+
+package Board{
+class Board
+
+abstract class Square{
+    -NAME: String
+    -POSITION: int
+}
+abstract class Ownable{
+    -COLOR: String
+    -RENT: int[]
+    -PRICE: int
+    -owner: Player
+    -pledge: boolean
+
+    +getCurrentCost()
+}
+
+class Street{
+    -amountOfHouses: int
+}
+class Ferry
+class Brewery
+
+class Chance
+class GoToPrison
+class Tax
+class IncomeTax
+class Prison
+class Refugee
+class Start
+}
+
+GameController *-d- Board
+Board *-d- Square
+
+Square <|--Ownable
+Square <|--Chance
+Square <|--GoToPrison
+Square <|--Tax
+Square <|--IncomeTax
+Square <|--Prison
+Square <|-- Refugee
+Square <|--Start
+
+Ownable <|-- Street
+Ownable <|-- Ferry
+Ownable <|-- Brewery
+
+
+@enduml

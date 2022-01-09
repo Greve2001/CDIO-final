@@ -1,5 +1,6 @@
 package Board;
 
+import Interface.GUIController;
 import Logic.DiceCup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,9 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board(new DiceCup());
+        board = new Board();
         player = new Player("test", 30000, 0);
+        GUIController.setTesting(true);
     }
 
     @Test
@@ -28,6 +30,23 @@ class BoardTest {
     void updatePlayerPosition(){
         player.setPosition(35);
         board.updatePlayerPosition(player,10);
+        assertEquals(5,player.getPosition());
+
+        player.setPosition(2);
+        board.updatePlayerPosition(player,6);
+        assertEquals(8,player.getPosition());
+
+        //with passing start
+        int playerStartBalance = 10000;
+        player.setBalance(playerStartBalance);
+        player.setPosition(35);
+        board.updatePlayerPosition(player,10);
+        assertEquals(5,player.getPosition());
+        assertEquals(14000, player.getBalance());
+
+        //checking if start bonus is payed if player move backward over start
+        player.setPosition(2);
+        board.updatePlayerPosition(player,-3);
         assertEquals(5,player.getPosition());
     }
 }
