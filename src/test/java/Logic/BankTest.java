@@ -1,19 +1,27 @@
 package Logic;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BankTest {
-    Player player=new Player("Goli",30000,0);
+class bankTest {
+    Player player;
+    Bank bank;
+
+    @BeforeEach
+    void setup() {
+        player = new Player("Goli", 30000, 0);
+        bank = new Bank();
+    }
 
     @Test
     void payToBank() {
-      Bank.payToBank(player,200);
+      bank.payToBank(player,200);
         Assertions.assertEquals(29800,player.getBalance());
 
-        Bank.payToBank(player,35000);
+        bank.payToBank(player,35000);
         Assertions.assertEquals(0,player.getBalance());
     }
 
@@ -25,7 +33,7 @@ class BankTest {
                 new Player("Hidi",35000,0)
         };
 
-        Bank.payToPlayer(player,30000,players);
+        bank.payToPlayer(player,30000,players);
         Assertions.assertEquals(115000,player.getBalance());
         Assertions.assertEquals(0,players[0].getBalance());
         Assertions.assertEquals(0,players[1].getBalance());
@@ -34,37 +42,37 @@ class BankTest {
 
     @Test
     void payPlayer() {
-        Bank.payPlayer(player,250);
+        bank.payPlayer(player,250);
         Assertions.assertEquals(30250,player.getBalance());
     }
 
     @Test
     void buyHouses() {
-        Bank.buyHouses(player,101,2);
-        Assertions.assertEquals(100,Bank.getHousesAvailable());
+        bank.buyHouses(player,101,2);
+        Assertions.assertEquals(100,bank.getHousesAvailable());
         Assertions.assertEquals(30000,player.getBalance());
 
-        Bank.buyHouses(player,2,20000);
-        Assertions.assertEquals(100,Bank.getHousesAvailable());
+        bank.buyHouses(player,2,20000);
+        Assertions.assertEquals(100,bank.getHousesAvailable());
         Assertions.assertEquals(30000,player.getBalance());
 
-        Bank.buyHouses(player,10,3000);
-        Assertions.assertEquals(90,Bank.getHousesAvailable());
+        bank.buyHouses(player,10,3000);
+        Assertions.assertEquals(90,bank.getHousesAvailable());
         Assertions.assertEquals(0,player.getBalance());
     }
 
     @Test
     void buyHotels() {
-        Bank.buyHotels(player,21,2);
-        Assertions.assertEquals(20,Bank.getHotelsAvailable());
+        bank.buyHotels(player,21,2);
+        Assertions.assertEquals(20,bank.getHotelsAvailable());
         Assertions.assertEquals(30000,player.getBalance());
 
-        Bank.buyHotels(player,2,20000);
-        Assertions.assertEquals(20,Bank.getHotelsAvailable());
+        bank.buyHotels(player,2,20000);
+        Assertions.assertEquals(20,bank.getHotelsAvailable());
         Assertions.assertEquals(30000,player.getBalance());
 
-        Bank.buyHotels(player,5,2500);
-        Assertions.assertEquals(15,Bank.getHotelsAvailable());
+        bank.buyHotels(player,5,2500);
+        Assertions.assertEquals(15,bank.getHotelsAvailable());
         Assertions.assertEquals(17500,player.getBalance());
     }
 }
