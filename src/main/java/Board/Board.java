@@ -11,9 +11,9 @@ public class Board {
     private final ActionHandler actionHandler;
     private int jailPosition;
 
-    public Board(){
+    public Board() {
         actionHandler = new ActionHandler(this);
-        
+
         int passStartAmount = 4000;
 
         CSVReader reader;
@@ -27,8 +27,8 @@ public class Board {
         int name = 0, position = 1, type = 2, color = 3, price = 4, percentagePrice = 5, housePrice = 6;
 
         //Runs through the CSV file, for each row and created a Square with a specific supclass depending on the data found
-        for(String[] data: reader.getFile()){
-            switch (data[type]){
+        for (String[] data : reader.getFile()) {
+            switch (data[type]) {
                 case "street":
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Street(
                             data[name],
@@ -119,47 +119,46 @@ public class Board {
 
         //set the size of the array based on with type
         if (type.equals("street"))
-            result = new int [6];
-        else if(type.equals("ferry"))
+            result = new int[6];
+        else if (type.equals("ferry"))
             result = new int[4];
         else
             result = new int[2];
 
-        for (int i = 0; i < result.length; i++){
+        for (int i = 0; i < result.length; i++) {
             result[i] = Integer.parseInt(arr[offset + i]);
         }
         return result;
     }
 
     public boolean hasMonopoly(int position, Player... player) {
-            String color = ALL_SQUARES[position].getColor();
-            Player owner = ALL_SQUARES[position].getOwner();
-            boolean result = false;
-        
-            if (owner != null && !ALL_SQUARES[position].isBuildAble()) {
-                result = true;
-                if (player != null) //handle out of bounce
-                    owner = player[0];
-        
-                for (Square square : ALL_SQUARES) {
-                    if (square.getColor().equals(color) && !square.getOwner().equals(owner))
-                        result = false;
-                }
+        String color = ALL_SQUARES[position].getColor();
+        Player owner = ALL_SQUARES[position].getOwner();
+        boolean result = false;
+
+        if (owner != null && !ALL_SQUARES[position].isBuildAble()) {
+            result = true;
+            if (player != null) //handle out of bounce
+                owner = player[0];
+
+            for (Square square : ALL_SQUARES) {
+                if (square.getColor().equals(color) && !square.getOwner().equals(owner))
+                    result = false;
             }
+        }
         return result;
     }
 
-    public void updatePlayerPosition(Player player, int diceValue){
+    public void updatePlayerPosition(Player player, int diceValue) {
         int startPos = player.getPosition();
         int sum = startPos + diceValue; //calculate the normerical end position
         int endPosition;
         int boardSize = ALL_SQUARES.length;
 
-        if (diceValue == Math.abs(diceValue) && sum >= boardSize){
+        if (diceValue == Math.abs(diceValue) && sum >= boardSize) {
             endPosition = sum - boardSize;
             payStartBonus(player);
-            }
-        else if (sum < 0)
+        } else if (sum < 0)
             endPosition = sum + boardSize;
         else
             endPosition = sum;
@@ -171,8 +170,8 @@ public class Board {
         //send relevant information to the actionhandler to execute field action.
         actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], diceValue);
     }
-    
-    public void setPlayerPosition(Player player, int endPos, boolean goingToJail){
+
+    public void setPlayerPosition(Player player, int endPos, boolean goingToJail) {
         if (endPos < player.getPosition() && !goingToJail)
             payStartBonus(player);
         else
@@ -185,17 +184,17 @@ public class Board {
         actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], 0);
     }
 
-    private int calculateSpaceToMove(int startPosition, int endPosition){
-        if (startPosition < endPosition){
+    private int calculateSpaceToMove(int startPosition, int endPosition) {
+        if (startPosition < endPosition) {
             return endPosition - startPosition;
-        }else{
+        } else {
             return (endPosition + ALL_SQUARES.length) - startPosition;
         }
     }
 
-    private void GUIMove(Player player, int startPos, int spaceToMove){
+    private void GUIMove(Player player, int startPos, int spaceToMove) {
         try { // Only to handle errors made from the GUI
-            GUIController.movePlayer(player, startPos ,spaceToMove);
+            GUIController.movePlayer(player, startPos, spaceToMove);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -205,29 +204,38 @@ public class Board {
         //TODO sent to a method in AH, what have to be payed to who.
     }
 
-    public Square[] getALL_SQUARES(){
+    public Square[] getALL_SQUARES() {
         return ALL_SQUARES;
     } //used by the GUI
 
-    public void setPlayerInJail(Player player){
-        setPlayerPosition(player, jailPosition,true);
+    public void setPlayerInJail(Player player) {
+        setPlayerPosition(player, jailPosition, true);
     }
 
-    public int getCurrentCost(int position){
+    public int getCurrentCost(int position) {
         int result = ALL_SQUARES[position].getCurrentCost();
         if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
             result = result * 2;
         return result;
     }
 
-    public int amountOwnedWithinTheColor(int position){
+    public int amountOwnedWithinTheColor(int position) {
         int result = 0;
         String color = ALL_SQUARES[position].getColor();
-        for (Square field: ALL_SQUARES){
+        for (Square field : ALL_SQUARES) {
             if (field.getColor().equals(color))
                 result++;
         }
         return result;
     }
 
+    public void escapeJail(Player player, int dieRoll, boolean forcedToMove, boolean haveToPay, boolean usedChanceCard) {
+        player.setInJail(false);
+        if (forcedToMove)
+            updatePlayerPosition(player, dieRoll);
+        else if (haveToPay)
+            actionHandler.boardPaymentsToBank(player, 1000);
+        else if (usedChanceCard) ;
+        //TODO return card logic
+    }
 }
