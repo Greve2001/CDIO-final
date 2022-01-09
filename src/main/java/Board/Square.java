@@ -59,7 +59,7 @@ public abstract class Square {
         return 0;
     }
 
-    public int getCurrentCost(){
+    public int getCurrentCost(int... amountOwned){
         return 0;
     }
 

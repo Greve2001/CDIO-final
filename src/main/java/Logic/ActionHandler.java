@@ -81,7 +81,8 @@ public class ActionHandler {
         }
         else{
             int amountOwned = board.amountOwnedWithinTheColor(square.getPOSITION());
-            int amountToPay = square.getCurrentCost()
+            int amountToPay = square.getCurrentCost(amountOwned);
+            bank.payToPlayer(player, amountToPay, square.getOwner());
         }
 
     }
