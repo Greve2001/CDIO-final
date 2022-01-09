@@ -44,8 +44,8 @@ public class GUIController {
         fields = inputSquares;
 
         for (int i = 0; i < GUIFields.length; i++) {
-            switch (inputSquares[i].getType()){
-                case "street" :
+            switch (inputSquares[i].getClass().getSimpleName()){
+                case "Street" :
                     //GUIFields[i] = new GUI_Street();
                     GUIFields[i] = new GUI_Street();
                     GUIFields[i].setBackGroundColor(convertColor(inputSquares[i].getColor()));
@@ -65,7 +65,7 @@ public class GUIController {
 
                 // TODO ALT skal implementeres med CSV Reader, det er midlertidigt
 
-                case "ferry" :
+                case "Ferry" :
                     GUIFields[i] = new GUI_Shipping();
                     GUIFields[i].setBackGroundColor(Color.white);
                     GUIFields[i].setDescription( // Rents
@@ -77,7 +77,7 @@ public class GUIController {
                     GUIFields[i].setSubText(Language.get("price") +": " + String.valueOf(fields[i].getPrice()));
                     break;
 
-                case "brewery" :
+                case "Brewery" :
                     GUIFields[i] = new GUI_Brewery();
                     GUIFields[i].setBackGroundColor(Color.pink);
                     GUIFields[i].setDescription(Language.get("1brewery") +
@@ -86,44 +86,44 @@ public class GUIController {
                     GUIFields[i].setSubText(Language.get("price") +": " + String.valueOf(fields[i].getPrice()));
                     break;
 
-                case "chance" :
+                case "Chance" :
                     GUIFields[i] = new GUI_Chance();
                     GUIFields[i].setBackGroundColor(Color.pink);
                     GUIFields[i].setDescription(Language.get("pullChancecard"));
                     GUIFields[i].setSubText("");
                     break;
 
-                case "prison" :
+                case "Prison" :
                     GUIFields[i] = new GUI_Jail();
                     GUIFields[i].setSubText(Language.get("prison"));
                     break;
 
-                case "goToPrison" :
+                case "GoToPrison" :
                     GUIFields[i] = new GUI_Street(); // Hopefully change
                     GUIFields[i].setSubText("");
                     break;
 
-                case "incomeTax" :
+                case "IncomeTax" :
                     GUIFields[i] = new GUI_Tax();
                     GUIFields[i].setBackGroundColor(Color.red);
                     GUIFields[i].setDescription(Language.get("incomeTax"));
                     GUIFields[i].setSubText("");
                     break;
 
-                case "tax" :
+                case "Tax" :
                     GUIFields[i] = new GUI_Tax();
                     GUIFields[i].setBackGroundColor(Color.red);
                     GUIFields[i].setDescription(Language.get("extraTax"));
                     GUIFields[i].setSubText("");
                     break;
 
-                case "refugee" : // Parkering
+                case "Refugee" : // Parkering
                     GUIFields[i] = new GUI_Refuge();
                     GUIFields[i].setBackGroundColor(Color.white);
                     GUIFields[i].setSubText(Language.get("parking"));
                     break;
 
-                case "start" : // Parkering
+                case "Start" : // Parkering
                     GUIFields[i] = new GUI_Start();
                     GUIFields[i].setBackGroundColor(Color.red);
                     GUIFields[i].setDescription(Language.get("startHere"));

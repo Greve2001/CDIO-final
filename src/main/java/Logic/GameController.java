@@ -33,7 +33,7 @@ public class GameController {
     public void setupGame() {
         Language.getInstance();
         diceCup = new DiceCup();
-        board = new Board(diceCup);
+        board = new Board();
 
         GUIController gui = new GUIController(board);
 

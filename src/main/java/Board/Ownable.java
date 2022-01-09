@@ -2,7 +2,7 @@ package Board;
 
 import Logic.Player;
 
-abstract class Ownable extends Square{
+public abstract class Ownable extends Square{
     private final String COLOR;
     private final int[]  RENT;
     private final int PRICE;
@@ -10,8 +10,8 @@ abstract class Ownable extends Square{
     private Player owner = null;
     private boolean pledge = false;
 
-    public Ownable(String name, int position, String type, String color, int[] rent, int price){
-        super(name, position, true, type);
+    public Ownable(String name, int position, String color, int[] rent, int price){
+        super(name, position);
         this.COLOR = color;
         this.RENT = rent;
         this.PRICE = price;

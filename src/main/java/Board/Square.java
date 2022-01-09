@@ -2,18 +2,14 @@ package Board;
 
 import Logic.Player;
 
-abstract class Square {
+public abstract class Square {
     private final String NAME;
     private final int POSITION;
-
-    private final String type;
 
     public Square (String name, int position)
     {
         this.NAME = name;
         this.POSITION = position;
-        this.ownable = ownable;
-        this.type = type;
     }
 
     public String getName(){
@@ -26,10 +22,6 @@ abstract class Square {
 
     public boolean getOwnable(){
         return false;
-    }
-
-    public String getType(){
-        return type;
     }
 
     //methods for late binding only

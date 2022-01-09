@@ -11,7 +11,7 @@ public class Board {
     private final ActionHandler actionHandler;
     private int jailPosition;
 
-    public Board(DiceCup diceCup){
+    public Board(){
         actionHandler = new ActionHandler(this);
         
         int passStartAmount = 4000;
