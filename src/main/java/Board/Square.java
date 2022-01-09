@@ -62,4 +62,8 @@ public abstract class Square {
     public int getCurrentCost(){
         return 0;
     }
+
+    public boolean isBuildAble(){
+        return false;
+    }
 }

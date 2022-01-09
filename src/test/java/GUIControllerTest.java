@@ -9,7 +9,7 @@ class GUIControllerTest {
     public static void main(String[] args) throws InterruptedException {
         Language.getInstance();
 
-        Board board = new Board(new DiceCup());
+        Board board = new Board();
         Player test = new Player("Test", 0, 0);
 
         GUIController controller = new GUIController(board);

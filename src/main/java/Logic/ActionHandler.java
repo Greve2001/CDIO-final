@@ -13,26 +13,26 @@ public class ActionHandler {
     }
 
     public void squareAction(Player player, Square square, int diceSum) {
-        switch (square.getType()) {
-            case "street":
+        switch (square.getClass().getSimpleName()) {
+            case "Street":
                 streetAction(player, square);
                 break;
-            case "brewery":
+            case "Brewery":
                 breweryAction(player, square, diceSum);
                 break;
-            case "ferry":
+            case "Ferry":
                 ferryAction(player, square);
                 break;
-            case "tax":
+            case "Tax":
                 taxAction(player, square);
                 break;
-            case "incomeTax":
+            case "IncomeTax":
                 incomeTaxAction(player, square);
                 break;
-            case "chance":
+            case "Chance":
                 cardAction(player);
                 break;
-            case "goToPrison":
+            case "GoToPrison":
                 goToPrison(player);
                 break;
             default:

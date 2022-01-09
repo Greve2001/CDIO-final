@@ -13,7 +13,7 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board(new DiceCup());
+        board = new Board();
         player = new Player("test", 30000, 0);
     }
 

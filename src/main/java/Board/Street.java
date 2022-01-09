@@ -7,7 +7,7 @@ public class Street extends Ownable {
     private int amountOfHouses = 0;
 
     public Street(String name, int position, String type, String color, int[] rent, int price, int housePrice) {
-        super(name, position, type, color, rent, price);
+        super(name, position, color, rent, price);
         this.HOUSEPRICE = housePrice;
     }
 
@@ -21,5 +21,9 @@ public class Street extends Ownable {
 
     public int getAmountOfHouses(){
         return this.amountOfHouses;
+    }
+
+    public boolean isBuildAble(){
+        return true;
     }
 }

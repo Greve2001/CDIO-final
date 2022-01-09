@@ -136,7 +136,7 @@ public class Board {
             Player owner = ALL_SQUARES[position].getOwner();
             boolean result = false;
         
-            if (owner != null && !ALL_SQUARES[position].getOwnable()) {
+            if (owner != null && !ALL_SQUARES[position].isBuildAble()) {
                 result = true;
                 if (player != null) //handle out of bounce
                     owner = player[0];
@@ -150,8 +150,8 @@ public class Board {
     }
 
     public void updatePlayerPosition(Player player, int diceValue){
-        int currentPosition = player.getPosition();
-        int sum = currentPosition + diceValue;
+        int startPos = player.getPosition();
+        int sum = startPos + diceValue; //calculate the normerical end position
         int endPosition;
         int boardSize = ALL_SQUARES.length;
 
@@ -164,10 +164,11 @@ public class Board {
         else
             endPosition = sum;
 
-        int startPos = player.getPosition();
+        //GUI update
         player.setPosition(endPosition);
         GUIMove(player, startPos, diceValue);
 
+        //send relevant information to the actionhandler to execute field action.
         actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], diceValue);
     }
     
@@ -206,7 +207,7 @@ public class Board {
 
     public Square[] getALL_SQUARES(){
         return ALL_SQUARES;
-    }
+    } //used by the GUI
 
     public void setPlayerInJail(Player player){
         setPlayerPosition(player, jailPosition,true);
