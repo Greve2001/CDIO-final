@@ -370,4 +370,8 @@ public class GUIController {
         }
         return result;
     }
+
+    public static void setTesting(boolean condition){
+        testing = condition;
+    }
 }
