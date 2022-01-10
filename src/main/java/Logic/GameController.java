@@ -149,11 +149,16 @@ public class GameController {
         String msg = "Choose";
 
         //construction the different disicions the player have access to
-        String[] choices = new String[3];
+        String[] choices;
+        if (currentPlayer.getGetOutJailCards() > 0){
+            choices = new String[3];
+            choices[2] = "Use escape Card"; // Make Dynamic
+        }else{
+            choices = new String[2];
+        }
         choices[0] = "Attempt Escaping";
         choices[1] = "Pay 1000";
-        if (currentPlayer.getGetOutJailCards() > 0)
-            choices[2] = "Use escape Card"; // Make Dynamic
+
         String answer = GUIController.givePlayerChoice(msg, choices);
 
         boolean forcedToMove = false, haveToPay = false, usedChanceCard = false;
