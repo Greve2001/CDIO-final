@@ -120,6 +120,9 @@ public class ActionHandler {
             if (activeBidders == 1) {
                for (int i = 0; i < participants.length; i++) {
                     if (participants[i]) {
+                        // Bets are over
+                        GUIController.showMessage(players[i].getName() + Language.get("hasWonAuction"));
+
                         square.setOwner(players[i]);
                         BANK.payToBank(players[i], highestBid);
                         GUIController.setOwner(players[i], square.getPOSITION());
