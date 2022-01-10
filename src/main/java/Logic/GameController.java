@@ -3,6 +3,8 @@ package Logic;
 import Board.Board;
 import Interface.GUIController;
 import Utilities.Language;
+import gui_main.GUI;
+import org.apache.commons.codec.language.bm.Lang;
 
 import java.util.Scanner;
 
@@ -149,47 +151,62 @@ public class GameController {
         String msg = "Choose";
 
         //construction the different disicions the player have access to
-        String[] choices = new String[3];
-        choices[0] = "Attempt Escaping";
-        choices[1] = "Pay 1000";
-        if (currentPlayer.getGetOutJailCards() > 0)
-            choices[2] = "Use escape Card"; // Make Dynamic
+        String[] choices;
+        if (currentPlayer.getGetOutJailCards() > 0){
+            choices = new String[3];
+            choices[2] = Language.get("useEscapeCard"); // Make Dynamic
+        }else{
+            choices = new String[2];
+        }
+        choices[0] = Language.get("attemptEscaping");
+        choices[1] = Language.get("payFee");
+
         String answer = GUIController.givePlayerChoice(msg, choices);
 
         boolean forcedToMove = false, haveToPay = false, usedChanceCard = false;
         boolean result = true;
 
-        switch (answer){
-            case "Attempt Escaping":
-                forcedToMove = true;//if player escape, they are forced to move what ever they rolled
 
-                // Throw Dice
-                diceCup.rollDice();
-                int[] diceRoll = diceCup.getFaceValues();
-                GUIController.showDice(diceRoll);
+        String case1 = Language.get("attemptEscaping");
+        String case2 = Language.get("payFee");
+        String case3 = Language.get("useEscapeCard");
 
-                // See if doubles
-                if (!isDoubles(diceRoll)) {
-                    result = false;
-                    currentPlayer.addJailEscapeAttempt();
-                    if (currentPlayer.getJailEscapeAttempts() >= 3) {
-                        haveToPay = true;
-                        result = true;
-                    }
+        // Need to be if-else because of Language
+        if (answer.equals(case1)){ // Attempt escape
+
+            forcedToMove = true;//if player escape, they are forced to move what ever they rolled
+
+            // Throw Dice
+            diceCup.rollDice();
+            int[] diceRoll = diceCup.getFaceValues();
+            GUIController.showDice(diceRoll);
+
+            // See if doubles
+            if (!isDoubles(diceRoll)) {
+                result = false;
+                currentPlayer.addJailEscapeAttempt();
+                GUIController.showMessage(Language.get("didNotEscape"));
+
+                if (currentPlayer.getJailEscapeAttempts() >= 3) {
+                    haveToPay = true;
+                    result = true;
+                    GUIController.showMessage(Language.get("noMoreTries"));
                 }
-                break;
-            case "Pay 1000":
-                haveToPay = true;
-                break;
-            case "Use escape Card":
-                usedChanceCard = true;
-                break;
-            default:
-                //TODO exception handling?!
-                break;
+            }
+
+        }else if (answer.equals(case2)){ // Pay fee
+            haveToPay = true;
+        }else if (answer.equals(case3)){ // Use free of jail card
+            usedChanceCard = true;
+        }else{
+            //TODO Exception handling
         }
-        if(result)
+
+        if(result){
+            GUIController.showMessage(Language.get("youBrokeFree"));
             board.escapeJail(currentPlayer, diceCup.getSum(),forcedToMove, haveToPay, usedChanceCard);
+        }
+
 
         return !forcedToMove;
     }
@@ -214,7 +231,7 @@ public class GameController {
         }
 
         // Winner is...
-        GUIController.showMessage("Winner is " + winner);
+        GUIController.showMessage(Language.get("winnerIs") + winner);
     }
 
     private boolean isDoubles(int[] faceValues){

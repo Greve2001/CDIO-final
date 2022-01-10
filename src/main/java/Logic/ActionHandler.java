@@ -37,6 +37,7 @@ public class ActionHandler {
                 goToPrison(player);
                 break;
             default:
+
                 // TODO Implement default case
                 break;
         }
