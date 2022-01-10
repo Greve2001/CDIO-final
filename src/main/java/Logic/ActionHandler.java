@@ -106,15 +106,15 @@ public class ActionHandler {
     }
 
     private void incomeTaxAction(Player player, Square square) {
-        // TODO get percentage from csv
-        String[] choices = {Language.get("pay10pct"), "4000 kr."};
+        IncomeTax incomeTaxSquare = (IncomeTax) square;
+        String[] choices = {Language.get("payPct") + incomeTaxSquare.getPercentage(), incomeTaxSquare.getAmount() + " kr."};
         String answer = GUIController.givePlayerChoice(Language.get("payIncomeTax"), choices);
 
         if (answer.equals(choices[0])) {
             // TODO Calculate player fortune and make the player pay 10% of this to the bank
-            bank.payToBank(player, ((IncomeTax) square).getAmount());
+            bank.payToBank(player, incomeTaxSquare.getAmount());
         } else {
-            bank.payToBank(player, ((IncomeTax) square).getAmount());
+            bank.payToBank(player, incomeTaxSquare.getAmount());
         }
     }
 

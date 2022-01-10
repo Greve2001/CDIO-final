@@ -40,5 +40,5 @@ Nej,no
 Pris,price
 
 ,,ActionHandler
-Betal 10%,pay10pct
+Betal ,payPct
 Betal indkomstskat.,payIncomeTax
