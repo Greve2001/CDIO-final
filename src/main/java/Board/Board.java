@@ -248,7 +248,10 @@ public class Board {
         int result = player.getBalance();
         for (Square field: ALL_SQUARES){
             if (field.getOwner().equals(player)){
-                result += field.getPrice();
+                if (!field.getPledge())
+                    result += field.getPrice();
+                else
+                    result += field.getPrice()/2;
                 if (field.isBuildAble()){
                     result += (field.getAmountOfHouses() * field.getHousePrice());
                 }
