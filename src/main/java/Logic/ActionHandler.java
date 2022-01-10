@@ -94,8 +94,65 @@ public class ActionHandler {
             BANK.payToBank(player, square.getPrice());
             square.setOwner(player);
             GUIController.setOwner(player, square.getPOSITION());
+        } else {
+            holdAuction(player, square);
         }
-        // TODO Implement auction as else clause
+    }
+
+    public void holdAuction(Player player, Square square) {
+        int biddingPlayer = 0;
+        int activeBidders = 0;
+        boolean[] participants = new boolean[players.length];
+        for (int i = 0; i < players.length; i++) {
+            if(players[i].getActive()) {
+                participants[i] = true;
+                activeBidders++;
+            }
+
+            if(players[i].getName().equals(player.getName()))
+                biddingPlayer = i;
+        }
+
+        boolean notSold = true;
+        int highestBid = 0;
+        while(notSold) {
+            boolean wantToBid;
+            if (activeBidders == 1) {
+               for (int i = 0; i < participants.length; i++) {
+                    if (participants[i]) {
+                        square.setOwner(players[i]);
+                        BANK.payToBank(players[i], highestBid);
+                        GUIController.setOwner(players[i], square.getPOSITION());
+                        notSold = false;
+                    }
+                }
+            } else {
+
+                if (participants[biddingPlayer]) {
+                    wantToBid = GUIController.askPlayerAccept(players[biddingPlayer].getName() + Language.get("wishToBid"));
+                    if (!wantToBid) {
+                        participants[biddingPlayer] = false;
+                        activeBidders--;
+                    } else {
+                        int bid;
+
+                        do {
+                            bid = GUIController.getPlayerInteger(players[biddingPlayer].getName() +
+                                    Language.get("askForBid") + highestBid + " kr.)");
+
+                        } while (bid < highestBid + 100);
+
+                        if (bid >= highestBid + 100)
+                            highestBid = bid;
+                    }
+                }
+
+                if (biddingPlayer >= players.length - 1)
+                    biddingPlayer = 0;
+                else
+                    biddingPlayer++;
+            }
+        }
     }
 
     // Pay the owner if they are not in jail.
