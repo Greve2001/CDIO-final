@@ -270,15 +270,8 @@ public class GUIController {
         GUIFields[position].setSubText(String.valueOf(currentCost));
     }
 
-    private static GUI_Street posToStreet(int position){
-        GUI_Field field = gui.getFields()[position];
-        if (field instanceof GUI_Street){
-            return (GUI_Street) field;
-        }else{
-            System.out.println(Language.get("notAStreetAt" + position));
-            return null;
-        }
-    }
+
+
 
 
 //// Player choice and inputs ////
@@ -311,6 +304,14 @@ public class GUIController {
         return gui.getUserInteger(msg);
     }
 
+    public static void showCenterMessage(String msg){
+        gui.displayChanceCard(msg);
+    }
+
+    public static void showMessage(String msg){
+        gui.showMessage(msg);
+    }
+
 
     /////////////////////////// UTILITY SECTION /////////////////////////////
 
@@ -335,6 +336,17 @@ public class GUIController {
         }
         return -1;
     }
+
+    private static GUI_Street posToStreet(int position){
+        GUI_Field field = gui.getFields()[position];
+        if (field instanceof GUI_Street){
+            return (GUI_Street) field;
+        }else{
+            System.out.println(Language.get("notAStreetAt" + position));
+            return null;
+        }
+    }
+
 
     private static Color convertColor(String colorStr){
         Color result = Color.white;

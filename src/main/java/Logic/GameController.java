@@ -206,7 +206,7 @@ public class GameController {
         }
 
         // Winner is...
-        System.out.println("Winner is: " + winner);
+        GUIController.showMessage("Winner is " + winner);
     }
 
     private boolean isDoubles(int[] faceValues){
