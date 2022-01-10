@@ -3,6 +3,8 @@ package Logic;
 import Board.Board;
 import Interface.GUIController;
 import Utilities.Language;
+import gui_main.GUI;
+import org.apache.commons.codec.language.bm.Lang;
 
 import java.util.Scanner;
 
@@ -40,6 +42,8 @@ public class GameController {
         GUIController.createPlayers(START_MONEY);
         setupPlayers(GUIController.getPlayerNames());
 
+        board.givePlayerToActionHandler(players);
+
     }
 
     private void setupPlayers(String[] playerNames) {
@@ -53,14 +57,14 @@ public class GameController {
     }
 
     public void playGame() throws InterruptedException {
-        boolean allowedDicision;
+        boolean allowedDecision;
         do {
-            allowedDicision = true;
+            allowedDecision = true;
             if (currentPlayer.isInJail()){ // In jail. No other options
-                allowedDicision = jailAttempt();
+                allowedDecision = jailAttempt();
 
             }
-            if (allowedDicision){ // Not in jail or gotten out in good standing.
+            if (allowedDecision){ // Not in jail or gotten out in good standing.
 
                 // Ask if want to buy houses etc.
                 String msg = currentPlayer.getName() + ": " + Language.get("askAction");
@@ -90,8 +94,11 @@ public class GameController {
 
             hasExtraTurn = false; // Make sure that extra turn is reset
 
+            checkForBust();
+
         }while (playersLeft != 1);
         // Stop game. Find winner
+        findWinner();
     }
 
     private void takeTurn() throws InterruptedException {
@@ -121,14 +128,22 @@ public class GameController {
     }
 
     private void changeTurn(){
-        // Get index of current player
-        int currentPlayerIndex = java.util.Arrays.asList(players).indexOf(currentPlayer);
+        int currentPlayerIndex;
+        boolean isNotActive;
+        do { // Run thorugh until find one active player
 
-        if (currentPlayerIndex >= (players.length-1)){
-            currentPlayer = players[0];
-        }else{
-            currentPlayer = players[currentPlayerIndex +1];
-        }
+            // Get index of current player
+            currentPlayerIndex = java.util.Arrays.asList(players).indexOf(currentPlayer);
+
+            if (currentPlayerIndex >= (players.length-1))
+                currentPlayer = players[0];
+            else
+                currentPlayer = players[currentPlayerIndex +1];
+
+
+            currentPlayerIndex = java.util.Arrays.asList(players).indexOf(currentPlayer); // Set again since we need to check in while-loop.
+            isNotActive = !players[currentPlayerIndex].getActive();
+        }while (isNotActive);
     }
 
     private boolean jailAttempt() {
@@ -136,48 +151,87 @@ public class GameController {
         String msg = "Choose";
 
         //construction the different disicions the player have access to
-        String[] choices = new String[3];
-        choices[0] = "Attempt Escaping";
-        choices[1] = "Pay 1000";
-        if (currentPlayer.getGetOutJailCards() > 0)
-            choices[2] = "Use escape Card"; // Make Dynamic
+        String[] choices;
+        if (currentPlayer.getGetOutJailCards() > 0){
+            choices = new String[3];
+            choices[2] = Language.get("useEscapeCard"); // Make Dynamic
+        }else{
+            choices = new String[2];
+        }
+        choices[0] = Language.get("attemptEscaping");
+        choices[1] = Language.get("payFee");
+
         String answer = GUIController.givePlayerChoice(msg, choices);
 
         boolean forcedToMove = false, haveToPay = false, usedChanceCard = false;
         boolean result = true;
 
-        switch (answer){
-            case "Attempt Escaping":
-                forcedToMove = true;//if player escape, they are forced to move what ever they rolled
 
-                // Throw Dice
-                diceCup.rollDice();
-                int[] diceRoll = diceCup.getFaceValues();
-                GUIController.showDice(diceRoll);
+        String case1 = Language.get("attemptEscaping");
+        String case2 = Language.get("payFee");
+        String case3 = Language.get("useEscapeCard");
 
-                // See if doubles
-                if (!isDoubles(diceRoll)) {
-                    result = false;
-                    currentPlayer.addJailEscapeAttempt();
-                    if (currentPlayer.getJailEscapeAttempts() >= 3) {
-                        haveToPay = true;
-                        result = true;
-                    }
+        // Need to be if-else because of Language
+        if (answer.equals(case1)){ // Attempt escape
+
+            forcedToMove = true;//if player escape, they are forced to move what ever they rolled
+
+            // Throw Dice
+            diceCup.rollDice();
+            int[] diceRoll = diceCup.getFaceValues();
+            GUIController.showDice(diceRoll);
+
+            // See if doubles
+            if (!isDoubles(diceRoll)) {
+                result = false;
+                currentPlayer.addJailEscapeAttempt();
+                GUIController.showMessage(Language.get("didNotEscape"));
+
+                if (currentPlayer.getJailEscapeAttempts() >= 3) {
+                    haveToPay = true;
+                    result = true;
+                    GUIController.showMessage(Language.get("noMoreTries"));
                 }
-                break;
-            case "Pay 1000":
-                haveToPay = true;
-                break;
-            case "Use escape Card":
-                usedChanceCard = true;
-                break;
-            default:
-                //TODO exeption handling?!
-                break;
+            }
+
+        }else if (answer.equals(case2)){ // Pay fee
+            haveToPay = true;
+        }else if (answer.equals(case3)){ // Use free of jail card
+            usedChanceCard = true;
+        }else{
+            //TODO Exception handling
         }
-        if(result)
+
+        if(result){
+            GUIController.showMessage(Language.get("youBrokeFree"));
             board.escapeJail(currentPlayer, diceCup.getSum(),forcedToMove, haveToPay, usedChanceCard);
+        }
+
+
         return !forcedToMove;
+    }
+
+    private void checkForBust(){ // Checks all players
+        playersLeft = players.length;
+
+        for (Player player : players){
+            if (player.getBalance() <= 0 || player.getActive() == false){
+                player.setActive(false);
+                playersLeft--;
+            }
+        }
+    }
+
+    private void findWinner(){
+        Player winner = players[0]; // Somewhere to start
+        for (Player player : players){
+            if (player.getBalance() > winner.getBalance()){
+                winner = player;
+            }
+        }
+
+        // Winner is...
+        GUIController.showMessage(Language.get("winnerIs") + winner);
     }
 
     private boolean isDoubles(int[] faceValues){

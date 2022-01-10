@@ -5,8 +5,9 @@ import Interface.GUIController;
 import Utilities.Language;
 
 public class ActionHandler {
-    private final Bank bank = new Bank();
+    private final Bank BANK = new Bank();
     private final Board BOARD;
+    private Player[] players;
 
     public ActionHandler(Board BOARD) {
         this.BOARD = BOARD;
@@ -36,6 +37,7 @@ public class ActionHandler {
                 goToPrison(player);
                 break;
             default:
+
                 // TODO Implement default case
                 break;
         }
@@ -54,11 +56,12 @@ public class ActionHandler {
     }
 
     private void breweryAction(Player player, Square square, int diceSum) {
-        if (square.getOwner() == null) {
+        if (square.getOwner() == null) { // Ask to buy
             buySquare(player, square, "buyBrewery");
-        } else {
+        } else { // Pay the rent
             boolean payDouble = BOARD.amountOwnedWithinTheColor(square.getPOSITION()) == 2;
 
+            // Doubles the amount of rent if the player owns all breweries.
             int amountToPay;
             if (!payDouble) {
                 amountToPay = diceSum * square.getRent()[0];
@@ -72,9 +75,9 @@ public class ActionHandler {
     }
 
     private void ferryAction(Player player, Square square) {
-        if (square.getOwner() == null) {
+        if (square.getOwner() == null) { // Buy if no owner
             buySquare(player, square, "buyFerry");
-        } else {
+        } else { // Pay the rent
             int amountOwned = BOARD.amountOwnedWithinTheColor(square.getPOSITION());
             int amountToPay = square.getCurrentCost(amountOwned);
 
@@ -88,21 +91,89 @@ public class ActionHandler {
         boolean answer = GUIController.askPlayerAccept(Language.get(msg));
 
         if (answer) {
-            bank.payToBank(player, square.getPrice());
+            BANK.payToBank(player, square.getPrice());
             square.setOwner(player);
             GUIController.setOwner(player, square.getPOSITION());
+        } else {
+            holdAuction(player, square);
         }
-        // TODO Implement auction as else clause
+    }
+
+    public void holdAuction(Player player, Square square) {
+        int biddingPlayer = 0;
+        int activeBidders = 0;
+        boolean[] participants = new boolean[players.length];
+
+        for (int i = 0; i < players.length; i++) {
+            // Checks which players initially are allowed to participate in the auction.
+            if(players[i].getActive()) {
+                participants[i] = true;
+                activeBidders++;
+            }
+
+            // Finds the current player out of all players.
+            if(players[i].getName().equals(player.getName()))
+                biddingPlayer = i;
+        }
+
+        boolean notSold = true;
+        int highestBid = 0;
+        while(notSold) {
+            boolean wantToBid;
+
+            // Declares the last active bidder in the auction the winner.
+            if (activeBidders == 1) {
+               for (int i = 0; i < participants.length; i++) {
+                    if (participants[i]) {
+                        GUIController.showMessage(players[i].getName() + Language.get("hasWonAuction"));
+
+                        square.setOwner(players[i]);
+                        BANK.payToBank(players[i], highestBid);
+                        GUIController.setOwner(players[i], square.getPOSITION());
+                        notSold = false;
+                    }
+                }
+            } else { // Checks if the player is still an active bidder before letting them place a new bet.
+                if (participants[biddingPlayer]) {
+                    wantToBid = GUIController.askPlayerAccept(players[biddingPlayer].getName() + Language.get("wishToBid"));
+
+                    // Asks if the players wants to bet and if not takes them out of the auction.
+                    if (!wantToBid) {
+                        participants[biddingPlayer] = false;
+                        activeBidders--;
+                    } else {
+                        int bid;
+
+                        // Ask the player how much they want to bet and checks if the bet is large enough.
+                        do {
+                            bid = GUIController.getPlayerInteger(players[biddingPlayer].getName() +
+                                    Language.get("askForBid") + highestBid + " kr.)");
+
+                        } while (bid < highestBid + 100);
+
+                        if (bid >= highestBid + 100)
+                            highestBid = bid;
+                    }
+                }
+
+                // Change the bidding player.
+                if (biddingPlayer >= players.length - 1)
+                    biddingPlayer = 0;
+                else
+                    biddingPlayer++;
+            }
+        }
     }
 
     // Pay the owner if they are not in jail.
+    // TODO Implement if the square is pledged as well.
     private void payRent(Player player, Square square, int amount) {
         if (!square.getOwner().isInJail())
-            bank.PlayersPayToPlayer(square.getOwner(), amount, player);
+            BANK.PlayersPayToPlayer(square.getOwner(), amount, player);
     }
 
     private void taxAction(Player player, Square square) {
-        bank.payToBank(player, ((Tax) square).getAmount());
+        BANK.payToBank(player, ((Tax) square).getAmount());
     }
 
     private void incomeTaxAction(Player player, Square square) {
@@ -114,9 +185,9 @@ public class ActionHandler {
             int fortune = BOARD.playerTotalValue(player);
             int amountToPay = fortune * incomeTaxSquare.getPercentage() / 100;
             amountToPay = roundToNearest50(amountToPay);
-            bank.payToBank(player, amountToPay);
+            BANK.payToBank(player, amountToPay);
         } else {
-            bank.payToBank(player, incomeTaxSquare.getAmount());
+            BANK.payToBank(player, incomeTaxSquare.getAmount());
         }
     }
 
@@ -139,6 +210,28 @@ public class ActionHandler {
     }
 
     public void boardPaymentsToBank(Player player, int amount) {
-        bank.payToBank(player, amount);
+        BANK.payToBank(player, amount);
+    }
+
+    public void setPlayers(Player[] players){
+        this.players = players;
+    }
+
+    public boolean isBuyingHousePossible(Player player, int price, int amount){
+        boolean result = false;
+        if (player.getBalance() > price * amount && BANK.getHousesAvailable() >= amount){
+            BANK.buyHouses(player, amount, price);
+            result = true;
+        }
+        return result;
+    }
+
+    public boolean isBuyingHotelPossible(Player player, int price, int amount){
+        boolean result = false;
+        if (player.getBalance() > price * amount && BANK.getHotelsAvailable() >= amount){
+            BANK.buyHotels(player, amount, price);
+            result = true;
+        }
+        return result;
     }
 }

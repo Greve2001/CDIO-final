@@ -7,7 +7,7 @@ public class Deck {
 
     //Temporary constructor, that initiates an array of 6 ChanceCards.
     //The array holds 2 cards of each of the 3 types, that have been implemented so far.
-    public Deck(){
+    public Deck() {
         this.chanceCardDeck = new ChanceCard[6];
 
         chanceCardDeck[0] = new PayMoneyCard(1000);
@@ -17,6 +17,7 @@ public class Deck {
         chanceCardDeck[4] = new MoveFieldsCard(3);
         chanceCardDeck[5] = new MoveFieldsCard(-3);
 
+        shuffleCards();
     }
 
     /**
@@ -25,10 +26,10 @@ public class Deck {
      *
      * @param chanceCards
      */
-    public Deck(ChanceCard[] chanceCards){
-        if (chanceCards == null){
+    public Deck(ChanceCard[] chanceCards) {
+        if (chanceCards == null) {
             throw new IllegalArgumentException("You cannot initialize an empty array.");
-        }else {
+        } else {
             this.chanceCardDeck = chanceCards;
         }
 
@@ -38,18 +39,24 @@ public class Deck {
      * @returns the ChanceCard that is currently at the top of the deck.
      */
     public ChanceCard pullCard() {
-        try {
-            return chanceCardDeck[drawCardCount++];
-
-        } catch (ArrayIndexOutOfBoundsException ex){
-            // If an ArrayOutOfBoundsException is thrown, the deck is empty and the drawCardCount is reset
-            // to 0 making sure that the next card will be drawn from the top of the deck.
+        if (drawCardCount >= chanceCardDeck.length) {
             drawCardCount = 0;
-            return chanceCardDeck[drawCardCount++];
         }
-
+        return chanceCardDeck[drawCardCount++];
     }
 
+    // Implementation of the modern Fisher-Yates shuffle.
+    // Algorithm Source: https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+    public void shuffleCards() {
+        for (int pos = chanceCardDeck.length - 1; pos >= 0; pos--) {
+            // Generate a random number at the length of the array and shorten by one each iteration
+            int randomNumber = (int) (Math.random() * (pos + 1));
 
+            // Swap cards at the two locations
+            ChanceCard cardToSwap = chanceCardDeck[pos];
+            chanceCardDeck[pos] = chanceCardDeck[randomNumber];
+            chanceCardDeck[randomNumber] = cardToSwap;
+        }
+    }
 
 }

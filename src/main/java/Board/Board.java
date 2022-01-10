@@ -4,6 +4,7 @@ import Interface.GUIController;
 import Logic.ActionHandler;
 import Logic.Player;
 import Utilities.CSVReader;
+import Utilities.Language;
 
 public class Board {
     private final Square[] ALL_SQUARES;
@@ -48,6 +49,7 @@ public class Board {
                             stringArrayToIntArray(data, data[type]),
                             Integer.parseInt(data[price])
                     );
+                    break;
                 case "brewery":
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Brewery(
                             data[name],
@@ -92,6 +94,7 @@ public class Board {
                             Integer.parseInt(data[position])
                     );
                     jailPosition = Integer.parseInt(data[position]);
+                    break;
                 case "goToPrison":
                     ALL_SQUARES[Integer.parseInt(data[position])] = new GoToPrison(
                             data[name],
@@ -110,6 +113,10 @@ public class Board {
             }
         }
         reader.close();
+    }
+
+    public void givePlayerToActionHandler(Player[] players){
+        actionHandler.setPlayers(players);
     }
 
     private int[] stringArrayToIntArray(String[] arr, String type) {
@@ -135,13 +142,13 @@ public class Board {
         Player owner = ALL_SQUARES[position].getOwner();
         boolean result = false;
 
-        if (owner != null && !ALL_SQUARES[position].isBuildAble()) {
+        if (owner != null && ALL_SQUARES[position].isBuildAble()) {
             result = true;
             if (player != null) //handle out of bounce
                 owner = player[0];
 
             for (Square square : ALL_SQUARES) {
-                if (square.getColor().equals(color) && !square.getOwner().equals(owner))
+                if (color.equals(square.getColor()) && !owner.equals(square.getOwner()))
                     result = false;
             }
         }
@@ -208,6 +215,7 @@ public class Board {
     } //used by the GUI
 
     public void setPlayerInJail(Player player) {
+        GUIController.showMessage(Language.get("goToPrison"));
         setPlayerPosition(player, jailPosition, true);
     }
 
@@ -225,20 +233,23 @@ public class Board {
 
     public int amountOwnedWithinTheColor(int position) {
         int result = 0;
-        String color = ALL_SQUARES[position].getColor();
-        for (Square field : ALL_SQUARES) {
-            if (field.getColor().equals(color))
-                result++;
+        if (ALL_SQUARES[position].getOwner() != null) {
+            Player player = ALL_SQUARES[position].getOwner();
+            String color = ALL_SQUARES[position].getColor();
+            for (Square field : ALL_SQUARES) {
+                if (field.getColor().equals(color) && player.equals(field.getOwner()))
+                    result++;
+            }
         }
-        return result;
+            return result;
     }
 
     public void escapeJail(Player player, int dieRoll, boolean forcedToMove, boolean haveToPay, boolean usedChanceCard) {
         player.setInJail(false);
+        if (haveToPay)
+            actionHandler.boardPaymentsToBank(player, 1000);
         if (forcedToMove)
             updatePlayerPosition(player, dieRoll);
-        else if (haveToPay)
-            actionHandler.boardPaymentsToBank(player, 1000);
         else if (usedChanceCard) ;
         //TODO return card logic
     }
@@ -246,7 +257,7 @@ public class Board {
     public int playerTotalValue(Player player){
         int result = player.getBalance();
         for (Square field: ALL_SQUARES){
-            if (field.getOwner().equals(player)){
+            if (player.equals(field.getOwner())){
                 if (!field.getPledge())
                     result += field.getPrice();
                 else
@@ -257,5 +268,35 @@ public class Board {
             }
         }
         return result;
+    }
+
+    public void buyHouse(Player player, String color, int amountOfHouses){
+        int position = getFirstPropertyInAColor(color);
+
+        if (hasMonopoly(position, player)){
+            int price = ALL_SQUARES[position].getHousePrice();
+            if (actionHandler.isBuyingHousePossible(player, price, amountOfHouses)){
+                String[] choice = new String[amountOwnedWithinTheColor(position)];
+                for (int i = 0, j = 0; i < ALL_SQUARES.length; i++){
+                    if (color.equals(ALL_SQUARES[i].getColor())){
+                        choice[j] = ALL_SQUARES[i].getName();
+                        j++;
+                    }
+                }
+                do {
+                    GUIController.givePlayerChoice("Place a house", choice);
+                }while(amountOfHouses > 0);
+            }
+        }
+        else
+            GUIController.showMessage("You do not own all the properties in the color");
+    }
+
+    public int getFirstPropertyInAColor(String color){
+        for (Square field: ALL_SQUARES){
+            if (field.getColor().equals(color))
+                return field.getPOSITION();
+        }
+        return 0;
     }
 }
