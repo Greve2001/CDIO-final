@@ -1,7 +1,7 @@
 package Board;
 
 import Interface.GUIController;
-import Logic.DiceCup;
+import Utilities.Language;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import Logic.Player;
@@ -14,6 +14,7 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
+        Language.getInstance();
         board = new Board();
         player = new Player("test", 30000, 0);
         GUIController.setTesting(true);
