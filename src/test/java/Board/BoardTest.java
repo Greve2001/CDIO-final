@@ -41,15 +41,15 @@ class BoardTest {
         int playerStartBalance = 10000;
         player.setBalance(playerStartBalance);
         player.setPosition(35);
-        board.updatePlayerPosition(player,10);
-        assertEquals(5,player.getPosition());
+        board.updatePlayerPosition(player,12);
+        assertEquals(7,player.getPosition());
         assertEquals(14000, player.getBalance());
 
         //checking if start bonus is payed if player move backward over start
-        playerStartBalance = 10000;
+        player.setBalance(playerStartBalance);
         player.setPosition(2);
-        board.updatePlayerPosition(player,-3);
-        assertEquals(39,player.getPosition());
+        board.updatePlayerPosition(player,-6);
+        assertEquals(36,player.getPosition());
         assertEquals(10000, player.getBalance());
     }
 }
