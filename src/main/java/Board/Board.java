@@ -112,6 +112,10 @@ public class Board {
         reader.close();
     }
 
+    public ActionHandler getActionHandler(){
+        return actionHandler;
+    }
+
     private int[] stringArrayToIntArray(String[] arr, String type) {
         int offset = 7;
         int[] result;

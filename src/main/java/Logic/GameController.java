@@ -40,6 +40,8 @@ public class GameController {
         GUIController.createPlayers(START_MONEY);
         setupPlayers(GUIController.getPlayerNames());
 
+        board.getActionHandler().setPlayers(players);
+
     }
 
     private void setupPlayers(String[] playerNames) {

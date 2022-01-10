@@ -7,6 +7,7 @@ import Utilities.Language;
 public class ActionHandler {
     private final Bank BANK = new Bank();
     private final Board BOARD;
+    private Player[] players;
 
     public ActionHandler(Board BOARD) {
         this.BOARD = BOARD;
@@ -142,5 +143,9 @@ public class ActionHandler {
 
     public void boardPaymentsToBank(Player player, int amount) {
         BANK.payToBank(player, amount);
+    }
+
+    public void setPlayers(Player[] players){
+        this.players = players;
     }
 }
