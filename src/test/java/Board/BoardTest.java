@@ -72,6 +72,7 @@ class BoardTest {
         assertEquals(30050, b.getBalance());
         assertEquals(29950, a.getBalance());
     }
+
     @Test
     void amountOwnedWithinTheColor() {
         int result = 2,results2 = 3;
@@ -82,7 +83,6 @@ class BoardTest {
         assertEquals(expected,ALL_SQUARES[position].getColor());
         assertEquals(result,board.amountOwnedWithinTheColor(3));
         assertEquals(results2, board.amountOwnedWithinTheColor(11));
-
     }
 
     @Test
@@ -93,15 +93,13 @@ class BoardTest {
 
        int position = 3,position2 = 6,position3 = 9;
 
-
        ALL_SQUARES[position].setOwner(a);
        ALL_SQUARES[position2].setPledge(true);
        ALL_SQUARES[position2].setOwner(b);
        ALL_SQUARES[position3].setOwner(c);
 
-
        assertEquals(31200,board.playerTotalValue(a));
        assertEquals(31000,board.playerTotalValue(b));
-
+       assertEquals(32400,board.playerTotalValue(c));
     }
 }
