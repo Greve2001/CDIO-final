@@ -29,6 +29,13 @@ Indtast navn,enterName
 Ekstraordinær skat,extraTax
 Indkomst skat,incomeTax
 Start her!,startHere
+Brug dit gå frit kort,useEscapeCard
+Forsøg at bryde ud ved at slå 2 ens,attemptEscaping
+Betal 1000kr,payFee
+Du brød ud!,youBrokeFree
+Du brød desværre ikke ud,didNotEscape
+Du har ikke flere forsøg til at komme ud. Betal bøden,noMoreTries
+Vinderen er ,winnerIs
 
 ,,GUIErrors
 Ikke en vej. Den kan ikke ejes!,notAStreet

@@ -14,7 +14,6 @@ public class ActionHandler {
     }
 
     public void squareAction(Player player, Square square, int diceSum) {
-        System.out.println(square.getClass().getSimpleName());
         switch (square.getClass().getSimpleName()) {
             case "Street":
                 streetAction(player, square);
