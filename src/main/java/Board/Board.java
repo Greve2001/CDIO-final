@@ -4,6 +4,7 @@ import Interface.GUIController;
 import Logic.ActionHandler;
 import Logic.Player;
 import Utilities.CSVReader;
+import Utilities.Language;
 
 public class Board {
     private final Square[] ALL_SQUARES;
@@ -113,7 +114,7 @@ public class Board {
         reader.close();
     }
 
-    public void givePlayerToActionHandller(Player[] players){
+    public void givePlayerToActionHandler(Player[] players){
         actionHandler.setPlayers(players);
     }
 
@@ -213,6 +214,7 @@ public class Board {
     } //used by the GUI
 
     public void setPlayerInJail(Player player) {
+        GUIController.showMessage(Language.get("goToPrison"));
         setPlayerPosition(player, jailPosition, true);
     }
 
