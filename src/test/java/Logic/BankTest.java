@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class BankTest {
     Player player;
     Bank bank;
@@ -26,14 +24,14 @@ class BankTest {
     }
 
     @Test
-    void payToPlayer() {
+    void PlayersPayToPlayer() {
         Player[] players=new Player[]{
                 new Player("fishy",25000,0),
                 new Player("jack",30000,0),
                 new Player("Hidi",35000,0)
         };
 
-        bank.payToPlayer(player,30000,players);
+        bank.PlayersPayToPlayer(player,30000,players);
         Assertions.assertEquals(115000,player.getBalance());
         Assertions.assertEquals(0,players[0].getBalance());
         Assertions.assertEquals(0,players[1].getBalance());
@@ -41,8 +39,8 @@ class BankTest {
     }
 
     @Test
-    void payPlayer() {
-        bank.payPlayer(player,250);
+    void BankpaytoPlayer() {
+        bank.BankpaytoPlayer(player,250);
         Assertions.assertEquals(30250,player.getBalance());
     }
 

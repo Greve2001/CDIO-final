@@ -98,7 +98,7 @@ public class ActionHandler {
     // Pay the owner if they are not in jail.
     private void payRent(Player player, Square square, int amount) {
         if (!square.getOwner().isInJail())
-            bank.payToPlayer(square.getOwner(), amount, player);
+            bank.PlayersPayToPlayer(square.getOwner(), amount, player);
     }
 
     private void taxAction(Player player, Square square) {
