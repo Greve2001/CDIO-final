@@ -2,7 +2,6 @@ package Board;
 
 import Interface.GUIController;
 import Logic.ActionHandler;
-import Logic.DiceCup;
 import Logic.Player;
 import Utilities.CSVReader;
 
@@ -214,7 +213,7 @@ public class Board {
 
     public int getCurrentCost(int position) {
         int result;
-        if (ALL_SQUARES[position].isBuildAble() == true) {
+        if (ALL_SQUARES[position].isBuildAble()) {
             result = ALL_SQUARES[position].getCurrentCost();
             if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
                 result = result * 2;
