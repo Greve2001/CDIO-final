@@ -96,6 +96,7 @@ public class GameController {
 
         }while (playersLeft != 1);
         // Stop game. Find winner
+        findWinner();
     }
 
     private void takeTurn() throws InterruptedException {
@@ -181,15 +182,31 @@ public class GameController {
         }
         if(result)
             board.escapeJail(currentPlayer, diceCup.getSum(),forcedToMove, haveToPay, usedChanceCard);
+
         return !forcedToMove;
     }
 
     private void checkForBust(){ // Checks all players
+        playersLeft = players.length;
+
         for (Player player : players){
             if (player.getBalance() >= 0){
-                player.setActive(true);
+                player.setActive(false);
+                playersLeft--;
             }
         }
+    }
+
+    private void findWinner(){
+        Player winner = players[0]; // Somewhere to start
+        for (Player player : players){
+            if (player.getBalance() > winner.getBalance()){
+                winner = player;
+            }
+        }
+
+        // Winner is...
+        System.out.println("Winner is: " + winner);
     }
 
     private boolean isDoubles(int[] faceValues){
