@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import Logic.Player;
 
+import javax.swing.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
@@ -68,5 +70,16 @@ class BoardTest {
 
         assertEquals(30050, b.getBalance());
         assertEquals(29950, a.getBalance());
+    }
+    @Test
+    void playerTotalValue()
+    {
+       Player a = new Player("test",30000,0);
+
+       int position = 3;
+
+       ALL_SQUARES[position].setOwner(a);
+
+       assertEquals(30600,board.playerTotalValue(a));
     }
 }
