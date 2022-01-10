@@ -68,4 +68,8 @@ public abstract class Ownable extends Square{
     public boolean isBuildAble(){
         return false;
     }
+
+    public int getHousePrice(){
+        return 0;
+    }
 }

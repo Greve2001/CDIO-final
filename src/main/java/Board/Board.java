@@ -245,6 +245,17 @@ public class Board {
     }
 
     public int playerTotalValue(Player player){
-        return 0;
+        int result = player.getBalance();
+        for (Square field: ALL_SQUARES){
+            if (field.getOwner().equals(player)){
+                result += field.getPrice();
+                if (field.isBuildAble()){
+                    result += (field.getAmountOfHouses() * field.getHousePrice());
+                }
+            }
+        }
+        return result;
+
+        //TODO pledge
     }
 }
