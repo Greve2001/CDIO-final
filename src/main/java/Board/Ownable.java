@@ -49,15 +49,15 @@ public abstract class Ownable extends Square{
         return 0;
     }
 
-    public int getCurrentCost(int... amountOwned){
+    public int getCurrentCost(int... amountOwned) {
         int result;
-        if (owner != null)
-            if (getAmountOfHouses() != 0)
+        if (amountOwned.length == 0) {
+            if (owner != null)
                 result = RENT[getAmountOfHouses()];
             else
-                result = RENT[amountOwned[0]];
-        else
-            result = PRICE;
+                result = PRICE;
+        }else
+            result = RENT[amountOwned[0]];
         return result;
     }
 

@@ -213,9 +213,14 @@ public class Board {
     }
 
     public int getCurrentCost(int position) {
-        int result = ALL_SQUARES[position].getCurrentCost();
-        if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
-            result = result * 2;
+        int result;
+        if (ALL_SQUARES[position].isBuildAble() == true) {
+            result = ALL_SQUARES[position].getCurrentCost();
+            if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
+                result = result * 2;
+        } else{
+            result = getCurrentCost(amountOwnedWithinTheColor(position));
+        }
         return result;
     }
 
@@ -237,5 +242,9 @@ public class Board {
             actionHandler.boardPaymentsToBank(player, 1000);
         else if (usedChanceCard) ;
         //TODO return card logic
+    }
+
+    public int playerTotalValue(Player player){
+        return 0;
     }
 }
