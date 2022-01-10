@@ -109,6 +109,24 @@ class BoardTest {
 
         int position = 5;
 
+        a.setPosition(position);
 
+        board.updatePlayerPosition(a, 5);
+
+        assertFalse(a.isInJail());
+        assertEquals(10, a.getPosition());
+    }
+
+    @Test
+    void playerLandsOnGoToPrison(){
+        Player a = new Player("test",30000,0);
+
+        int position = 25;
+        a.setPosition(position);
+
+        board.updatePlayerPosition(a, 5);
+
+        assertTrue(a.isInJail());
+        assertEquals(10, a.getPosition());
     }
 }
