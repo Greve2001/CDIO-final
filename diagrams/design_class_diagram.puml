@@ -18,25 +18,15 @@ package Board
     +setPlayerPosition(Player, position:int) : void
 
     }
-     class Square {
+     abstract class Square {
          -name : String
          -position : int
-         -ownable : boolean
-         -type : String
-
      }
      class Street{
-
-        -COLOR : String
-        -PRICE : int
-        -RENT : int[]
-        -HOUSEPRICE : int
-        -owner : Player
-        -pledge : boolean
-
+        -amountOfHouses : int
 
      }
-     class Ownable{
+     abstract class Ownable{
         -COLOR : String
         -PRICE : int
         -RENT : int[]
@@ -50,8 +40,22 @@ package Board
      class Tax{
         -AMOUNT : int
      }
+     class Ferry{
+     }
+     class Brewery{
+     }
+     class GoToPrison{
+     }
+     class Prison{
+     }
+     class Refugee{
+     }
+     class Start{
+     }
+     class Chance{
+     }
 }
-package cards
+package Cards
 {
    abstract class chanceCard{
        #amount :dobule
@@ -67,6 +71,8 @@ package cards
       -drawCardCoubt : int
 
       +pullCard(): chanceCard
+   }
+   class ChanceCardLogic{
    }
    class MoveFieldsChanceCard{
 
@@ -101,7 +107,7 @@ package Logic{
          -dice : Die[]
 
          +rollDice() : void
-         +getFaceValues() : void
+         +getFaceValues() : int[]
      }
      class Bank {
          -housesAvailable : int
@@ -147,7 +153,7 @@ package Logic{
 
      }
 }
-package interface{
+package Interface{
 class GUIController{
       {static} -testing : boolean
       {static} -gui : GUI
@@ -202,6 +208,8 @@ package Utilities
   }
 }
 
+
+
 GameController -l- GUIController
 Bank -- ActionHandler
 GameController -u- ActionHandler
@@ -210,12 +218,21 @@ DiceCup -- Die
 GameController -r- Player
 
 ActionHandler -u- Deck
-GameController -d- Board
+GameController *-d- Board
 Board *-d- Square
+Square <|-- Tax
 Square <|-- Ownable
 Square <|-- incomeTax
-Square <|-- Street
-Square <|-- Tax
+Square <|-- Start
+Square <|-- Refugee
+Square <|-- GoToPrison
+Square <|-- Prison
+Square <|-- Chance
+Ownable <|-- Street
+Ownable <|-- Ferry
+Ownable <|-- Brewery
+
+
 
 Deck -- chanceCard
 chanceCard <|-- MoveFieldsChanceCard
