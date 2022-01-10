@@ -246,7 +246,7 @@ public class Board {
     public int playerTotalValue(Player player){
         int result = player.getBalance();
         for (Square field: ALL_SQUARES){
-            if (field.getOwner().equals(player)){
+            if (player.equals(field.getOwner())){
                 if (!field.getPledge())
                     result += field.getPrice();
                 else

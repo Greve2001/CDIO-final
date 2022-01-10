@@ -80,6 +80,6 @@ class BoardTest {
 
        ALL_SQUARES[position].setOwner(a);
 
-       assertEquals(30600,board.playerTotalValue(a));
+       assertEquals(31200,board.playerTotalValue(a));
     }
 }
