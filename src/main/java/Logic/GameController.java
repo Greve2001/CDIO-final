@@ -126,14 +126,22 @@ public class GameController {
     }
 
     private void changeTurn(){
-        // Get index of current player
-        int currentPlayerIndex = java.util.Arrays.asList(players).indexOf(currentPlayer);
+        int currentPlayerIndex;
+        boolean isNotActive;
+        do { // Run thorugh until find one active player
 
-        if (currentPlayerIndex >= (players.length-1)){
-            currentPlayer = players[0];
-        }else{
-            currentPlayer = players[currentPlayerIndex +1];
-        }
+            // Get index of current player
+            currentPlayerIndex = java.util.Arrays.asList(players).indexOf(currentPlayer);
+
+            if (currentPlayerIndex >= (players.length-1))
+                currentPlayer = players[0];
+            else
+                currentPlayer = players[currentPlayerIndex +1];
+
+
+            currentPlayerIndex = java.util.Arrays.asList(players).indexOf(currentPlayer); // Set again since we need to check in while-loop.
+            isNotActive = !players[currentPlayerIndex].getActive();
+        }while (isNotActive);
     }
 
     private boolean jailAttempt() {
@@ -190,7 +198,7 @@ public class GameController {
         playersLeft = players.length;
 
         for (Player player : players){
-            if (player.getBalance() >= 0){
+            if (player.getBalance() <= 0){
                 player.setActive(false);
                 playersLeft--;
             }
