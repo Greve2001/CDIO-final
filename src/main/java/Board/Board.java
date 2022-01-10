@@ -92,6 +92,7 @@ public class Board {
                             Integer.parseInt(data[position])
                     );
                     jailPosition = Integer.parseInt(data[position]);
+                    break;
                 case "goToPrison":
                     ALL_SQUARES[Integer.parseInt(data[position])] = new GoToPrison(
                             data[name],
