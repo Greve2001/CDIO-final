@@ -102,4 +102,13 @@ class BoardTest {
        assertEquals(31000,board.playerTotalValue(b));
        assertEquals(32400,board.playerTotalValue(c));
     }
+
+    @Test
+    void playerLandsOnPrison(){
+        Player a = new Player("test",30000,0);
+
+        int position = 5;
+
+
+    }
 }
