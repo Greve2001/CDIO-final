@@ -36,6 +36,7 @@ Du brød ud!,youBrokeFree
 Du brød desværre ikke ud,didNotEscape
 Du har ikke flere forsøg til at komme ud. Betal bøden,noMoreTries
 Vinderen er ,winnerIs
+Gå i fængsel,goToPrison
 
 ,,GUIErrors
 Ikke en vej. Den kan ikke ejes!,notAStreet

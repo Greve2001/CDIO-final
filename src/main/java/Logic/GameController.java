@@ -215,7 +215,7 @@ public class GameController {
         playersLeft = players.length;
 
         for (Player player : players){
-            if (player.getBalance() <= 0){
+            if (player.getBalance() <= 0 || player.getActive() == false){
                 player.setActive(false);
                 playersLeft--;
             }
