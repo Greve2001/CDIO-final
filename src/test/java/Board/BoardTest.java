@@ -75,11 +75,20 @@ class BoardTest {
     void playerTotalValue()
     {
        Player a = new Player("test",30000,0);
+       Player b = new Player("test2",30000,0);
+       Player c = new Player("test2",30000,0);
 
-       int position = 3;
+       int position = 3,position2 = 6,position3 = 9;
+
 
        ALL_SQUARES[position].setOwner(a);
+       ALL_SQUARES[position2].setPledge(true);
+       ALL_SQUARES[position2].setOwner(b);
+       ALL_SQUARES[position3].setOwner(c);
+
 
        assertEquals(31200,board.playerTotalValue(a));
+       assertEquals(31000,board.playerTotalValue(b));
+
     }
 }
