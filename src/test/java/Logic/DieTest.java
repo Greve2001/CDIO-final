@@ -11,13 +11,13 @@ class DieTest {
     @Test
     void roll() {
         die.roll();
-        Assertions.assertEquals(die.getFaceValue() <= 6, true);
+        assertTrue(die.getFaceValue() <= 6);
     }
 
     @Test
     void getFaceValue() {
         die.roll();
-        Assertions.assertEquals(die.getFaceValue() !=0,true);
+        assertTrue(die.getFaceValue() !=0);
 
     }
 }

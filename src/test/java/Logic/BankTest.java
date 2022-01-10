@@ -1,5 +1,6 @@
 package Logic;
 
+import Interface.GUIController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,45 +16,73 @@ class BankTest {
     }
 
     @Test
-    void payToBank() {
-      bank.payToBank(player,200);
-        Assertions.assertEquals(29800,player.getBalance());
+    void when_payToBank_then_amountMustBeDeducted(){
+        // Act
+        bank.payToBank(player,200);
 
+        // Assert
+        Assertions.assertEquals(29800,player.getBalance());
+    }
+
+    @Test
+    void when_payToBank_withInsufficientAmount_then_amountMustNotBeDeducted() {
+        // Act
         bank.payToBank(player,35000);
+
+        // Assert
         Assertions.assertEquals(0,player.getBalance());
     }
 
     @Test
-    void PlayersPayToPlayer() {
-        Player[] players=new Player[]{
-                new Player("fishy",25000,0),
-                new Player("jack",30000,0),
-                new Player("Hidi",35000,0)
-        };
+    void PlayersPayToPlayer2() {
+        // Arrange
+        var fishy = new Player("fishy",5,0);
+        var jack = new Player("jack",10,0);
+        var hidi = new Player("Hidi",15,0);
 
-        bank.PlayersPayToPlayer(player,30000,players);
-        Assertions.assertEquals(115000,player.getBalance());
-        Assertions.assertEquals(0,players[0].getBalance());
-        Assertions.assertEquals(0,players[1].getBalance());
-        Assertions.assertEquals(5000,players[2].getBalance());
+        // Act
+        GUIController.setTesting(true);
+        bank.PlayersPayToPlayer(player,10, fishy,jack,hidi);
+
+        // Assert
+        Assertions.assertEquals(30025, player.getBalance());
+        Assertions.assertEquals(0, fishy.getBalance());
+        Assertions.assertEquals(0, jack.getBalance());
+        Assertions.assertEquals(5, hidi.getBalance());
     }
 
     @Test
     void BankpaytoPlayer() {
+        // Act
+        GUIController.setTesting(true);
         bank.BankpaytoPlayer(player,250);
+
+        // Assert
         Assertions.assertEquals(30250,player.getBalance());
     }
 
     @Test
-    void buyHouses() {
+    void cannotBuyHousesIfNoHousesAreAvailable(){
+        // Act
         bank.buyHouses(player,101,2);
+
+        // Assert
         Assertions.assertEquals(100,bank.getHousesAvailable());
         Assertions.assertEquals(30000,player.getBalance());
+    }
 
+    @Test
+    void cannotBuyHousesIfPlayerDoesNotHaveEnoughMoney() {
+        // Act
         bank.buyHouses(player,2,20000);
+
+        // Assert
         Assertions.assertEquals(100,bank.getHousesAvailable());
         Assertions.assertEquals(30000,player.getBalance());
+    }
 
+    @Test
+    void playerCanBuyHousesIfTheyAreAvailableAndPlayerHasMoney(){
         bank.buyHouses(player,10,3000);
         Assertions.assertEquals(90,bank.getHousesAvailable());
         Assertions.assertEquals(0,player.getBalance());
