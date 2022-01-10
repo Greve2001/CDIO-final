@@ -46,8 +46,10 @@ class BoardTest {
         assertEquals(14000, player.getBalance());
 
         //checking if start bonus is payed if player move backward over start
+        playerStartBalance = 10000;
         player.setPosition(2);
         board.updatePlayerPosition(player,-3);
-        assertEquals(5,player.getPosition());
+        assertEquals(39,player.getPosition());
+        assertEquals(10000, player.getBalance());
     }
 }

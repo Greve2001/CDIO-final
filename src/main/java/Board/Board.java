@@ -201,7 +201,7 @@ public class Board {
     }
 
     public void payStartBonus(Player currentPlayer) {
-        //TODO sent to a method in AH, what have to be payed to who.
+        actionHandler.boardPaymentsToBank(currentPlayer, -4000);
     }
 
     public Square[] getALL_SQUARES() {
