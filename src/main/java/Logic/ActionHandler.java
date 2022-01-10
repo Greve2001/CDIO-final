@@ -113,10 +113,21 @@ public class ActionHandler {
         if (answer.equals(choices[0])) {
             int fortune = BOARD.playerTotalValue(player);
             int amountToPay = fortune * incomeTaxSquare.getPercentage() / 100;
+            amountToPay = roundToNearest50(amountToPay);
             bank.payToBank(player, amountToPay);
         } else {
             bank.payToBank(player, incomeTaxSquare.getAmount());
         }
+    }
+
+    public int roundToNearest50(int valueToRound) {
+        int modulo = valueToRound % 50;
+        if (modulo < 25)
+            valueToRound = valueToRound - (50 + modulo);
+        else
+            valueToRound = valueToRound + (50 - modulo);
+
+        return valueToRound;
     }
 
     private void goToPrison(Player player) {
