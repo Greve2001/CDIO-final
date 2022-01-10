@@ -42,7 +42,6 @@ public class ActionHandler {
     }
 
     private void streetAction(Player player, Square square) {
-        System.out.println("StreetAction");
         if (square.getOwner() == null) { // Buy it
             buySquare(player, square, "buyStreet");
 
