@@ -17,6 +17,7 @@ public class Deck {
         chanceCardDeck[4] = new MoveFieldsCard(3);
         chanceCardDeck[5] = new MoveFieldsCard(-3);
 
+        shuffleCards();
     }
 
     /**
@@ -44,6 +45,10 @@ public class Deck {
         return chanceCardDeck[drawCardCount++];
     }
 
+    
+    public void shuffleCards(){
+
+    }
 
 
 }
