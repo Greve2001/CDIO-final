@@ -111,8 +111,9 @@ public class ActionHandler {
         String answer = GUIController.givePlayerChoice(Language.get("payIncomeTax"), choices);
 
         if (answer.equals(choices[0])) {
-            // TODO Calculate player fortune and make the player pay 10% of this to the bank
-            bank.payToBank(player, incomeTaxSquare.getAmount());
+            int fortune = BOARD.playerTotalValue(player);
+            int amountToPay = fortune * incomeTaxSquare.getPercentage() / 100;
+            bank.payToBank(player, amountToPay);
         } else {
             bank.payToBank(player, incomeTaxSquare.getAmount());
         }
