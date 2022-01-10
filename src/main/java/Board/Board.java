@@ -112,8 +112,8 @@ public class Board {
         reader.close();
     }
 
-    public ActionHandler getActionHandler(){
-        return actionHandler;
+    public void givePlayerToActionHandller(Player[] players){
+        actionHandler.setPlayers(players);
     }
 
     private int[] stringArrayToIntArray(String[] arr, String type) {
