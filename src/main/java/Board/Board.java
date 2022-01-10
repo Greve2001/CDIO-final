@@ -263,4 +263,22 @@ public class Board {
         }
         return result;
     }
+
+    public void buyHouse(Player player, String color){
+        int position = getFirstPropertyInAColor(color);
+
+        if (hasMonopoly(position, player)){
+            //TODO actionhandler sektion
+        }
+
+
+    }
+
+    public int getFirstPropertyInAColor(String color){
+        for (Square field: ALL_SQUARES){
+            if (field.getColor().equals(color))
+                return field.getPOSITION();
+        }
+        return 0;
+    }
 }
