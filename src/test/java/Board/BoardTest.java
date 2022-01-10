@@ -8,6 +8,7 @@ import Logic.Player;
 
 import javax.swing.*;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
@@ -72,8 +73,20 @@ class BoardTest {
         assertEquals(29950, a.getBalance());
     }
     @Test
-    void playerTotalValue()
-    {
+    void amountOwnedWithinTheColor() {
+        int result = 2,results2 = 3;
+        int position = 3;
+        String expected = "blue";
+
+        String color = ALL_SQUARES[position].getColor();
+        assertEquals(expected,ALL_SQUARES[position].getColor());
+        assertEquals(result,board.amountOwnedWithinTheColor(3));
+        assertEquals(results2, board.amountOwnedWithinTheColor(11));
+
+    }
+
+    @Test
+    void playerTotalValue() {
        Player a = new Player("test",30000,0);
        Player b = new Player("test2",30000,0);
        Player c = new Player("test2",30000,0);
