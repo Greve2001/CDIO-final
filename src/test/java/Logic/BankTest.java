@@ -34,7 +34,7 @@ class BankTest {
     }
 
     @Test
-    void PlayersPayToPlayer2() {
+    void when_playersPayToPlayer_playerAmountShouldBeIncreased() {
         // Arrange
         var fishy = new Player("fishy",5,0);
         var jack = new Player("jack",10,0);
@@ -46,13 +46,27 @@ class BankTest {
 
         // Assert
         Assertions.assertEquals(30025, player.getBalance());
+    }
+
+    @Test
+    void when_playersPayToPlayer_payingPlayersAmountShouldBeDecreased() {
+        // Arrange
+        var fishy = new Player("fishy",5,0);
+        var jack = new Player("jack",10,0);
+        var hidi = new Player("Hidi",15,0);
+
+        // Act
+        GUIController.setTesting(true);
+        bank.PlayersPayToPlayer(player,10, fishy,jack,hidi);
+
+        // Assert
         Assertions.assertEquals(0, fishy.getBalance());
         Assertions.assertEquals(0, jack.getBalance());
         Assertions.assertEquals(5, hidi.getBalance());
     }
 
     @Test
-    void BankpaytoPlayer() {
+    void when_bankPayToPlayer_then_playerAmountMustBeIncreased() {
         // Act
         GUIController.setTesting(true);
         bank.BankpaytoPlayer(player,250);
@@ -62,7 +76,7 @@ class BankTest {
     }
 
     @Test
-    void cannotBuyHousesIfNoHousesAreAvailable(){
+    void when_buyHouses_and_numHousesInBankIsTooLow_noHousesAreBought(){
         // Act
         bank.buyHouses(player,101,2);
 
@@ -72,7 +86,7 @@ class BankTest {
     }
 
     @Test
-    void cannotBuyHousesIfPlayerDoesNotHaveEnoughMoney() {
+    void when_buyHouses_and_playerAmountIsTooLow_noHousesAreBought() {
         // Act
         bank.buyHouses(player,2,20000);
 
@@ -82,24 +96,58 @@ class BankTest {
     }
 
     @Test
-    void playerCanBuyHousesIfTheyAreAvailableAndPlayerHasMoney(){
+    void when_buyHouses_housesInBankShouldBeDeducted(){
+        // Act
         bank.buyHouses(player,10,3000);
+
+        // Assert
         Assertions.assertEquals(90,bank.getHousesAvailable());
+    }
+
+    @Test
+    void when_buyHouses_playerAmountShouldBeDeducted(){
+        // Act
+        bank.buyHouses(player,10,3000);
+
+        // Assert
         Assertions.assertEquals(0,player.getBalance());
     }
 
     @Test
-    void buyHotels() {
+    void when_buyHotels_and_bankHasTooFewHotels_noHotelsShouldBeBought(){
+        // Act
         bank.buyHotels(player,21,2);
+
+        // Assert
         Assertions.assertEquals(20,bank.getHotelsAvailable());
         Assertions.assertEquals(30000,player.getBalance());
+    }
 
+    @Test
+    void when_buyHotels_and_playerHasNotSufficientMoney_noHotelsShouldBeBought(){
+        // Act
         bank.buyHotels(player,2,20000);
+
+        // Assert
         Assertions.assertEquals(20,bank.getHotelsAvailable());
         Assertions.assertEquals(30000,player.getBalance());
+    }
 
+    @Test
+    void when_buyHotels_bankHotelsMustBeDeducted(){
+        // Act
         bank.buyHotels(player,5,2500);
+
+        // Assert
         Assertions.assertEquals(15,bank.getHotelsAvailable());
+    }
+
+    @Test
+    void when_buyHotels_playerAmountMustBeDeducted(){
+        // Act
+        bank.buyHotels(player,5,2500);
+
+        // Assert
         Assertions.assertEquals(17500,player.getBalance());
     }
 }
