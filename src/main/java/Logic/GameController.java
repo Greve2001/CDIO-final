@@ -92,6 +92,8 @@ public class GameController {
 
             hasExtraTurn = false; // Make sure that extra turn is reset
 
+            checkForBust();
+
         }while (playersLeft != 1);
         // Stop game. Find winner
     }
@@ -174,12 +176,20 @@ public class GameController {
                 usedChanceCard = true;
                 break;
             default:
-                //TODO exeption handling?!
+                //TODO exception handling?!
                 break;
         }
         if(result)
             board.escapeJail(currentPlayer, diceCup.getSum(),forcedToMove, haveToPay, usedChanceCard);
         return !forcedToMove;
+    }
+
+    private void checkForBust(){ // Checks all players
+        for (Player player : players){
+            if (player.getBalance() >= 0){
+                player.setActive(true);
+            }
+        }
     }
 
     private boolean isDoubles(int[] faceValues){
