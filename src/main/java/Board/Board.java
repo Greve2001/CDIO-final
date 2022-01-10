@@ -257,7 +257,5 @@ public class Board {
             }
         }
         return result;
-
-        //TODO pledge
     }
 }
