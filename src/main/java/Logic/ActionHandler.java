@@ -5,7 +5,7 @@ import Interface.GUIController;
 import Utilities.Language;
 
 public class ActionHandler {
-    private final Bank bank = new Bank();
+    private final Bank BANK = new Bank();
     private final Board BOARD;
 
     public ActionHandler(Board BOARD) {
@@ -54,11 +54,12 @@ public class ActionHandler {
     }
 
     private void breweryAction(Player player, Square square, int diceSum) {
-        if (square.getOwner() == null) {
+        if (square.getOwner() == null) { // Ask to buy
             buySquare(player, square, "buyBrewery");
-        } else {
+        } else { // Pay the rent
             boolean payDouble = BOARD.amountOwnedWithinTheColor(square.getPOSITION()) == 2;
 
+            // Doubles the amount of rent if the player owns all breweries.
             int amountToPay;
             if (!payDouble) {
                 amountToPay = diceSum * square.getRent()[0];
@@ -72,9 +73,9 @@ public class ActionHandler {
     }
 
     private void ferryAction(Player player, Square square) {
-        if (square.getOwner() == null) {
+        if (square.getOwner() == null) { // Buy if no owner
             buySquare(player, square, "buyFerry");
-        } else {
+        } else { // Pay the rent
             int amountOwned = BOARD.amountOwnedWithinTheColor(square.getPOSITION());
             int amountToPay = square.getCurrentCost(amountOwned);
 
@@ -88,7 +89,7 @@ public class ActionHandler {
         boolean answer = GUIController.askPlayerAccept(Language.get(msg));
 
         if (answer) {
-            bank.payToBank(player, square.getPrice());
+            BANK.payToBank(player, square.getPrice());
             square.setOwner(player);
             GUIController.setOwner(player, square.getPOSITION());
         }
@@ -96,13 +97,14 @@ public class ActionHandler {
     }
 
     // Pay the owner if they are not in jail.
+    // TODO Implement if the square is pledged as well.
     private void payRent(Player player, Square square, int amount) {
         if (!square.getOwner().isInJail())
-            bank.PlayersPayToPlayer(square.getOwner(), amount, player);
+            BANK.PlayersPayToPlayer(square.getOwner(), amount, player);
     }
 
     private void taxAction(Player player, Square square) {
-        bank.payToBank(player, ((Tax) square).getAmount());
+        BANK.payToBank(player, ((Tax) square).getAmount());
     }
 
     private void incomeTaxAction(Player player, Square square) {
@@ -114,9 +116,9 @@ public class ActionHandler {
             int fortune = BOARD.playerTotalValue(player);
             int amountToPay = fortune * incomeTaxSquare.getPercentage() / 100;
             amountToPay = roundToNearest50(amountToPay);
-            bank.payToBank(player, amountToPay);
+            BANK.payToBank(player, amountToPay);
         } else {
-            bank.payToBank(player, incomeTaxSquare.getAmount());
+            BANK.payToBank(player, incomeTaxSquare.getAmount());
         }
     }
 
@@ -139,6 +141,6 @@ public class ActionHandler {
     }
 
     public void boardPaymentsToBank(Player player, int amount) {
-        bank.payToBank(player, amount);
+        BANK.payToBank(player, amount);
     }
 }
