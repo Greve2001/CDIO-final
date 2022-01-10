@@ -3,10 +3,25 @@ package Logic;
 public class DiceCup {
     private Die[] dice;
 
+    /**
+     * Creates a standard DiceCup with 2 dice having 6 sides.
+     */
     public DiceCup(){
         int nrOfDies = 2;
         int nrOfSides = 6;
 
+        dice=new Die[nrOfDies];
+
+        for (int i = 0; i < nrOfDies; i++){
+            dice[i] = new Die(nrOfSides);
+        }
+    }
+
+    /**
+     * @param nrOfDies - the number of dice in the cup
+     * @param nrOfSides - the number of sides of each die
+     */
+    public DiceCup(int nrOfDies, int nrOfSides) {
         dice=new Die[nrOfDies];
 
         for (int i = 0; i < nrOfDies; i++){
