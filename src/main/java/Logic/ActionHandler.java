@@ -6,10 +6,10 @@ import Utilities.Language;
 
 public class ActionHandler {
     private final Bank bank = new Bank();
-    private Board board;
+    private final Board BOARD;
 
-    public ActionHandler(Board board) {
-        this.board = board;
+    public ActionHandler(Board BOARD) {
+        this.BOARD = BOARD;
     }
 
     public void squareAction(Player player, Square square, int diceSum) {
@@ -46,10 +46,9 @@ public class ActionHandler {
             buySquare(player, square, "buyStreet");
 
         } else { // Pay the rent
-            int amountToPay = board.getCurrentCost(square.getPOSITION());
+            int amountToPay = BOARD.getCurrentCost(square.getPOSITION());
 
-            if (!square.getOwner().isInJail())
-                bank.payToPlayer(square.getOwner(), amountToPay, player);
+            payRent(player, square, amountToPay);
         }
 
     }
@@ -58,16 +57,16 @@ public class ActionHandler {
         if (square.getOwner() == null) {
             buySquare(player, square, "buyBrewery");
         } else {
-            boolean payDouble = board.amountOwnedWithinTheColor(square.getPOSITION()) == 2;
+            boolean payDouble = BOARD.amountOwnedWithinTheColor(square.getPOSITION()) == 2;
 
-            int priceToPay;
+            int amountToPay;
             if (!payDouble) {
-                priceToPay = diceSum * square.getRent()[0];
+                amountToPay = diceSum * square.getRent()[0];
             } else {
-                priceToPay = diceSum * square.getRent()[1];
+                amountToPay = diceSum * square.getRent()[1];
             }
-            if (!square.getOwner().isInJail())
-                bank.payToPlayer(square.getOwner(), priceToPay, player);
+
+            payRent(player, square, amountToPay);
         }
 
     }
@@ -75,17 +74,16 @@ public class ActionHandler {
     private void ferryAction(Player player, Square square) {
         if (square.getOwner() == null) {
             buySquare(player, square, "buyFerry");
-        }
-        else{
-            int amountOwned = board.amountOwnedWithinTheColor(square.getPOSITION());
+        } else {
+            int amountOwned = BOARD.amountOwnedWithinTheColor(square.getPOSITION());
             int amountToPay = square.getCurrentCost(amountOwned);
 
-            if (!square.getOwner().isInJail())
-                bank.payToPlayer(player, amountToPay, square.getOwner());
+            payRent(player, square, amountToPay);
         }
 
     }
 
+    // Ask the player to buy the square and withdraw amount from bank.
     private void buySquare(Player player, Square square, String msg) {
         boolean answer = GUIController.askPlayerAccept(Language.get(msg));
 
@@ -94,6 +92,13 @@ public class ActionHandler {
             square.setOwner(player);
             GUIController.setOwner(player, square.getPOSITION());
         }
+        // TODO Implement auction as else clause
+    }
+
+    // Pay the owner if they are not in jail.
+    private void payRent(Player player, Square square, int amount) {
+        if (!square.getOwner().isInJail())
+            bank.payToPlayer(square.getOwner(), amount, player);
     }
 
     private void taxAction(Player player, Square square) {
@@ -103,9 +108,9 @@ public class ActionHandler {
     private void incomeTaxAction(Player player, Square square) {
         // TODO get percentage from csv
         String[] choices = {Language.get("pay10pct"), "4000 kr."};
-        String chosen = GUIController.givePlayerChoice(Language.get("payIncomeTax"), choices);
+        String answer = GUIController.givePlayerChoice(Language.get("payIncomeTax"), choices);
 
-        if (chosen.equals(choices[0])) {
+        if (answer.equals(choices[0])) {
             // TODO Calculate player fortune and make the player pay 10% of this to the bank
             bank.payToBank(player, ((IncomeTax) square).getAmount());
         } else {
@@ -114,14 +119,14 @@ public class ActionHandler {
     }
 
     private void goToPrison(Player player) {
-        board.setPlayerInJail(player);
+        BOARD.setPlayerInJail(player);
     }
 
     public void cardAction(Player player) {
 
     }
 
-    public void boardPaymentsToBank(Player player, int amount){
+    public void boardPaymentsToBank(Player player, int amount) {
         bank.payToBank(player, amount);
     }
 }
