@@ -94,8 +94,75 @@ public class ActionHandler {
             BANK.payToBank(player, square.getPrice());
             square.setOwner(player);
             GUIController.setOwner(player, square.getPOSITION());
+        } else {
+            holdAuction(player, square);
         }
-        // TODO Implement auction as else clause
+    }
+
+    public void holdAuction(Player player, Square square) {
+        int biddingPlayer = 0;
+        int activeBidders = 0;
+        boolean[] participants = new boolean[players.length];
+
+        for (int i = 0; i < players.length; i++) {
+            // Checks which players initially are allowed to participate in the auction.
+            if(players[i].getActive()) {
+                participants[i] = true;
+                activeBidders++;
+            }
+
+            // Finds the current player out of all players.
+            if(players[i].getName().equals(player.getName()))
+                biddingPlayer = i;
+        }
+
+        boolean notSold = true;
+        int highestBid = 0;
+        while(notSold) {
+            boolean wantToBid;
+
+            // Declares the last active bidder in the auction the winner.
+            if (activeBidders == 1) {
+               for (int i = 0; i < participants.length; i++) {
+                    if (participants[i]) {
+                        GUIController.showMessage(players[i].getName() + Language.get("hasWonAuction"));
+
+                        square.setOwner(players[i]);
+                        BANK.payToBank(players[i], highestBid);
+                        GUIController.setOwner(players[i], square.getPOSITION());
+                        notSold = false;
+                    }
+                }
+            } else { // Checks if the player is still an active bidder before letting them place a new bet.
+                if (participants[biddingPlayer]) {
+                    wantToBid = GUIController.askPlayerAccept(players[biddingPlayer].getName() + Language.get("wishToBid"));
+
+                    // Asks if the players wants to bet and if not takes them out of the auction.
+                    if (!wantToBid) {
+                        participants[biddingPlayer] = false;
+                        activeBidders--;
+                    } else {
+                        int bid;
+
+                        // Ask the player how much they want to bet and checks if the bet is large enough.
+                        do {
+                            bid = GUIController.getPlayerInteger(players[biddingPlayer].getName() +
+                                    Language.get("askForBid") + highestBid + " kr.)");
+
+                        } while (bid < highestBid + 100);
+
+                        if (bid >= highestBid + 100)
+                            highestBid = bid;
+                    }
+                }
+
+                // Change the bidding player.
+                if (biddingPlayer >= players.length - 1)
+                    biddingPlayer = 0;
+                else
+                    biddingPlayer++;
+            }
+        }
     }
 
     // Pay the owner if they are not in jail.

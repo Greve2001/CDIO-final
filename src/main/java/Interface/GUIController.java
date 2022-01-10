@@ -28,7 +28,7 @@ public class GUIController {
     private static Square[] fields;
     private static Board gameBoard;
 
-    private static int moveTime = 20;
+    private static int moveTime = 5;
 
     public GUIController(Board board){
         if (testing) return;

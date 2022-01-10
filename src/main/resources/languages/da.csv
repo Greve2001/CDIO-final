@@ -36,6 +36,7 @@ Du brød ud!,youBrokeFree
 Du brød desværre ikke ud,didNotEscape
 Du har ikke flere forsøg til at komme ud. Betal bøden,noMoreTries
 Vinderen er ,winnerIs
+Gå i fængsel,goToPrison
 
 ,,GUIErrors
 Ikke en vej. Den kan ikke ejes!,notAStreet
@@ -49,3 +50,6 @@ Pris,price
 ,,ActionHandler
 Betal ,payPct
 Betal indkomstskat.,payIncomeTax
+ ønsker du at afgive et bud?,wishToBid
+ dit bud? (Nuværende højeste bud er: ,askForBid
+ har vundet auktionen,hasWonAuction
