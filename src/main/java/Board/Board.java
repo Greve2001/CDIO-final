@@ -230,12 +230,15 @@ public class Board {
 
     public int amountOwnedWithinTheColor(int position) {
         int result = 0;
-        String color = ALL_SQUARES[position].getColor();
-        for (Square field : ALL_SQUARES) {
-            if (field.getColor().equals(color))
-                result++;
+        if (ALL_SQUARES[position].getOwner() != null) {
+            Player player = ALL_SQUARES[position].getOwner();
+            String color = ALL_SQUARES[position].getColor();
+            for (Square field : ALL_SQUARES) {
+                if (field.getColor().equals(color) && player.equals(field.getOwner()))
+                    result++;
+            }
         }
-        return result;
+            return result;
     }
 
     public void escapeJail(Player player, int dieRoll, boolean forcedToMove, boolean haveToPay, boolean usedChanceCard) {

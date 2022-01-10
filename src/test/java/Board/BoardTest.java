@@ -74,18 +74,6 @@ class BoardTest {
     }
 
     @Test
-    void amountOwnedWithinTheColor() {
-        int result = 2,results2 = 3;
-        int position = 3;
-        String expected = "blue";
-
-        String color = ALL_SQUARES[position].getColor();
-        assertEquals(expected,ALL_SQUARES[position].getColor());
-        assertEquals(result,board.amountOwnedWithinTheColor(3));
-        assertEquals(results2, board.amountOwnedWithinTheColor(11));
-    }
-
-    @Test
     void playerTotalValue() {
        Player a = new Player("test",30000,0);
        Player b = new Player("test2",30000,0);
@@ -128,5 +116,35 @@ class BoardTest {
 
         assertTrue(a.isInJail());
         assertEquals(10, a.getPosition());
+    }
+
+    @Test
+    void amountOwnedWithinTheColorTest(){
+        Player a = new Player("test",30000,0);
+
+        int position1 = 6, position2 = 8, position3 = 9;
+
+        ALL_SQUARES[position1].setOwner(a);
+        assertEquals(1,board.amountOwnedWithinTheColor(position1));
+
+        ALL_SQUARES[position2].setOwner(a);
+        assertEquals(2, board.amountOwnedWithinTheColor(position2));
+
+        ALL_SQUARES[position3].setOwner(a);
+        assertEquals(3, board.amountOwnedWithinTheColor(position3));
+    }
+
+    @Test
+    void escapeJailTest(){
+        Player a = new Player("test",30000,0);
+        a.setInJail(true);
+
+        boolean forcedToMove = false, haveToPay = true, usedChanceCard = false;
+
+        board.escapeJail(a, 0, forcedToMove, haveToPay, usedChanceCard);
+
+        assertFalse(a.isInJail());
+        assertEquals(29000,a.getBalance());
+
     }
 }
