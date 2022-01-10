@@ -1,6 +1,7 @@
 package Board;
 
 import Interface.GUIController;
+import Logic.Bank;
 import Utilities.Language;
 import gui_main.GUI;
 import org.junit.jupiter.api.BeforeEach;
@@ -168,5 +169,46 @@ class BoardTest {
         assertEquals(28000, a.getBalance());
 
         //TODO test escape card use
+    }
+
+    @Test
+    void testBuyHouse(){
+        Player a = new Player("a",30000,0);
+
+        int position1 = 16, position2 = 18, position3 = 19;
+        String color = "grey";
+        boolean happend;
+
+        ALL_SQUARES[position1].setOwner(a);
+        ALL_SQUARES[position2].setOwner(a);
+
+        board.buyHouse(a,color,6);
+
+        assertEquals(30000, a.getBalance());
+        assertEquals(0, ALL_SQUARES[position1].getAmountOfHouses());
+        assertEquals(0, ALL_SQUARES[position2].getAmountOfHouses());
+        assertEquals(0, ALL_SQUARES[position3].getAmountOfHouses());
+
+        ALL_SQUARES[position3].setOwner(a);
+        a.setBalance(10000);
+
+        board.buyHouse(a,color,6);
+
+        assertEquals(10000, a.getBalance());
+        assertEquals(0, ALL_SQUARES[position1].getAmountOfHouses());
+        assertEquals(0, ALL_SQUARES[position2].getAmountOfHouses());
+        assertEquals(0, ALL_SQUARES[position3].getAmountOfHouses());
+
+        a.setBalance(30000);
+
+        board.buyHouse(a,color,6);
+
+        assertEquals(18000, a.getBalance());
+        assertNotEquals(0, ALL_SQUARES[position1].getAmountOfHouses());
+        assertNotEquals(0, ALL_SQUARES[position2].getAmountOfHouses());
+        assertNotEquals(0, ALL_SQUARES[position3].getAmountOfHouses());
+
+
+
     }
 }

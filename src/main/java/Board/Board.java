@@ -49,6 +49,7 @@ public class Board {
                             stringArrayToIntArray(data, data[type]),
                             Integer.parseInt(data[price])
                     );
+                    break;
                 case "brewery":
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Brewery(
                             data[name],
@@ -141,13 +142,13 @@ public class Board {
         Player owner = ALL_SQUARES[position].getOwner();
         boolean result = false;
 
-        if (owner != null && !ALL_SQUARES[position].isBuildAble()) {
+        if (owner != null && ALL_SQUARES[position].isBuildAble()) {
             result = true;
             if (player != null) //handle out of bounce
                 owner = player[0];
 
             for (Square square : ALL_SQUARES) {
-                if (square.getColor().equals(color) && !square.getOwner().equals(owner))
+                if (color.equals(square.getColor()) && !owner.equals(square.getOwner()))
                     result = false;
             }
         }
