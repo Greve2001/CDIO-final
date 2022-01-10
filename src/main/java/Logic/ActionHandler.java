@@ -76,13 +76,13 @@ public class ActionHandler {
     private void ferryAction(Player player, Square square) {
         if (square.getOwner() == null) {
             buySquare(player, square, "buyFerry");
-            // Use this when making payment method:
-            // if (!square.getOwner().isInJail())
         }
         else{
             int amountOwned = board.amountOwnedWithinTheColor(square.getPOSITION());
             int amountToPay = square.getCurrentCost(amountOwned);
-            bank.payToPlayer(player, amountToPay, square.getOwner());
+
+            if (!square.getOwner().isInJail())
+                bank.payToPlayer(player, amountToPay, square.getOwner());
         }
 
     }
