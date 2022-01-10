@@ -42,7 +42,7 @@ public class GameController {
         GUIController.createPlayers(START_MONEY);
         setupPlayers(GUIController.getPlayerNames());
 
-        board.givePlayerToActionHandller(players);
+        board.givePlayerToActionHandler(players);
 
     }
 
@@ -57,14 +57,14 @@ public class GameController {
     }
 
     public void playGame() throws InterruptedException {
-        boolean allowedDicision;
+        boolean allowedDecision;
         do {
-            allowedDicision = true;
+            allowedDecision = true;
             if (currentPlayer.isInJail()){ // In jail. No other options
-                allowedDicision = jailAttempt();
+                allowedDecision = jailAttempt();
 
             }
-            if (allowedDicision){ // Not in jail or gotten out in good standing.
+            if (allowedDecision){ // Not in jail or gotten out in good standing.
 
                 // Ask if want to buy houses etc.
                 String msg = currentPlayer.getName() + ": " + Language.get("askAction");

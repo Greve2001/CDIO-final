@@ -113,7 +113,7 @@ public class Board {
         reader.close();
     }
 
-    public void givePlayerToActionHandller(Player[] players){
+    public void givePlayerToActionHandler(Player[] players){
         actionHandler.setPlayers(players);
     }
 
