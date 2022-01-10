@@ -245,10 +245,10 @@ public class Board {
 
     public void escapeJail(Player player, int dieRoll, boolean forcedToMove, boolean haveToPay, boolean usedChanceCard) {
         player.setInJail(false);
+        if (haveToPay)
+            actionHandler.boardPaymentsToBank(player, 1000);
         if (forcedToMove)
             updatePlayerPosition(player, dieRoll);
-        else if (haveToPay)
-            actionHandler.boardPaymentsToBank(player, 1000);
         else if (usedChanceCard) ;
         //TODO return card logic
     }
@@ -269,14 +269,26 @@ public class Board {
         return result;
     }
 
-    public void buyHouse(Player player, String color){
+    public void buyHouse(Player player, String color, int amountOfHouses){
         int position = getFirstPropertyInAColor(color);
 
         if (hasMonopoly(position, player)){
-            //TODO actionhandler sektion
+            int price = ALL_SQUARES[position].getHousePrice();
+            if (actionHandler.isBuyingHousePossible(player, price, amountOfHouses)){
+                String[] choice = new String[amountOwnedWithinTheColor(position)];
+                for (int i = 0, j = 0; i < ALL_SQUARES.length; i++){
+                    if (color.equals(ALL_SQUARES[i].getColor())){
+                        choice[j] = ALL_SQUARES[i].getName();
+                        j++;
+                    }
+                }
+                do {
+                    GUIController.givePlayerChoice("Place a house", choice);
+                }while(amountOfHouses > 0);
+            }
         }
-
-
+        else
+            GUIController.showMessage("You do not own all the properties in the color");
     }
 
     public int getFirstPropertyInAColor(String color){

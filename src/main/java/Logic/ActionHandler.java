@@ -209,4 +209,22 @@ public class ActionHandler {
     public void setPlayers(Player[] players){
         this.players = players;
     }
+
+    public boolean isBuyingHousePossible(Player player, int price, int amount){
+        boolean result = false;
+        if (player.getBalance() > price * amount && BANK.getHousesAvailable() >= amount){
+            BANK.buyHouses(player, amount, price);
+            result = true;
+        }
+        return result;
+    }
+
+    public boolean isBuyingHotelPossible(Player player, int price, int amount){
+        boolean result = false;
+        if (player.getBalance() > price * amount && BANK.getHotelsAvailable() >= amount){
+            BANK.buyHotels(player, amount, price);
+            result = true;
+        }
+        return result;
+    }
 }
