@@ -4,7 +4,7 @@ package cards;
  * The ChanceCard-class is made abstract, since it shouldn't be instantiated.
  * The child-classes will override the method, specific to its feature.
  */
-abstract class ChanceCard {
+public abstract class ChanceCard {
 
 
     /**

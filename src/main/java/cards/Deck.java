@@ -38,16 +38,10 @@ public class Deck {
      * @returns the ChanceCard that is currently at the top of the deck.
      */
     public ChanceCard pullCard() {
-        try {
-            return chanceCardDeck[drawCardCount++];
-
-        } catch (ArrayIndexOutOfBoundsException ex){
-            // If an ArrayOutOfBoundsException is thrown, the deck is empty and the drawCardCount is reset
-            // to 0 making sure that the next card will be drawn from the top of the deck.
+        if (drawCardCount >= chanceCardDeck.length){
             drawCardCount = 0;
-            return chanceCardDeck[drawCardCount++];
         }
-
+        return chanceCardDeck[drawCardCount++];
     }
 
 
