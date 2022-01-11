@@ -279,6 +279,7 @@ public class Board {
 
     public void buyHouse(Player player, String color, int amountOfHouses){
         int position = getFirstPropertyInAColor(color);
+        String whereToPlaceHouse;
 
         if (hasMonopoly(position, player)){
             int price = ALL_SQUARES[position].getHousePrice();
@@ -291,7 +292,13 @@ public class Board {
                     }
                 }
                 do {
-                    GUIController.givePlayerChoice("Place a house", choice);
+                    whereToPlaceHouse = GUIController.givePlayerChoice("Place a house", choice);
+                    for (Square field: ALL_SQUARES){
+                        if(whereToPlaceHouse.equals(field.getName())) {
+                            field.setAmountOfHouses(field.getAmountOfHouses() + 1);
+                            amountOfHouses--;
+                        }
+                    }
                 }while(amountOfHouses > 0);
             }
         }
