@@ -172,7 +172,7 @@ public class Board {
 
         //GUI update
         player.setPosition(endPosition);
-        GUIController.movePlayer(player, startPos, diceValue);
+        GUIController.movePlayer(player.getName(), startPos, diceValue);
 
         //send relevant information to the actionhandler to execute field action.
         actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], diceValue);
@@ -186,7 +186,7 @@ public class Board {
 
         int startPos = player.getPosition();
         player.setPosition(endPos);
-        GUIController.movePlayer(player, startPos, calculateSpaceToMove(startPos, endPos));
+        GUIController.movePlayer(player.getName(), startPos, calculateSpaceToMove(startPos, endPos));
 
         actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], 0);
     }
@@ -338,7 +338,7 @@ public class Board {
             }
         }
         else
-            GUIController.getPlayerAction(player,"You do not own all the properties in the color");
+            GUIController.getPlayerAction(player.getName(),"You do not own all the properties in the color");
     }
 
     private int getFirstPropertyInAColor(String color){

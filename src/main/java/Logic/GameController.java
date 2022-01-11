@@ -27,7 +27,7 @@ public class GameController {
         diceCup = new DiceCup();
         board = new Board();
 
-        GUIController gui = new GUIController(board);
+        GUIController gui = new GUIController(board.getALL_SQUARES());
 
         GUIController.createPlayers(minPlayers, maxPlayers, START_MONEY);
         setupPlayers(GUIController.getPlayerNames());
@@ -113,7 +113,7 @@ public class GameController {
                     }while (wantToKeepBuying);
 
                     // When done buying, take turn.
-                    GUIController.getPlayerAction(currentPlayer, Language.get("throwDice"));
+                    GUIController.getPlayerAction(currentPlayer.getName(), Language.get("throwDice"));
                     takeTurn();
                 }
             }

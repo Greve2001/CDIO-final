@@ -22,7 +22,7 @@ class ActionHandlerTest {
         board = new Board();
         squares = board.getALL_SQUARES();
         actionHandler = new ActionHandler(board);
-        new GUIController(board);
+        new GUIController(board.getALL_SQUARES());
         GUIController.setTesting(true);
 
         players[0] = new Player("Player 1", 30000, 1);
