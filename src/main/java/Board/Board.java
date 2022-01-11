@@ -322,7 +322,7 @@ public class Board {
             }
         }
         else
-            GUIController.showMessage("You do not own all the properties in the color");
+            GUIController.getPlayerAction(player,"You do not own all the properties in the color");
     }
 
     private int getFirstPropertyInAColor(String color){
