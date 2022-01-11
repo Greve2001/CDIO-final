@@ -100,8 +100,6 @@ public class GameController {
                             }
 
                             // Buy properties
-                            System.out.println(answer2);
-                            System.out.println(choices2[0]);
                             if (answer2.equals(choices2[0])) // houses
                                 board.buyHouse(currentPlayer, colorChosen, amountToBuy);
                             else if (answer2.equals(choices2[1]));
