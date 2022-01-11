@@ -221,13 +221,15 @@ public class Board {
     }
 
     public int getCurrentCost(int position) {
-        int result;
-        if (ALL_SQUARES[position].isBuildAble()) {
-            result = ALL_SQUARES[position].getCurrentCost();
-            if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
-                result = result * 2;
-        } else{
-            result = getCurrentCost(amountOwnedWithinTheColor(position));
+        int result = 0;
+        if (ALL_SQUARES[position].getOwnable()) {
+            if (ALL_SQUARES[position].isBuildAble()) {
+                result = ALL_SQUARES[position].getCurrentCost();
+                if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
+                    result = result * 2;
+            } else {
+                result = getCurrentCost(amountOwnedWithinTheColor(position));
+            }
         }
         return result;
     }
