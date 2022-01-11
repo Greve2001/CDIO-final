@@ -195,7 +195,7 @@ public class ActionHandler {
     public int roundToNearest50(int valueToRound) {
         int modulo = valueToRound % 50;
         if (modulo < 25)
-            valueToRound = valueToRound - (50 + modulo);
+            valueToRound = valueToRound - modulo;
         else
             valueToRound = valueToRound + (50 - modulo);
 
