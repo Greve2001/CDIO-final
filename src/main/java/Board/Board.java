@@ -348,4 +348,61 @@ public class Board {
         }
         return 0;
     }
+
+
+
+
+
+    public void sellProperty(Player player){
+        //TODO maybe?
+    }
+
+    public String[] allSquaresOwnedByPlayer(Player player){
+        String[] temp = new String[100];
+        int count = 0;
+        for (Square field: ALL_SQUARES){
+            if (player.equals(field.getOwner())){
+                temp[count] = field.getName();
+                count++;
+            }
+        }
+        return reduceStringArraySize(temp,count);
+    }
+
+    public String[] allSquaresWherePlayerHaveHouses(Player player){
+        String[] temp = new String[100];
+        int count = 0;
+        for (Square field: ALL_SQUARES){
+            if (player.equals(field.getOwner())){
+                if (field.getAmountOfHouses() > 0){
+                    temp[count] = field.getName();
+                    count++;
+                }
+            }
+        }
+        return reduceStringArraySize(temp, count);
+    }
+
+    public String[] allMonopolyColorsByPlayer(Player player){
+        String[] temp = new String[100];
+        int count = 0;
+        String[] color = getAllStreetColors();
+        int position;
+        for (String arr: color){
+            position = getFirstPropertyInAColor(arr);
+            if (hasMonopoly(position,player)){
+                temp[count] = ALL_SQUARES[position].getColor();
+                count++;
+            }
+        }
+        return reduceStringArraySize(temp, count);
+    }
+
+    private String[] reduceStringArraySize(String[] arr, int size){
+        String[] result = new String[size];
+        for (int i = 0; i < size; i++){
+            result [i] = arr[i];
+        }
+        return result;
+    }
 }

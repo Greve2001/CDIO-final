@@ -252,4 +252,10 @@ class BoardTest {
 
         assertEquals(8, arr.length);
     }
+
+    @Test
+    void allMonopolyColorsByPlayer(){
+        String[] test = board.allMonopolyColorsByPlayer(player);
+        assertEquals(0,test.length);
+    }
 }
