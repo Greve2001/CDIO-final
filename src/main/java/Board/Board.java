@@ -237,7 +237,7 @@ public class Board {
             Player player = ALL_SQUARES[position].getOwner();
             String color = ALL_SQUARES[position].getColor();
             for (Square field : ALL_SQUARES) {
-                if (field.getColor().equals(color) && player.equals(field.getOwner()))
+                if (color.equals(field.getColor()) && player.equals(field.getOwner()))
                     result++;
             }
         }
