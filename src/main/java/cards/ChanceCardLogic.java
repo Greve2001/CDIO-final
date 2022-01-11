@@ -46,7 +46,7 @@ public class ChanceCardLogic {
     private void handleReceiveMoney(ChanceCard card, Player player){
         int amount = card.updateBalancePositive();
         if (amount != 0) {
-            bank.bankpaytoPlayer(player, amount);
+            bank.bankPayToPlayer(player, amount);
         }
     }
 

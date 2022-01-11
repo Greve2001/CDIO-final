@@ -69,7 +69,7 @@ class BankTest {
     void when_bankPayToPlayer_then_playerAmountMustBeIncreased() {
         // Act
         GUIController.setTesting(true);
-        bank.bankpaytoPlayer(player,250);
+        bank.bankPayToPlayer(player,250);
 
         // Assert
         Assertions.assertEquals(30250,player.getBalance());
