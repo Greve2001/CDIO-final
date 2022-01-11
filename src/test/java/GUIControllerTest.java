@@ -12,7 +12,7 @@ class GUIControllerTest {
         Board board = new Board();
         Player test = new Player("Test", 0, 0);
 
-        GUIController controller = new GUIController(board);
+        GUIController controller = new GUIController(board.getALL_SQUARES());
 
     }
 }

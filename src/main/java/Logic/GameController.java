@@ -27,7 +27,7 @@ public class GameController {
         diceCup = new DiceCup();
         board = new Board();
 
-        GUIController gui = new GUIController(board);
+        GUIController gui = new GUIController(board.getALL_SQUARES());
 
         GUIController.createPlayers(minPlayers, maxPlayers, START_MONEY);
         setupPlayers(GUIController.getPlayerNames());
@@ -100,8 +100,6 @@ public class GameController {
                             }
 
                             // Buy properties
-                            System.out.println(answer2);
-                            System.out.println(choices2[0]);
                             if (answer2.equals(choices2[0])) // houses
                                 board.buyHouse(currentPlayer, colorChosen, amountToBuy);
                             else if (answer2.equals(choices2[1]));
@@ -115,7 +113,7 @@ public class GameController {
                     }while (wantToKeepBuying);
 
                     // When done buying, take turn.
-                    GUIController.getPlayerAction(currentPlayer, Language.get("throwDice"));
+                    GUIController.getPlayerAction(currentPlayer.getName(), Language.get("throwDice"));
                     takeTurn();
                 }
             }

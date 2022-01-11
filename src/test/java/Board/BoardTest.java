@@ -24,7 +24,7 @@ class BoardTest {
     void setUp() {
         Language.getInstance();
         board = new Board();
-        new GUIController(board);
+        new GUIController(board.getALL_SQUARES());
         player = new Player("test", 30000, 0);
         ALL_SQUARES = board.getALL_SQUARES();
         GUIController.setTesting(true);

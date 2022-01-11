@@ -14,7 +14,7 @@ public class Bank {
             player.setBalance(0);
         }
         GUIController.showCenterMessage(player.getName() + Language.get("paid") + amount + Language.get("paidToBank1"));
-        GUIController.setPlayerBalance(player, player.getBalance());
+        GUIController.setPlayerBalance(player.getName(), player.getBalance());
     }
 
     /**
@@ -34,8 +34,8 @@ public class Bank {
                 players[i].setBalance(0);
             }
             GUIController.showCenterMessage(player.getName() + Language.get("paid") + amount + Language.get("paidToPlayer") + players[i].getName());
-            GUIController.setPlayerBalance(player, player.getBalance());
-            GUIController.setPlayerBalance(players[i], players[i].getBalance());
+            GUIController.setPlayerBalance(player.getName(), player.getBalance());
+            GUIController.setPlayerBalance(players[i].getName(), players[i].getBalance());
         }
     }
 
@@ -44,7 +44,7 @@ public class Bank {
         int balance = player.getBalance() + amount;
         player.setBalance(balance);
         GUIController.showCenterMessage(Language.get("bankPaid1") + amount + Language.get("bankPaid2") + player.getName());
-        GUIController.setPlayerBalance(player, player.getBalance());
+        GUIController.setPlayerBalance(player.getName(), player.getBalance());
     }
 
     public boolean buyHouses(Player player, int nr, int price) {

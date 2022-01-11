@@ -24,10 +24,9 @@ public class GUIController {
     private static int moveTime = 5;
 
 
-    public GUIController(Board board){
+    public GUIController(Square[] inputSquares){
         if (testing) return;
 
-        Square[] inputSquares = board.getALL_SQUARES();
         GUI_Field[] GUIFields = createBoard(inputSquares);
         gui = new GUI(GUIFields);
     }
@@ -170,7 +169,7 @@ public class GUIController {
 
 
 /// Player Section ///
-    public static void movePlayer(Player player, int startPosition, int spacesToMove){ // Make sure it needs the Player or name of Player
+    public static void movePlayer(String playerName, int startPosition, int spacesToMove){ // Make sure it needs the Player or name of Player
         if (testing) return;
 
         // TODO NEW
@@ -181,7 +180,7 @@ public class GUIController {
 
                 int newPosition = (i + startPosition)  % fields.length;
                 GUI_Field toField = gui.getFields()[newPosition];
-                int guiPlayerIndex = getGuiPlayerIndex(player);
+                int guiPlayerIndex = getGuiPlayerIndex(playerName);
 
                 // Set the car
                 guiPlayers[guiPlayerIndex].getCar().setPosition(toField);
@@ -195,10 +194,10 @@ public class GUIController {
     }
 
 
-    public static void setPlayerBalance(Player player, int value){
+    public static void setPlayerBalance(String playerName, int value){
         if (testing) return;
 
-        int index = getGuiPlayerIndex(player);
+        int index = getGuiPlayerIndex(playerName);
         guiPlayers[index].setBalance(value);
     }
 
@@ -247,14 +246,14 @@ public class GUIController {
     }
 
 
-    public static void setOwner(Player player, int position){
+    public static void setOwner(String playerName, Color playerColor, int position){
         if (testing) return;
 
         boolean ownable = fields[position].getOwnable();
         if (ownable){
-            if (player != null){
-                ((GUI_Ownable) GUIFields[position]).setOwnerName(player.getName());
-                ((GUI_Ownable) GUIFields[position]).setBorder(player.getColor());
+            if (playerName.equals("")){
+                ((GUI_Ownable) GUIFields[position]).setOwnerName(playerName);
+                ((GUI_Ownable) GUIFields[position]).setBorder(playerColor);
                 //TODO set the current rent or make another function for more uses
             }else{
                 ((GUI_Ownable) GUIFields[position]).setOwnerName(null);
@@ -293,10 +292,10 @@ public class GUIController {
     }
 
     // Stops game-flow until button is pressed. Used for UX.
-    public static void getPlayerAction(Player player, String msg){
+    public static void getPlayerAction(String playerName, String msg){
         if (testing) return;
 
-        gui.showMessage(player.getName() + "; " + msg);
+        gui.showMessage(playerName + "; " + msg);
     }
 
     public static int getPlayerInteger(String msg){
@@ -317,9 +316,9 @@ public class GUIController {
     /////////////////////////// UTILITY SECTION /////////////////////////////
 
     //Used for getting player index since thats the only way we can find the corresponding GUI_Player
-    private static int getGuiPlayerIndex(Player player) {
+    private static int getGuiPlayerIndex(String playerName) {
         for (int i = 0; i < guiPlayers.length; i++) {
-            if (guiPlayers[i].getName().equals(player.getName())) {
+            if (guiPlayers[i].getName().equals(playerName)) {
                 return i;
             }
         }
