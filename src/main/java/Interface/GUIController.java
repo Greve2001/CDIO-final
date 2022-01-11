@@ -142,7 +142,7 @@ public class GUIController {
     public static void createPlayers(int minPlayers, int maxPlayers, int startBalance){
         // Needs an input
         if (testing) return;
-
+        
         String msg = Language.get("selectPlayers");
         String[] choices = new String[maxPlayers-minPlayers + 1];
         for (int i = 0; i < choices.length; i++) {
