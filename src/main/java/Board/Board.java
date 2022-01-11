@@ -144,7 +144,7 @@ public class Board {
 
         if (owner != null && ALL_SQUARES[position].isBuildAble()) {
             result = true;
-            if (player != null) //handle out of bounce
+            if (player.length != 0) //handle out of bounce
                 owner = player[0];
 
             for (Square square : ALL_SQUARES) {

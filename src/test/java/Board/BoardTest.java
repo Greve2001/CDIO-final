@@ -207,8 +207,52 @@ class BoardTest {
         assertNotEquals(0, ALL_SQUARES[position1].getAmountOfHouses());
         assertNotEquals(0, ALL_SQUARES[position2].getAmountOfHouses());
         assertNotEquals(0, ALL_SQUARES[position3].getAmountOfHouses());
+    }
 
+    @Test
+    void testHasMonopoly(){
+        Player a = new Player("test", 30000, 0);
+        Player b = new Player("test2", 30000, 0);
 
+        int position1 = 16, position2 = 18, position3 = 19;
 
+        boolean result;
+
+        result = board.hasMonopoly(position1);
+        assertFalse(result);
+        result = board.hasMonopoly(position2);
+        assertFalse(result);
+        result = board.hasMonopoly(position3);
+        assertFalse(result);
+
+        ALL_SQUARES[position1].setOwner(a);
+        ALL_SQUARES[position2].setOwner(a);
+
+        result = board.hasMonopoly(position1);
+        assertFalse(result);
+        result = board.hasMonopoly(position2);
+        assertFalse(result);
+        result = board.hasMonopoly(position3);
+        assertFalse(result);
+
+        ALL_SQUARES[position3].setOwner(a);
+        result = board.hasMonopoly(position1);
+        assertTrue(result);
+        result = board.hasMonopoly(position2);
+        assertTrue(result);
+        result = board.hasMonopoly(position3);
+        assertTrue(result);
+
+        result = board.hasMonopoly(position3, a);
+        assertTrue(result);
+
+        result = board.hasMonopoly(position1, b);
+        assertFalse(result);
+
+        ALL_SQUARES[position2].setOwner(b);
+        result = board.hasMonopoly(position1);
+        assertFalse(result);
+        result = board.hasMonopoly(position1,a);
+        assertFalse(result);
     }
 }
