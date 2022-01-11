@@ -48,8 +48,14 @@ class ActionHandlerTest {
         squares[1].setOwner(players[0]);
         actionHandler.squareAction(players[1], squares[1], 10);
 
+        // Player landing on the street.
         int expectedBalance = 29950;
         int actualBalance = players[1].getBalance();
+        assertEquals(expectedBalance, actualBalance);
+
+        // Owner of the street.
+        expectedBalance = 30050;
+        actualBalance = players[0].getBalance();
         assertEquals(expectedBalance, actualBalance);
     }
 
