@@ -55,6 +55,8 @@ public abstract class Square {
         return;
     }
 
+    public void setAmountOfHouses(int i){}
+
     public int getAmountOfHouses(){
         return 0;
     }

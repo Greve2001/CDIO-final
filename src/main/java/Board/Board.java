@@ -217,16 +217,22 @@ public class Board {
     public void setPlayerInJail(Player player) {
         GUIController.showMessage(Language.get("goToPrison"));
         setPlayerPosition(player, jailPosition, true);
+        player.setHasEkstraTurn(false);
     }
 
     public int getCurrentCost(int position) {
-        int result;
-        if (ALL_SQUARES[position].isBuildAble()) {
-            result = ALL_SQUARES[position].getCurrentCost();
-            if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
-                result = result * 2;
-        } else{
-            result = getCurrentCost(amountOwnedWithinTheColor(position));
+        int result = 0;
+        if (ALL_SQUARES[position].getOwnable()) {
+            if (ALL_SQUARES[position].isBuildAble()) {
+                result = ALL_SQUARES[position].getCurrentCost();
+                if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
+                    result = result * 2;
+            } else {
+                if (ALL_SQUARES[position].getOwner() != null)
+                    result = ALL_SQUARES[position].getRent()[amountOwnedWithinTheColor(position) - 1];
+                else
+                    result = ALL_SQUARES[position].getPrice();
+            }
         }
         return result;
     }
@@ -237,7 +243,7 @@ public class Board {
             Player player = ALL_SQUARES[position].getOwner();
             String color = ALL_SQUARES[position].getColor();
             for (Square field : ALL_SQUARES) {
-                if (field.getColor().equals(color) && player.equals(field.getOwner()))
+                if (color.equals(field.getColor()) && player.equals(field.getOwner()))
                     result++;
             }
         }

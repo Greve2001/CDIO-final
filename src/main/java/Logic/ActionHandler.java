@@ -48,10 +48,8 @@ public class ActionHandler {
             buySquare(player, square, "buyStreet");
 
         } else { // Pay the rent
-            if (!square.getPledge()) {
-                int amountToPay = BOARD.getCurrentCost(square.getPOSITION());
-                payRent(player, square, amountToPay);
-            }
+            int amountToPay = BOARD.getCurrentCost(square.getPOSITION());
+            payRent(player, square, amountToPay);
         }
 
     }

@@ -255,4 +255,48 @@ class BoardTest {
         result = board.hasMonopoly(position1,a);
         assertFalse(result);
     }
+
+    @Test
+    void testGetCurrentCostFieldStreet(){
+        int result;
+        int position = 1;
+
+        result = board.getCurrentCost(position);
+        assertEquals(1200, result);
+
+        ALL_SQUARES[position].setOwner(player);
+        result = board.getCurrentCost(position);
+        assertEquals(50,result);
+
+        ALL_SQUARES[position].setAmountOfHouses(2);
+        result = board.getCurrentCost(position);
+        assertEquals(750, result);
+    }
+
+    @Test
+    void testGetCurrentCostFieldFerry(){
+        int result;
+        Player a = new Player("a",30000,0);
+        int position = 5;
+        int position2 = 15;
+
+        result = board.getCurrentCost(position);
+        assertEquals(4000, result);
+
+        ALL_SQUARES[position].setOwner(player);
+        result = board.getCurrentCost(position);
+        assertEquals(500,result);
+
+        ALL_SQUARES[position].setAmountOfHouses(2);
+        result = board.getCurrentCost(position);
+        assertEquals(500, result);
+
+        ALL_SQUARES[position2].setOwner(player);
+        result = board.getCurrentCost(position);
+        assertEquals(1000, result);
+
+        ALL_SQUARES[position2].setOwner(a);
+        result = board.getCurrentCost(position);
+        assertEquals(500, result);
+    }
 }
