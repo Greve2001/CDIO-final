@@ -61,6 +61,7 @@ public class Bank {
             hotelsAvailable -= nr;
             int balance = player.getBalance() - (nr * price);
             player.setBalance(balance);
+            result = true;
         }
 
         return result;
