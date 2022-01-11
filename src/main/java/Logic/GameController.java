@@ -13,19 +13,13 @@ public class GameController {
     private DiceCup diceCup;
     private Board board;
     private Player[] players;
-
     private Player currentPlayer;
-    private int minPlayers = 3, maxPlayers = 6;
-
-    // Extra turn varaibles
-    private int doublesRolled = 0;
-
-    //final variable
-    private final int START_MONEY = 30000;
-    private final int BRIBE = 1000;
-
-    //other variables
     private int playersLeft;
+
+    //changeable variables
+    private int minPlayers = 3, maxPlayers = 6;
+    private int doublesRolled = 0;
+    private final int START_MONEY = 30000;
 
 
     public void setupGame() {
@@ -39,8 +33,8 @@ public class GameController {
         setupPlayers(GUIController.getPlayerNames());
 
         board.givePlayerToActionHandler(players);
-
     }
+
 
     public void setupPlayers(String[] playerNames) {
         if (playerNames.length >= minPlayers && playerNames.length <= maxPlayers) {
@@ -58,14 +52,14 @@ public class GameController {
         }
     }
 
+
     public void playGame() throws InterruptedException {
         boolean allowedDecision;
         do {
             allowedDecision = true;
-            if (currentPlayer.isInJail()){ // In jail. No other options
+            if (currentPlayer.isInJail()) // In jail. No other options
                 allowedDecision = jailAttempt();
 
-            }
             if (allowedDecision){ // Not in jail or gotten out in good standing.
 
                 // Ask if want to buy houses etc.
@@ -83,7 +77,6 @@ public class GameController {
                     boolean wantToKeepBuying = true;
 
                     do {
-
                         // Construct message
                         msg  = Language.get("whatToBuy?");
                         choices = new String[]{Language.get("houses"), Language.get("hotels"), Language.get("stopBuying")};
@@ -108,7 +101,6 @@ public class GameController {
                                 break;
                             }
 
-
                             // Buy properties
                             if (answer.equals(choices[0])) // houses
                                 board.buyHouse(currentPlayer, colorChosen, amountToBuy);
@@ -132,7 +124,6 @@ public class GameController {
                 changeTurn();
                 doublesRolled = 0;
             }
-
             currentPlayer.setHasExtraTurn(false); // Make sure that extra turn is reset
 
             checkForBust();
@@ -142,11 +133,11 @@ public class GameController {
         findWinner();
     }
 
+
     private void takeTurn() throws InterruptedException {
         // Roll dice and get results
         diceCup.rollDice();
         int[] faceValues = diceCup.getFaceValues();
-
 
         // Show dice on GUI
         GUIController.showDice(faceValues);
@@ -163,6 +154,7 @@ public class GameController {
         }
         board.updatePlayerPosition(currentPlayer, diceSum(faceValues));
     }
+
 
     private void changeTurn(){
         int currentPlayerIndex;
@@ -181,6 +173,7 @@ public class GameController {
             isNotActive = !players[currentPlayerIndex].getActive();
         }while (isNotActive);
     }
+
 
     private boolean jailAttempt() {
         // Give player choices between paying or trying to throw dice
@@ -201,7 +194,6 @@ public class GameController {
 
         boolean forcedToMove = false, haveToPay = false, usedChanceCard = false;
         boolean result = true;
-
 
         String case1 = Language.get("attemptEscaping");
         String case2 = Language.get("payFee");
@@ -240,12 +232,11 @@ public class GameController {
 
         if(result){
             GUIController.showMessage(Language.get("youBrokeFree"));
-            board.escapeJail(currentPlayer, diceCup.getSum(),forcedToMove, haveToPay, usedChanceCard);
+            board.escapeJail(currentPlayer, diceCup.getSum(), forcedToMove, haveToPay, usedChanceCard);
         }
-
-
         return !forcedToMove;
     }
+
 
     private void checkForBust(){ // Checks all players
         playersLeft = players.length;
@@ -256,12 +247,10 @@ public class GameController {
                 player.setHasExtraTurn(false);
                 player.setHasExtraTurn(false);
                 playersLeft--;
-
-
-
             }
         }
     }
+
 
     private void findWinner(){
         Player winner = players[0]; // Somewhere to start
@@ -270,10 +259,10 @@ public class GameController {
                 winner = player;
             }
         }
-
         // Winner is...
         GUIController.showMessage(Language.get("winnerIs") + winner);
     }
+
 
     private boolean isDoubles(int[] faceValues){
         return faceValues[0] == faceValues[1];

@@ -10,34 +10,28 @@ import java.awt.*;
 
 public class GUIController {
 
-    //TODO overall
-    //TODO Implement Language for all text
-
-    //OBS OBS OBS OBS
-    // This variable is to toggle for testing purposes. This allows us to test classes that have the GUI
-    // incoorperated in them, by itself.
-    private static boolean testing = false;
+    private static boolean testing = false; // Used to allow easier testing
 
     private static GUI gui;
     private static Color[] colorsToChooseFrom = new Color[]{Color.blue, Color.green, Color.yellow, Color.red, Color.magenta, Color.orange};
     private static String[] playerNames;
     private static GUI_Player[] guiPlayers;
     private static int[] playerPositions;
-
     private static GUI_Field[] GUIFields;
     private static Square[] fields;
-    private static Board gameBoard;
 
+    // Changeable variables
     private static int moveTime = 5;
+
 
     public GUIController(Board board){
         if (testing) return;
 
-        gameBoard = board;
         Square[] inputSquares = board.getALL_SQUARES();
         GUI_Field[] GUIFields = createBoard(inputSquares);
         gui = new GUI(GUIFields);
     }
+
 
     public static GUI_Field[] createBoard(Square[] inputSquares){
         GUIFields = new GUI_Field[inputSquares.length]; // Create empty array7
@@ -139,17 +133,18 @@ public class GUIController {
         return GUIFields;
     }
 
+
     public static void createPlayers(int minPlayers, int maxPlayers, int startBalance){
         // Needs an input
         if (testing) return;
-        
+
         String msg = Language.get("selectPlayers");
         String[] choices = new String[maxPlayers-minPlayers + 1];
         for (int i = 0; i < choices.length; i++) {
             choices[i] = String.valueOf(minPlayers + i);
         }
 
-        int numberOfPlayers = Integer.parseInt(gui.getUserSelection(msg, choices)); //TODO Use CSVReader
+        int numberOfPlayers = Integer.parseInt(gui.getUserSelection(msg, choices));
 
         playerNames = new String[numberOfPlayers]; // Empty name array
         guiPlayers = new GUI_Player[numberOfPlayers];
@@ -199,6 +194,7 @@ public class GUIController {
         }
     }
 
+
     public static void setPlayerBalance(Player player, int value){
         if (testing) return;
 
@@ -206,12 +202,14 @@ public class GUIController {
         guiPlayers[index].setBalance(value);
     }
 
+
     // Gives access to logic to get the inputted names from the GUI.
     public static String[] getPlayerNames(){
         if (testing) return new String[]{"1", "2", "3"};
 
         return playerNames;
     }
+
     //TODO implement solution to let player select colors
     public static Color[] getPlayerColors(){
         if (testing) return new Color[]{Color.red, Color.orange, Color.blue};
@@ -229,7 +227,6 @@ public class GUIController {
     }
 
     //TODO when Pi has it made
-
     // Used for more than displayChanceCard. Also just for normal messages.
     //public void displayChanceCard(ChanceCard card) { // Use CSV Reader
     //    gui.displayChanceCard("ChanceCard" + "\n" + card.toString());
@@ -247,8 +244,8 @@ public class GUIController {
 
         if (posToStreet(position) != null)
             posToStreet(position).setHotel(bool);
-
     }
+
 
     public static void setOwner(Player player, int position){
         if (testing) return;
@@ -275,8 +272,6 @@ public class GUIController {
 
         GUIFields[position].setSubText(String.valueOf(currentCost));
     }
-
-
 
 
 
@@ -331,18 +326,6 @@ public class GUIController {
         return -1;
     }
 
-    // Used for finding the players position, since the GUI does not hold the position as a numerical value.
-    private static int getPlayerPosition(Player player){
-        for (int i = 0; i < gui.getFields().length; i++) {
-            GUI_Player guiPlayer = guiPlayers[getGuiPlayerIndex(player)];
-
-            if (gui.getFields()[i].equals(guiPlayer.getCar().getPosition())){
-                return i;
-            }
-        }
-        return -1;
-    }
-
     private static GUI_Street posToStreet(int position){
         GUI_Field field = gui.getFields()[position];
         if (field instanceof GUI_Street){
@@ -352,7 +335,6 @@ public class GUIController {
             return null;
         }
     }
-
 
     private static Color convertColor(String colorStr){
         Color result = Color.white;
