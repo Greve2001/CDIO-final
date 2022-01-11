@@ -238,7 +238,7 @@ chanceCard <|-- MoveFieldsChanceCard
 chanceCard <|-- PayMoneyChanceCard
 chanceCard <|-- ReceiveMoneyChanceCard
 
-Board -l- CSVReader
+Board -u- CSVReader
 Board *- ActionHandler
 
 
