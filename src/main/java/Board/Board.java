@@ -303,9 +303,10 @@ public class Board {
 
         if (hasMonopoly(position, player)){
             int price = ALL_SQUARES[position].getHousePrice();
-            if (actionHandler.buyHouse(player, price, amountOfHouses)){
+            if (player.getBalance() >= price * amountOfHouses){
+                actionHandler.buyHouse(player, price, amountOfHouses);
                 String[] choice = new String[amountOwnedWithinTheColor(position)];
-                for (int i = 0, j = 0; i < ALL_SQUARES.length; i++){
+                for (int i = position, j = 0; i < ALL_SQUARES.length; i++){
                     if (color.equals(ALL_SQUARES[i].getColor())){
                         choice[j] = ALL_SQUARES[i].getName();
                         j++;
@@ -319,6 +320,7 @@ public class Board {
                     for (Square field: ALL_SQUARES){
                         if(whereToPlaceHouse.equals(field.getName())) {
                             position = field.getPOSITION();
+                            break;
                         }
                     }
                     amountOfHousesOnStreet = ALL_SQUARES[position].getAmountOfHouses();

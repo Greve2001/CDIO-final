@@ -194,10 +194,10 @@ class BoardTest {
 
         a.setBalance(30000);
 
-        board.buyHouse(a,color,6);
+        board.buyHouse(a,color,1);
 
-        assertEquals(18000, a.getBalance());
-        assertNotEquals(0, ALL_SQUARES[position1].getAmountOfHouses());
+        assertEquals(28000, a.getBalance());
+        assertEquals(1, ALL_SQUARES[position1].getAmountOfHouses());
         //assertNotEquals(0, ALL_SQUARES[position2].getAmountOfHouses());
         //assertNotEquals(0, ALL_SQUARES[position3].getAmountOfHouses());
     }
