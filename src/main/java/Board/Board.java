@@ -300,6 +300,7 @@ public class Board {
         int position = getFirstPropertyInAColor(color);
         String whereToPlaceHouse;
 
+
         if (hasMonopoly(position, player)){
             int price = ALL_SQUARES[position].getHousePrice();
             if (actionHandler.buyHouse(player, price, amountOfHouses)){
@@ -310,14 +311,28 @@ public class Board {
                         j++;
                     }
                 }
+                boolean placementOkay;
+                int amountOfHousesOnStreet;
                 do {
                     whereToPlaceHouse = GUIController.givePlayerChoice("Place a house", choice);
+                    placementOkay = true;
                     for (Square field: ALL_SQUARES){
                         if(whereToPlaceHouse.equals(field.getName())) {
-                            field.setAmountOfHouses(field.getAmountOfHouses() + 1);
-                            amountOfHouses--;
+                            position = field.getPOSITION();
                         }
                     }
+                    amountOfHousesOnStreet = ALL_SQUARES[position].getAmountOfHouses();
+                    for (Square field: ALL_SQUARES){
+                        if(ALL_SQUARES[position].getColor().equals(field.getColor())){
+                            if (!(amountOfHousesOnStreet + 1 == field.getAmountOfHouses() || amountOfHousesOnStreet == field.getAmountOfHouses()))
+                                placementOkay = false;
+                        }
+                    }
+                    if (placementOkay) {
+                        ALL_SQUARES[position].setAmountOfHouses(ALL_SQUARES[position].getAmountOfHouses()+1);
+                        amountOfHouses--;
+                    }
+
                 }while(amountOfHouses > 0);
             }
         }
