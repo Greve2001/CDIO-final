@@ -46,13 +46,19 @@ public class GameController {
     }
 
     public void setupPlayers(String[] playerNames) {
-        players = new Player[playerNames.length];
-        for (int i = 0; i < playerNames.length; i++){
-            players[i] = new Player(playerNames[i], START_MONEY, 0);
-            players[i].setColor(GUIController.getPlayerColors()[i]);
+        if (playerNames.length >=3 && playerNames.length <=6) {
+            players = new Player[playerNames.length];
+
+            for (int i = 0; i < playerNames.length; i++) {
+                players[i] = new Player(playerNames[i], START_MONEY, 0);
+                players[i].setColor(GUIController.getPlayerColors()[i]);
+            }
+            playersLeft = players.length;
+            currentPlayer = players[0];
+
+        }else{
+            players = new Player[]{};
         }
-        playersLeft = players.length;
-        currentPlayer = players[0];
     }
 
     public void playGame() throws InterruptedException {
