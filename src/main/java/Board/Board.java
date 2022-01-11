@@ -271,23 +271,19 @@ public class Board {
 
     public String[] getAllStreetColors(){
         int count = 0;
+        String[] arr = new String[100];
         String color = "";
         for (Square field: ALL_SQUARES){
             if (field.isBuildAble() && !color.equals(field.getColor())){
                 color = field.getColor();
+                arr[count] = field.getColor();
                 count++;
             }
         }
         String[] result = new String[count];
 
-        for (Square field: ALL_SQUARES) {
-            if (field.isBuildAble()) {
-                for (int i = 0; i < result.length; i++) {
-                    if (field.getColor().equals(result[i])) {
-                        result[i + 1] = field.getColor();
-                    }
-                }
-            }
+        for (int i = 0; i < result.length; i++) {
+            result[i] = arr[i];
         }
         return result;
     }
