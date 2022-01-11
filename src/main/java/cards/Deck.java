@@ -30,7 +30,14 @@ public class Deck {
         if (chanceCards == null) {
             throw new IllegalArgumentException("You cannot initialize an empty array.");
         } else {
-            this.chanceCardDeck = chanceCards;
+            // Initializes a copy of the original array, to be used in the Unittest.
+            ChanceCard[] copy = new ChanceCard[chanceCards.length];
+            for(int i=0; i< chanceCards.length; i++){
+
+                copy[i] = chanceCards[i];
+            }
+            this.chanceCardDeck = copy;
+
         }
 
     }

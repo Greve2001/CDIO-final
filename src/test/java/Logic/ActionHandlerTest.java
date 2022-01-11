@@ -60,6 +60,15 @@ class ActionHandlerTest {
     }
 
     @Test
+    void payTax() {
+        actionHandler.squareAction(players[0], squares[38], 10);
+
+        int expectedBalance = 28000;
+        int actualBalance = players[0].getBalance();
+        assertEquals(expectedBalance, actualBalance);
+    }
+
+    @Test
     void holdAuction() {
     }
 

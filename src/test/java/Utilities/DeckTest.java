@@ -93,7 +93,7 @@ public class DeckTest {
 
         assertThat(deckAfterShuffle).isNotNull();
         assertThat(deckAfterShuffle).containsExactlyInAnyOrder(deckBeforeShuffle);
-        //assertThat(deckAfterShuffle).isNotEqualTo(deckBeforeShuffle); //Udekommenteret pga. kendt fejl. Fix på vej!
+        assertThat(deckAfterShuffle).isNotEqualTo(deckBeforeShuffle);
 
     }
 
