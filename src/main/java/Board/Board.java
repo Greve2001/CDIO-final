@@ -330,7 +330,7 @@ public class Board {
                         }
                     }
                     if (placementOkay) {
-                        ALL_SQUARES[position].setAmountOfHouses(ALL_SQUARES[position].getAmountOfHouses()+1);
+                        ALL_SQUARES[position].setAmountOfHouses(amountOfHousesOnStreet + 1);
                         amountOfHouses--;
                         GUIController.setHouses(position, ALL_SQUARES[position].getAmountOfHouses());
                     }
