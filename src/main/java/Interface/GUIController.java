@@ -58,12 +58,10 @@ public class GUIController {
                                     Language.get("4house") + ": " + inputSquares[i].getRent()[4] + "<br>" +
                                     Language.get("hotel") + ": " + inputSquares[i].getRent()[5] + "<br>"
                     );
-                    // TODO changes this to use squares actual rent
                     ((GUI_Ownable) GUIFields[i]).setRent("");
                     GUIFields[i].setSubText(Language.get("price") +": " + String.valueOf(fields[i].getPrice()));
                     break;
 
-                // TODO ALT skal implementeres med CSV Reader, det er midlertidigt
 
                 case "Ferry" :
                     GUIFields[i] = new GUI_Shipping();
@@ -136,18 +134,22 @@ public class GUIController {
             }
 
             GUIFields[i].setTitle(inputSquares[i].getName());
-            //TODO not setting subtext cause we need some dynamic handling to show what the price and then rent is.
-
         }
 
         return GUIFields;
     }
 
-    public static void createPlayers(int startBalance){
+    public static void createPlayers(int minPlayers, int maxPlayers, int startBalance){
         // Needs an input
         if (testing) return;
 
-        int numberOfPlayers = Integer.parseInt(gui.getUserSelection(Language.get("selectPlayers"), "3", "4", "5", "6")); //TODO Use CSVReader
+        String msg = Language.get("selectPlayers");
+        String[] choices = new String[maxPlayers-minPlayers + 1];
+        for (int i = 0; i < choices.length; i++) {
+            choices[i] = String.valueOf(minPlayers + i);
+        }
+
+        int numberOfPlayers = Integer.parseInt(gui.getUserSelection(msg, choices)); //TODO Use CSVReader
 
         playerNames = new String[numberOfPlayers]; // Empty name array
         guiPlayers = new GUI_Player[numberOfPlayers];
@@ -155,7 +157,7 @@ public class GUIController {
 
         for (int i = 0; i < numberOfPlayers; i++) {
             // Get players name and car color
-            playerNames[i] = gui.getUserString(Language.get("enterName")); //TODO Use CSV Reader
+            playerNames[i] = gui.getUserString(Language.get("enterName"));
 
             // Add the player
             guiPlayers[i] = new GUI_Player(playerNames[i], startBalance); // To our array
@@ -195,8 +197,6 @@ public class GUIController {
         } catch (InterruptedException exception){ // Needs to be made beacuse of thread.sleep()
             System.out.println(exception);
         }
-
-
     }
 
     public static void setPlayerBalance(Player player, int value){
