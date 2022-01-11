@@ -87,6 +87,11 @@ public class GameController {
                     // Temp text for GUI. REMOVE
                     GUIController.getPlayerAction(currentPlayer, Language.get("choice2"));
 
+                    //TODO make this to a decision when hotels are implemented
+                    // Make buy houses logic
+
+                    //board.buyHouses()
+
                     // When done buying, take turn.
                     takeTurn();
                 }

@@ -173,24 +173,30 @@ public class GUIController {
 
 
 /// Player Section ///
-    public static void movePlayer(Player player, int startPosition, int spacesToMove) throws InterruptedException { // Make sure it needs the Player or name of Player
+    public static void movePlayer(Player player, int startPosition, int spacesToMove){ // Make sure it needs the Player or name of Player
         if (testing) return;
 
         // TODO NEW
-        int time = moveTime * spacesToMove;
-        for (int i = 1; i <= spacesToMove; i++) {
-            // Get informations
+        try {
+            int time = moveTime * spacesToMove;
+            for (int i = 1; i <= spacesToMove; i++) {
+                // Get informations
 
-            int newPosition = (i + startPosition)  % fields.length;
-            GUI_Field toField = gui.getFields()[newPosition];
-            int guiPlayerIndex = getGuiPlayerIndex(player);
+                int newPosition = (i + startPosition)  % fields.length;
+                GUI_Field toField = gui.getFields()[newPosition];
+                int guiPlayerIndex = getGuiPlayerIndex(player);
 
-            // Set the car
-            guiPlayers[guiPlayerIndex].getCar().setPosition(toField);
+                // Set the car
+                guiPlayers[guiPlayerIndex].getCar().setPosition(toField);
 
-            // Sleep, so the car stops breifly for the player to see movement
-            Thread.sleep(time);
+                // Sleep, so the car stops breifly for the player to see movement
+                Thread.sleep(time);
+            }
+        } catch (InterruptedException exception){ // Needs to be made beacuse of thread.sleep()
+            System.out.println(exception);
         }
+
+
     }
 
     public static void setPlayerBalance(Player player, int value){

@@ -172,7 +172,7 @@ public class Board {
 
         //GUI update
         player.setPosition(endPosition);
-        GUIMove(player, startPos, diceValue);
+        GUIController.movePlayer(player, startPos, diceValue);
 
         //send relevant information to the actionhandler to execute field action.
         actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], diceValue);
@@ -186,7 +186,7 @@ public class Board {
 
         int startPos = player.getPosition();
         player.setPosition(endPos);
-        GUIMove(player, startPos, calculateSpaceToMove(startPos, endPos));
+        GUIController.movePlayer(player, startPos, calculateSpaceToMove(startPos, endPos));
 
         actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], 0);
     }
@@ -198,15 +198,7 @@ public class Board {
             return (endPosition + ALL_SQUARES.length) - startPosition;
         }
     }
-
-    private void GUIMove(Player player, int startPos, int spaceToMove) {
-        try { // Only to handle errors made from the GUI
-            GUIController.movePlayer(player, startPos, spaceToMove);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
+    
     private void payStartBonus(Player currentPlayer) {
         actionHandler.boardPaymentsToBank(currentPlayer, -4000);
     }
