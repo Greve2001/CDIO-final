@@ -188,7 +188,7 @@ public class ActionHandler {
 
     private void incomeTaxAction(Player player, Square square) {
         IncomeTax incomeTaxSquare = (IncomeTax) square;
-        String[] choices = {Language.get("payPct") + incomeTaxSquare.getPercentage(), incomeTaxSquare.getAmount() + " kr."};
+        String[] choices = {Language.get("payPct") + incomeTaxSquare.getPercentage() + "%", incomeTaxSquare.getAmount() + " kr."};
         String answer = GUIController.givePlayerChoice(Language.get("payIncomeTax"), choices);
 
         if (answer.equals(choices[0])) {
