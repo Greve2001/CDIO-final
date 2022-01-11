@@ -217,6 +217,7 @@ public class Board {
     public void setPlayerInJail(Player player) {
         GUIController.showMessage(Language.get("goToPrison"));
         setPlayerPosition(player, jailPosition, true);
+        player.setHasEkstraTurn(false);
     }
 
     public int getCurrentCost(int position) {

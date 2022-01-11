@@ -18,7 +18,6 @@ public class GameController {
     private Player currentPlayer;
 
     // Extra turn varaibles
-    private boolean hasExtraTurn = false;
     private int doublesRolled = 0;
 
     //final variable
@@ -87,12 +86,12 @@ public class GameController {
                 }
             }
 
-            if (!hasExtraTurn){
+            if (!currentPlayer.getHasEkstraTurn()){
                 changeTurn();
                 doublesRolled = 0;
             }
 
-            hasExtraTurn = false; // Make sure that extra turn is reset
+            currentPlayer.setHasEkstraTurn(false); // Make sure that extra turn is reset
 
             checkForBust();
 
@@ -112,7 +111,7 @@ public class GameController {
 
         // Rolled double gives extra turn.
         if (isDoubles(faceValues)) { // Means that player has rolled doubles
-            hasExtraTurn = true;
+            currentPlayer.setHasEkstraTurn(true);
             doublesRolled++;
 
             // If 3 doubles are rolled, go to jail
