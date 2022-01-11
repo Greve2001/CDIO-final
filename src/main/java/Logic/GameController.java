@@ -216,6 +216,7 @@ public class GameController {
         for (Player player : players){
             if (player.getBalance() <= 0 || player.getActive() == false){
                 player.setActive(false);
+                player.setHasEkstraTurn(false);
                 playersLeft--;
             }
         }
