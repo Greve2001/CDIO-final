@@ -45,7 +45,7 @@ public class GameController {
 
     }
 
-    private void setupPlayers(String[] playerNames) {
+    public void setupPlayers(String[] playerNames) {
         players = new Player[playerNames.length];
         for (int i = 0; i < playerNames.length; i++){
             players[i] = new Player(playerNames[i], START_MONEY, 0);
@@ -216,6 +216,7 @@ public class GameController {
         for (Player player : players){
             if (player.getBalance() <= 0 || player.getActive() == false){
                 player.setActive(false);
+                player.setHasEkstraTurn(false);
                 playersLeft--;
             }
         }
@@ -238,5 +239,9 @@ public class GameController {
     }
     private int diceSum(int[] faceValues){
         return faceValues[0] + faceValues[1];
+    }
+
+    public Player[] getPlayers() {
+        return players;
     }
 }
