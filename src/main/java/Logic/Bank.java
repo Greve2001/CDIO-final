@@ -56,9 +56,7 @@ public class Bank {
                 int balance=player.getBalance()-(price*nr);
                 player.setBalance(balance);
             }
-
         }
-
     }
 
     public void buyHotels(Player player,int nr,int price){
