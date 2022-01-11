@@ -119,6 +119,7 @@ public class Board {
         actionHandler.setPlayers(players);
     }
 
+    //CSV only contain Strings, this allow us to change those to array
     private int[] stringArrayToIntArray(String[] arr, String type) {
         int offset = 7;
         int[] result;
@@ -137,7 +138,7 @@ public class Board {
         return result;
     }
 
-    public boolean hasMonopoly(int position, Player... player) {
+    private boolean hasMonopoly(int position, Player... player) {
         String color = ALL_SQUARES[position].getColor();
         Player owner = ALL_SQUARES[position].getOwner();
         boolean result = false;
@@ -206,7 +207,7 @@ public class Board {
         }
     }
 
-    public void payStartBonus(Player currentPlayer) {
+    private void payStartBonus(Player currentPlayer) {
         actionHandler.boardPaymentsToBank(currentPlayer, -4000);
     }
 
@@ -298,7 +299,7 @@ public class Board {
             GUIController.showMessage("You do not own all the properties in the color");
     }
 
-    public int getFirstPropertyInAColor(String color){
+    private int getFirstPropertyInAColor(String color){
         for (Square field: ALL_SQUARES){
             if (field.getColor().equals(color))
                 return field.getPOSITION();
