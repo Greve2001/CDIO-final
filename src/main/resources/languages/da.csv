@@ -4,12 +4,9 @@ Vælg antallet af spillere: ,enterName
 Ønsker du at købe rederiet? ,buyFerry
 Ønsker du at købe bryggeriet? ,buyBrewery
 
-,,GameController
 Vælg handling,askAction
 Kast terning,choice1
 Køb egendom,choice2
-
-,,GUIController
 Grund rente,baseRent
 1 hus,1house
 2 huse,2house
@@ -37,6 +34,19 @@ Du brød desværre ikke ud,didNotEscape
 Du har ikke flere forsøg til at komme ud. Betal bøden,noMoreTries
 Vinderen er ,winnerIs
 Gå i fængsel,goToPrison
+ betalte: ,paid
+ kr til banken,paidToBank1
+ kr til ,paidToPlayer
+ Banken betalte ,bankPaid1
+ kr til ,bankPaid2
+Hvad vil du købe?,whatToBuy?
+Hvor mange vil du købe? De koster per styk: ,howManyToBuy?
+Stop med at købe,stopBuying
+Vælg en felt farve at købe egendom til,chooseStreetColor
+Huse,houses
+Hoteller,hotels
+Kast terningerne,throwDice
+Vælg,choose
 
 ,,GUIErrors
 Ikke en vej. Den kan ikke ejes!,notAStreet

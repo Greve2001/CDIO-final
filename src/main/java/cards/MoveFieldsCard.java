@@ -4,7 +4,8 @@ public class MoveFieldsCard extends ChanceCard{
 
     protected int fieldsToMove;
 
-    public MoveFieldsCard(int fieldsToMove){
+    public MoveFieldsCard(String description, int fieldsToMove){
+        super(description);
         this.fieldsToMove = fieldsToMove;
     }
 

@@ -212,10 +212,9 @@ package Utilities
 
 GameController -l- GUIController
 Bank -- ActionHandler
-GameController -u- ActionHandler
 GameController -- DiceCup
 DiceCup -- Die
-GameController -r- Player
+GameController -d- Player
 
 ActionHandler -u- Deck
 GameController *-d- Board
@@ -239,7 +238,9 @@ chanceCard <|-- MoveFieldsChanceCard
 chanceCard <|-- PayMoneyChanceCard
 chanceCard <|-- ReceiveMoneyChanceCard
 
-Board -l- CSVReader
+Board -u- CSVReader
+Board *- ActionHandler
+
 
 
 

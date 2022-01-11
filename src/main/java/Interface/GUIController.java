@@ -10,34 +10,27 @@ import java.awt.*;
 
 public class GUIController {
 
-    //TODO overall
-    //TODO Implement Language for all text
-
-    //OBS OBS OBS OBS
-    // This variable is to toggle for testing purposes. This allows us to test classes that have the GUI
-    // incoorperated in them, by itself.
-    private static boolean testing = false;
+    private static boolean testing = false; // Used to allow easier testing
 
     private static GUI gui;
     private static Color[] colorsToChooseFrom = new Color[]{Color.blue, Color.green, Color.yellow, Color.red, Color.magenta, Color.orange};
     private static String[] playerNames;
     private static GUI_Player[] guiPlayers;
     private static int[] playerPositions;
-
     private static GUI_Field[] GUIFields;
     private static Square[] fields;
-    private static Board gameBoard;
 
+    // Changeable variables
     private static int moveTime = 5;
 
-    public GUIController(Board board){
+
+    public GUIController(Square[] inputSquares){
         if (testing) return;
 
-        gameBoard = board;
-        Square[] inputSquares = board.getALL_SQUARES();
         GUI_Field[] GUIFields = createBoard(inputSquares);
         gui = new GUI(GUIFields);
     }
+
 
     public static GUI_Field[] createBoard(Square[] inputSquares){
         GUIFields = new GUI_Field[inputSquares.length]; // Create empty array7
@@ -58,12 +51,10 @@ public class GUIController {
                                     Language.get("4house") + ": " + inputSquares[i].getRent()[4] + "<br>" +
                                     Language.get("hotel") + ": " + inputSquares[i].getRent()[5] + "<br>"
                     );
-                    // TODO changes this to use squares actual rent
                     ((GUI_Ownable) GUIFields[i]).setRent("");
                     GUIFields[i].setSubText(Language.get("price") +": " + String.valueOf(fields[i].getPrice()));
                     break;
 
-                // TODO ALT skal implementeres med CSV Reader, det er midlertidigt
 
                 case "Ferry" :
                     GUIFields[i] = new GUI_Shipping();
@@ -136,18 +127,23 @@ public class GUIController {
             }
 
             GUIFields[i].setTitle(inputSquares[i].getName());
-            //TODO not setting subtext cause we need some dynamic handling to show what the price and then rent is.
-
         }
 
         return GUIFields;
     }
 
-    public static void createPlayers(int startBalance){
+
+    public static void createPlayers(int minPlayers, int maxPlayers, int startBalance){
         // Needs an input
         if (testing) return;
 
-        int numberOfPlayers = Integer.parseInt(gui.getUserSelection(Language.get("selectPlayers"), "3", "4", "5", "6")); //TODO Use CSVReader
+        String msg = Language.get("selectPlayers");
+        String[] choices = new String[maxPlayers-minPlayers + 1];
+        for (int i = 0; i < choices.length; i++) {
+            choices[i] = String.valueOf(minPlayers + i);
+        }
+
+        int numberOfPlayers = Integer.parseInt(gui.getUserSelection(msg, choices));
 
         playerNames = new String[numberOfPlayers]; // Empty name array
         guiPlayers = new GUI_Player[numberOfPlayers];
@@ -155,7 +151,7 @@ public class GUIController {
 
         for (int i = 0; i < numberOfPlayers; i++) {
             // Get players name and car color
-            playerNames[i] = gui.getUserString(Language.get("enterName")); //TODO Use CSV Reader
+            playerNames[i] = gui.getUserString(Language.get("enterName"));
 
             // Add the player
             guiPlayers[i] = new GUI_Player(playerNames[i], startBalance); // To our array
@@ -173,32 +169,38 @@ public class GUIController {
 
 
 /// Player Section ///
-    public static void movePlayer(Player player, int startPosition, int spacesToMove) throws InterruptedException { // Make sure it needs the Player or name of Player
+    public static void movePlayer(String playerName, int startPosition, int spacesToMove){ // Make sure it needs the Player or name of Player
         if (testing) return;
 
         // TODO NEW
-        int time = moveTime * spacesToMove;
-        for (int i = 1; i <= spacesToMove; i++) {
-            // Get informations
+        try {
+            int time = moveTime * spacesToMove;
+            for (int i = 1; i <= spacesToMove; i++) {
+                // Get informations
 
-            int newPosition = (i + startPosition)  % fields.length;
-            GUI_Field toField = gui.getFields()[newPosition];
-            int guiPlayerIndex = getGuiPlayerIndex(player);
+                int newPosition = (i + startPosition)  % fields.length;
+                GUI_Field toField = gui.getFields()[newPosition];
+                int guiPlayerIndex = getGuiPlayerIndex(playerName);
 
-            // Set the car
-            guiPlayers[guiPlayerIndex].getCar().setPosition(toField);
+                // Set the car
+                guiPlayers[guiPlayerIndex].getCar().setPosition(toField);
 
-            // Sleep, so the car stops breifly for the player to see movement
-            Thread.sleep(time);
+                // Sleep, so the car stops breifly for the player to see movement
+                Thread.sleep(time);
+            }
+        } catch (InterruptedException exception){ // Needs to be made beacuse of thread.sleep()
+            System.out.println(exception);
         }
     }
 
-    public static void setPlayerBalance(Player player, int value){
+
+    public static void setPlayerBalance(String playerName, int value){
         if (testing) return;
 
-        int index = getGuiPlayerIndex(player);
+        int index = getGuiPlayerIndex(playerName);
         guiPlayers[index].setBalance(value);
     }
+
 
     // Gives access to logic to get the inputted names from the GUI.
     public static String[] getPlayerNames(){
@@ -206,6 +208,7 @@ public class GUIController {
 
         return playerNames;
     }
+
     //TODO implement solution to let player select colors
     public static Color[] getPlayerColors(){
         if (testing) return new Color[]{Color.red, Color.orange, Color.blue};
@@ -223,7 +226,6 @@ public class GUIController {
     }
 
     //TODO when Pi has it made
-
     // Used for more than displayChanceCard. Also just for normal messages.
     //public void displayChanceCard(ChanceCard card) { // Use CSV Reader
     //    gui.displayChanceCard("ChanceCard" + "\n" + card.toString());
@@ -241,17 +243,17 @@ public class GUIController {
 
         if (posToStreet(position) != null)
             posToStreet(position).setHotel(bool);
-
     }
 
-    public static void setOwner(Player player, int position){
+
+    public static void setOwner(String playerName, Color playerColor, int position){
         if (testing) return;
 
         boolean ownable = fields[position].getOwnable();
         if (ownable){
-            if (player != null){
-                ((GUI_Ownable) GUIFields[position]).setOwnerName(player.getName());
-                ((GUI_Ownable) GUIFields[position]).setBorder(player.getColor());
+            if (playerName.equals("")){
+                ((GUI_Ownable) GUIFields[position]).setOwnerName(playerName);
+                ((GUI_Ownable) GUIFields[position]).setBorder(playerColor);
                 //TODO set the current rent or make another function for more uses
             }else{
                 ((GUI_Ownable) GUIFields[position]).setOwnerName(null);
@@ -269,8 +271,6 @@ public class GUIController {
 
         GUIFields[position].setSubText(String.valueOf(currentCost));
     }
-
-
 
 
 
@@ -292,10 +292,10 @@ public class GUIController {
     }
 
     // Stops game-flow until button is pressed. Used for UX.
-    public static void getPlayerAction(Player player, String msg){
+    public static void getPlayerAction(String playerName, String msg){
         if (testing) return;
 
-        gui.showMessage(player.getName() + "; " + msg);
+        gui.showMessage(playerName + "; " + msg);
     }
 
     public static int getPlayerInteger(String msg){
@@ -316,21 +316,9 @@ public class GUIController {
     /////////////////////////// UTILITY SECTION /////////////////////////////
 
     //Used for getting player index since thats the only way we can find the corresponding GUI_Player
-    private static int getGuiPlayerIndex(Player player) {
+    private static int getGuiPlayerIndex(String playerName) {
         for (int i = 0; i < guiPlayers.length; i++) {
-            if (guiPlayers[i].getName().equals(player.getName())) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    // Used for finding the players position, since the GUI does not hold the position as a numerical value.
-    private static int getPlayerPosition(Player player){
-        for (int i = 0; i < gui.getFields().length; i++) {
-            GUI_Player guiPlayer = guiPlayers[getGuiPlayerIndex(player)];
-
-            if (gui.getFields()[i].equals(guiPlayer.getCar().getPosition())){
+            if (guiPlayers[i].getName().equals(playerName)) {
                 return i;
             }
         }
@@ -346,7 +334,6 @@ public class GUIController {
             return null;
         }
     }
-
 
     private static Color convertColor(String colorStr){
         Color result = Color.white;

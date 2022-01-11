@@ -119,6 +119,7 @@ public class Board {
         actionHandler.setPlayers(players);
     }
 
+    //CSV only contain Strings, this allow us to change those to array
     private int[] stringArrayToIntArray(String[] arr, String type) {
         int offset = 7;
         int[] result;
@@ -137,14 +138,14 @@ public class Board {
         return result;
     }
 
-    public boolean hasMonopoly(int position, Player... player) {
+    private boolean hasMonopoly(int position, Player... player) {
         String color = ALL_SQUARES[position].getColor();
         Player owner = ALL_SQUARES[position].getOwner();
         boolean result = false;
 
         if (owner != null && ALL_SQUARES[position].isBuildAble()) {
             result = true;
-            if (player != null) //handle out of bounce
+            if (player.length != 0) //handle out of bounce
                 owner = player[0];
 
             for (Square square : ALL_SQUARES) {
@@ -171,7 +172,7 @@ public class Board {
 
         //GUI update
         player.setPosition(endPosition);
-        GUIMove(player, startPos, diceValue);
+        GUIController.movePlayer(player.getName(), startPos, diceValue);
 
         //send relevant information to the actionhandler to execute field action.
         actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], diceValue);
@@ -185,7 +186,7 @@ public class Board {
 
         int startPos = player.getPosition();
         player.setPosition(endPos);
-        GUIMove(player, startPos, calculateSpaceToMove(startPos, endPos));
+        GUIController.movePlayer(player.getName(), startPos, calculateSpaceToMove(startPos, endPos));
 
         actionHandler.squareAction(player, ALL_SQUARES[player.getPosition()], 0);
     }
@@ -198,15 +199,7 @@ public class Board {
         }
     }
 
-    private void GUIMove(Player player, int startPos, int spaceToMove) {
-        try { // Only to handle errors made from the GUI
-            GUIController.movePlayer(player, startPos, spaceToMove);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void payStartBonus(Player currentPlayer) {
+    private void payStartBonus(Player currentPlayer) {
         actionHandler.boardPaymentsToBank(currentPlayer, -4000);
     }
 
@@ -217,16 +210,22 @@ public class Board {
     public void setPlayerInJail(Player player) {
         GUIController.showMessage(Language.get("goToPrison"));
         setPlayerPosition(player, jailPosition, true);
+        player.setHasExtraTurn(false);
     }
 
     public int getCurrentCost(int position) {
-        int result;
-        if (ALL_SQUARES[position].isBuildAble()) {
-            result = ALL_SQUARES[position].getCurrentCost();
-            if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
-                result = result * 2;
-        } else{
-            result = getCurrentCost(amountOwnedWithinTheColor(position));
+        int result = 0;
+        if (ALL_SQUARES[position].getOwnable()) {
+            if (ALL_SQUARES[position].isBuildAble()) {
+                result = ALL_SQUARES[position].getCurrentCost();
+                if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
+                    result = result * 2;
+            } else {
+                if (ALL_SQUARES[position].getOwner() != null)
+                    result = ALL_SQUARES[position].getRent()[amountOwnedWithinTheColor(position) - 1];
+                else
+                    result = ALL_SQUARES[position].getPrice();
+            }
         }
         return result;
     }
@@ -237,7 +236,7 @@ public class Board {
             Player player = ALL_SQUARES[position].getOwner();
             String color = ALL_SQUARES[position].getColor();
             for (Square field : ALL_SQUARES) {
-                if (field.getColor().equals(color) && player.equals(field.getOwner()))
+                if (color.equals(field.getColor()) && player.equals(field.getOwner()))
                     result++;
             }
         }
@@ -270,33 +269,140 @@ public class Board {
         return result;
     }
 
+    public String[] getAllStreetColors(){
+        int count = 0;
+        String[] arr = new String[100];
+        String color = "";
+        for (Square field: ALL_SQUARES){
+            if (field.isBuildAble() && !color.equals(field.getColor())){
+                color = field.getColor();
+                arr[count] = field.getColor();
+                count++;
+            }
+        }
+        String[] result = new String[count];
+
+        for (int i = 0; i < result.length; i++) {
+            result[i] = arr[i];
+        }
+        return result;
+    }
+
+    public int getHousePrice(String color){
+        for (Square field: ALL_SQUARES){
+            if (color.equals(field.getColor()))
+                return field.getHousePrice();
+        }
+        return 0;
+    }
+
     public void buyHouse(Player player, String color, int amountOfHouses){
         int position = getFirstPropertyInAColor(color);
+        String whereToPlaceHouse;
 
         if (hasMonopoly(position, player)){
             int price = ALL_SQUARES[position].getHousePrice();
-            if (actionHandler.isBuyingHousePossible(player, price, amountOfHouses)){
+            if (player.getBalance() >= price * amountOfHouses){
+                actionHandler.buyHouse(player, price, amountOfHouses);
                 String[] choice = new String[amountOwnedWithinTheColor(position)];
-                for (int i = 0, j = 0; i < ALL_SQUARES.length; i++){
+                for (int i = position, j = 0; i < ALL_SQUARES.length; i++){
                     if (color.equals(ALL_SQUARES[i].getColor())){
                         choice[j] = ALL_SQUARES[i].getName();
                         j++;
                     }
                 }
+                boolean placementOkay;
+                int amountOfHousesOnStreet;
                 do {
-                    GUIController.givePlayerChoice("Place a house", choice);
+                    whereToPlaceHouse = GUIController.givePlayerChoice("Place a house", choice);
+                    placementOkay = true;
+                    for (Square field: ALL_SQUARES){
+                        if(whereToPlaceHouse.equals(field.getName())) {
+                            position = field.getPOSITION();
+                            break;
+                        }
+                    }
+                    amountOfHousesOnStreet = ALL_SQUARES[position].getAmountOfHouses();
+                    for (Square field: ALL_SQUARES){
+                        if(ALL_SQUARES[position].getColor().equals(field.getColor())){
+                            if (!(amountOfHousesOnStreet + 1 == field.getAmountOfHouses() || amountOfHousesOnStreet == field.getAmountOfHouses()))
+                                placementOkay = false;
+                        }
+                    }
+                    if (placementOkay) {
+                        ALL_SQUARES[position].setAmountOfHouses(amountOfHousesOnStreet + 1);
+                        amountOfHouses--;
+                        GUIController.setHouses(position, ALL_SQUARES[position].getAmountOfHouses());
+                    }
                 }while(amountOfHouses > 0);
             }
         }
         else
-            GUIController.showMessage("You do not own all the properties in the color");
+            GUIController.getPlayerAction(player.getName(),"You do not own all the properties in the color");
     }
 
-    public int getFirstPropertyInAColor(String color){
+    private int getFirstPropertyInAColor(String color){
         for (Square field: ALL_SQUARES){
             if (field.getColor().equals(color))
                 return field.getPOSITION();
         }
         return 0;
+    }
+
+
+
+
+
+    public void sellProperty(Player player){
+        //TODO maybe?
+    }
+
+    public String[] allSquaresOwnedByPlayer(Player player){
+        String[] temp = new String[100];
+        int count = 0;
+        for (Square field: ALL_SQUARES){
+            if (player.equals(field.getOwner())){
+                temp[count] = field.getName();
+                count++;
+            }
+        }
+        return reduceStringArraySize(temp,count);
+    }
+
+    public String[] allSquaresWherePlayerHaveHouses(Player player){
+        String[] temp = new String[100];
+        int count = 0;
+        for (Square field: ALL_SQUARES){
+            if (player.equals(field.getOwner())){
+                if (field.getAmountOfHouses() > 0){
+                    temp[count] = field.getName();
+                    count++;
+                }
+            }
+        }
+        return reduceStringArraySize(temp, count);
+    }
+
+    public String[] allMonopolyColorsByPlayer(Player player){
+        String[] temp = new String[100];
+        int count = 0;
+        String[] color = getAllStreetColors();
+        int position;
+        for (String arr: color){
+            position = getFirstPropertyInAColor(arr);
+            if (hasMonopoly(position,player)){
+                temp[count] = ALL_SQUARES[position].getColor();
+                count++;
+            }
+        }
+        return reduceStringArraySize(temp, count);
+    }
+
+    private String[] reduceStringArraySize(String[] arr, int size){
+        String[] result = new String[size];
+        for (int i = 0; i < size; i++){
+            result [i] = arr[i];
+        }
+        return result;
     }
 }

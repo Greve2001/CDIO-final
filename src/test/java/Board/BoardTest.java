@@ -24,17 +24,10 @@ class BoardTest {
     void setUp() {
         Language.getInstance();
         board = new Board();
-        new GUIController(board);
+        new GUIController(board.getALL_SQUARES());
         player = new Player("test", 30000, 0);
         ALL_SQUARES = board.getALL_SQUARES();
         GUIController.setTesting(true);
-    }
-
-    @Test
-    void TestConstructor() {
-        for (int i = 0; i < 40; i++) {
-            assertFalse(board.hasMonopoly(i));
-        }
     }
 
     @Test
@@ -201,14 +194,68 @@ class BoardTest {
 
         a.setBalance(30000);
 
-        board.buyHouse(a,color,6);
+        board.buyHouse(a,color,1);
 
-        assertEquals(18000, a.getBalance());
-        assertNotEquals(0, ALL_SQUARES[position1].getAmountOfHouses());
-        assertNotEquals(0, ALL_SQUARES[position2].getAmountOfHouses());
-        assertNotEquals(0, ALL_SQUARES[position3].getAmountOfHouses());
+        assertEquals(28000, a.getBalance());
+        assertEquals(1, ALL_SQUARES[position1].getAmountOfHouses());
+        //assertNotEquals(0, ALL_SQUARES[position2].getAmountOfHouses());
+        //assertNotEquals(0, ALL_SQUARES[position3].getAmountOfHouses());
+    }
 
+    @Test
+    void testGetCurrentCostFieldStreet(){
+        int result;
+        int position = 1;
 
+        result = board.getCurrentCost(position);
+        assertEquals(1200, result);
 
+        ALL_SQUARES[position].setOwner(player);
+        result = board.getCurrentCost(position);
+        assertEquals(50,result);
+
+        ALL_SQUARES[position].setAmountOfHouses(2);
+        result = board.getCurrentCost(position);
+        assertEquals(750, result);
+    }
+
+    @Test
+    void testGetCurrentCostFieldFerry(){
+        int result;
+        Player a = new Player("a",30000,0);
+        int position = 5;
+        int position2 = 15;
+
+        result = board.getCurrentCost(position);
+        assertEquals(4000, result);
+
+        ALL_SQUARES[position].setOwner(player);
+        result = board.getCurrentCost(position);
+        assertEquals(500,result);
+
+        ALL_SQUARES[position].setAmountOfHouses(2);
+        result = board.getCurrentCost(position);
+        assertEquals(500, result);
+
+        ALL_SQUARES[position2].setOwner(player);
+        result = board.getCurrentCost(position);
+        assertEquals(1000, result);
+
+        ALL_SQUARES[position2].setOwner(a);
+        result = board.getCurrentCost(position);
+        assertEquals(500, result);
+    }
+
+    @Test
+    void testGetAllStreetColors(){
+        String[] arr = board.getAllStreetColors();
+
+        assertEquals(8, arr.length);
+    }
+
+    @Test
+    void allMonopolyColorsByPlayer(){
+        String[] test = board.allMonopolyColorsByPlayer(player);
+        assertEquals(0,test.length);
     }
 }

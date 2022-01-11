@@ -1,6 +1,7 @@
 package cards;
 
 import Board.Board;
+import Interface.GUIController;
 import Logic.Bank;
 import Logic.Player;
 
@@ -26,6 +27,8 @@ public class ChanceCardLogic {
     public void handle(Player player){
         ChanceCard card = deck.pullCard();
 
+        GUIController.showCenterMessage(card.getDescription());
+
         handleMoveFields(card, player);
         handleReceiveMoney(card, player);
         handlePayMoney(card, player);
@@ -46,7 +49,7 @@ public class ChanceCardLogic {
     private void handleReceiveMoney(ChanceCard card, Player player){
         int amount = card.updateBalancePositive();
         if (amount != 0) {
-            bank.BankpaytoPlayer(player, amount);
+            bank.bankPayToPlayer(player, amount);
         }
     }
 

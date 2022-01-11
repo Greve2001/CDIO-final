@@ -6,6 +6,12 @@ package cards;
  */
 public abstract class ChanceCard {
 
+    protected String description;
+
+    public ChanceCard(String description){
+        this.description = description;
+
+    }
 
     /**
      * This method will return 0, unless the ChanceCard dictates, that the player who drew the card
@@ -33,6 +39,11 @@ public abstract class ChanceCard {
      */
     public int moveNumOfFields(){
         return 0;
+    }
+
+    public String getDescription(){
+        return description;
+
     }
 
 }

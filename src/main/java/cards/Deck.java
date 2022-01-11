@@ -5,17 +5,44 @@ public class Deck {
     private ChanceCard[] chanceCardDeck;
     private int drawCardCount = 0;
 
-    //Temporary constructor, that initiates an array of 6 ChanceCards.
-    //The array holds 2 cards of each of the 3 types, that have been implemented so far.
-    public Deck() {
-        this.chanceCardDeck = new ChanceCard[6];
 
-        chanceCardDeck[0] = new PayMoneyCard(1000);
-        chanceCardDeck[1] = new PayMoneyCard(300);
-        chanceCardDeck[2] = new ReceiveMoneyCard(500);
-        chanceCardDeck[3] = new ReceiveMoneyCard(1000);
-        chanceCardDeck[4] = new MoveFieldsCard(3);
-        chanceCardDeck[5] = new MoveFieldsCard(-3);
+    /**
+     * Constructor for the Matador-game.
+     * Initializes the Chance Cards used in the game.
+     */
+
+    // Three types of chanceCard so far. Rest OTW.
+
+    public Deck() {
+        this.chanceCardDeck = new ChanceCard[25];
+
+        chanceCardDeck[0] = new PayMoneyCard("De har kørt frem for \"fuldt stop.\" Betal 1000 kr. i bøde.", 1000);
+        chanceCardDeck[1] = new PayMoneyCard("Betal for vognvask og smøring, kr. 300.", 300);
+        chanceCardDeck[2] = new PayMoneyCard("Betal kr. 200 for levering af to kasser øl.", 200);
+        chanceCardDeck[3] = new PayMoneyCard("Betal 3000 for reperation af deres vogn.", 3000);
+        chanceCardDeck[4] = new PayMoneyCard("Betal 3000 for reperation af deres vogn.", 3000);
+        chanceCardDeck[5] = new PayMoneyCard("De har købt 4 nye dæk til deres vogn. Betal kr. 1000.", 1000);
+        chanceCardDeck[6] = new PayMoneyCard("De har fået en parkeringsbøde. Betal kr. 200 i bøde.", 200);
+        chanceCardDeck[7] = new PayMoneyCard("Betal deres bilforsikring, kr. 1000.", 1000);
+        chanceCardDeck[8] = new PayMoneyCard("De har været udenlands og har købt for mange smøger med hjem. Betal kr. 200 i told.", 200);
+        chanceCardDeck[9] = new PayMoneyCard("Tandlægeregning, betal kr. 2000.", 2000);
+
+        chanceCardDeck[10] = new ReceiveMoneyCard("De har vundet i klasselotteriet. Modtag 500 kr.", 500);
+        chanceCardDeck[11] = new ReceiveMoneyCard("De har vundet i klasselotteriet. Modtag 500 kr.", 500);
+        chanceCardDeck[12] = new ReceiveMoneyCard("De modtager deres aktieudbytte. Modtag kr. 1000 af banken", 1000);
+        chanceCardDeck[13] = new ReceiveMoneyCard("De modtager deres aktieudbytte. Modtag kr. 1000 af banken", 1000);
+        chanceCardDeck[14] = new ReceiveMoneyCard("De modtager deres aktieudbytte. Modtag kr. 1000 af banken", 1000);
+        chanceCardDeck[15] = new ReceiveMoneyCard("Kommunen har eftergivet et kvartals skat. Hæv i banken kr. 3000.", 3000 );
+        chanceCardDeck[16] = new ReceiveMoneyCard("De havde en række med elleve rigtige i tipning. Modtag kr. 1000.", 1000);
+        chanceCardDeck[17] = new ReceiveMoneyCard("Grundet dyrtiden har De fået gageforhøjelse.", 1000);
+        chanceCardDeck[18] = new ReceiveMoneyCard("Deres præmieobligation er udtrukket. De modtager kr. 1000 af banken.", 1000);
+        chanceCardDeck[19] = new ReceiveMoneyCard("Deres præmieobligation er udtrukket. De modtager kr. 1000 af banken.", 1000);
+        chanceCardDeck[20] = new ReceiveMoneyCard("De har solgt nogle gamle møbler på auktion. Modtag kr. 1000 af banken.", 1000);
+        chanceCardDeck[21] = new ReceiveMoneyCard("Værdien af egen avl fra nyttehaven udgør kr. 200 som de modtager af banken.", 200);
+
+        chanceCardDeck[22] = new MoveFieldsCard("Ryk tre felter frem.", 3);
+        chanceCardDeck[23] = new MoveFieldsCard("Ryk tre felter tilbage", -3);
+        chanceCardDeck[24] = new MoveFieldsCard("Ryk tre felter tilbage", -3);
 
         shuffleCards();
     }
@@ -30,7 +57,14 @@ public class Deck {
         if (chanceCards == null) {
             throw new IllegalArgumentException("You cannot initialize an empty array.");
         } else {
-            this.chanceCardDeck = chanceCards;
+            // Initializes a copy of the original array, to be used in the Unittest.
+            ChanceCard[] copy = new ChanceCard[chanceCards.length];
+            for(int i=0; i< chanceCards.length; i++){
+
+                copy[i] = chanceCards[i];
+            }
+            this.chanceCardDeck = copy;
+
         }
 
     }
