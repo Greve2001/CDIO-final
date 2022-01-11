@@ -9,15 +9,18 @@ class DiceCupTest {
     DiceCup diceCup=new DiceCup();
 
     @Test
-    void rollDice() {
-       diceCup.rollDice();
-        Assertions.assertEquals(true,diceCup.getFaceValues().length==2);
+    void cupMustHaveTwoDice() {
+        // Assert
+        Assertions.assertEquals(2, diceCup.getFaceValues().length);
     }
 
     @Test
-    void getFaceValues() {
+    void when_rollDice_andThen_getFaceValues_sumMustBeGreaterThanOrEqualToTwo() {
+        // Act
         diceCup.rollDice();
         int sum=diceCup.getFaceValues()[0]+diceCup.getFaceValues()[1];
-        Assertions.assertEquals(true,sum>=2);
+
+        // Assert
+        assertTrue(sum >= 2);
     }
 }
