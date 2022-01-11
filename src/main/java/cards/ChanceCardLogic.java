@@ -1,6 +1,7 @@
 package cards;
 
 import Board.Board;
+import Interface.GUIController;
 import Logic.Bank;
 import Logic.Player;
 
@@ -25,6 +26,8 @@ public class ChanceCardLogic {
      */
     public void handle(Player player){
         ChanceCard card = deck.pullCard();
+
+        GUIController.showCenterMessage(card.getDescription());
 
         handleMoveFields(card, player);
         handleReceiveMoney(card, player);

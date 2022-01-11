@@ -4,7 +4,8 @@ public class PayMoneyCard extends ChanceCard{
 
     protected int amount;
 
-    public PayMoneyCard(int amount){
+    public PayMoneyCard(String description, int amount){
+        super(description);
         this.amount = amount;
     }
 
