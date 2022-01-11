@@ -80,16 +80,51 @@ public class GameController {
                     takeTurn();
 
                 } else if(answer.equals(case2)){ // Buy Property
-                    // Make more indepth logic to buy houses, hotels, sell them, place them
-                    // Temp text for GUI. REMOVE
-                    GUIController.getPlayerAction(currentPlayer, Language.get("choice2"));
+                    boolean wantToKeepBuying = true;
 
-                    //TODO make this to a decision when hotels are implemented
-                    // Make buy houses logic
+                    do {
 
-                    //board.buyHouses()
+                        // Construct message
+                        msg  = Language.get("whatToBuy?");
+                        choices = new String[]{Language.get("houses"), Language.get("hotels"), Language.get("stopBuying")};
+                        answer = GUIController.givePlayerChoice(msg, choices);
+
+                        // Sort after answer
+                        if (answer.equals(choices[0]) || answer.equals(choices[1])){ // Houses and hotels. Have same price
+                            // TODO ensure that the player can buy property if the have monopoly on that street color
+
+                            String[] allColors = board.getAllStreetColors();
+
+                            msg = Language.get("chooseStreetColor");
+                            choices = allColors;
+
+                            System.out.println(allColors[1]);
+
+                            String colorChosen = GUIController.givePlayerChoice(msg, choices);
+                            int housePrice = board.getHousePrice(colorChosen); // Same as hotelprice
+
+                            int amountToBuy = GUIController.getPlayerInteger(Language.get("howManyToBuy?") + housePrice);
+                            if (amountToBuy >= 0){
+                                wantToKeepBuying = false;
+                                break;
+                            }
+
+
+                            // Buy properties
+                            if (answer.equals(choices[0])) // houses
+                                board.buyHouse(currentPlayer, colorChosen, amountToBuy);
+                            else if (answer.equals(choices[1]));
+                            // TODO not implemented
+                            //board.buyHotel(currentPlayer, colorChosen, amountToBuy);
+
+                        } else { // Stop buying
+                            wantToKeepBuying = false;
+                        }
+
+                    }while (wantToKeepBuying);
 
                     // When done buying, take turn.
+                    GUIController.getPlayerAction(currentPlayer, Language.get("throwDice"));
                     takeTurn();
                 }
             }

@@ -42,6 +42,13 @@ Gå i fængsel,goToPrison
  kr til ,paidToPlayer
  Banken betale ,bankPaid1
  kr til ,bankPaid2
+Hvad vil du købe?,whatToBuy?
+Hvor mange vil du købe? De koster per styk: ,howManyToBuy?
+Stop med at købe,stopBuying
+Vælg en felt farve at købe egendom til,chooseStreetColor
+Huse,houses
+Hoteller,hotels
+Kast terningerne,throwDice
 
 ,,GUIErrors
 Ikke en vej. Den kan ikke ejes!,notAStreet
