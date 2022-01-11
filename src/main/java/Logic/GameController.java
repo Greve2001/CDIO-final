@@ -104,8 +104,7 @@ public class GameController {
                             int housePrice = board.getHousePrice(colorChosen); // Same as hotelprice
 
                             int amountToBuy = GUIController.getPlayerInteger(Language.get("howManyToBuy?") + housePrice);
-                            if (amountToBuy >= 0){
-                                wantToKeepBuying = false;
+                            if (amountToBuy <= 0){
                                 break;
                             }
 
