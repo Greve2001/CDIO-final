@@ -147,7 +147,7 @@ public class GUIController {
         // Needs an input
         if (testing) return;
 
-        int numberOfPlayers = Integer.parseInt(gui.getUserSelection(Language.get("selectPlayers"), "3", "4", "5", "6")); //TODO Use CSVReader
+        int numberOfPlayers = Integer.parseInt(gui.getUserSelection(Language.get("selectPlayers"), "3", "4", "5", "6"));
 
         playerNames = new String[numberOfPlayers]; // Empty name array
         guiPlayers = new GUI_Player[numberOfPlayers];
