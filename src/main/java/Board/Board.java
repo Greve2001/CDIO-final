@@ -269,6 +269,37 @@ public class Board {
         return result;
     }
 
+    public String[] getAllStreetColors(){
+        int count = 0;
+        String color = "";
+        for (Square field: ALL_SQUARES){
+            if (field.isBuildAble() && !color.equals(field.getColor())){
+                color = field.getColor();
+                count++;
+            }
+        }
+        String[] result = new String[count];
+
+        for (Square field: ALL_SQUARES) {
+            if (field.isBuildAble()) {
+                for (int i = 0; i < result.length; i++) {
+                    if (field.getColor().equals(result[i])) {
+                        result[i + 1] = field.getColor();
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public int getHousePrice(String color){
+        for (Square field: ALL_SQUARES){
+            if (color.equals(field.getColor()))
+                return field.getHousePrice();
+        }
+        return 0;
+    }
+
     public void buyHouse(Player player, String color, int amountOfHouses){
         int position = getFirstPropertyInAColor(color);
         String whereToPlaceHouse;

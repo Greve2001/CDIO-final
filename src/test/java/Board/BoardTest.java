@@ -245,4 +245,11 @@ class BoardTest {
         result = board.getCurrentCost(position);
         assertEquals(500, result);
     }
+
+    @Test
+    void testGetAllStreetColors(){
+        String[] arr = board.getAllStreetColors();
+
+        assertEquals(8, arr.length);
+    }
 }
