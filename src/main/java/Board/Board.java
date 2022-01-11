@@ -300,7 +300,6 @@ public class Board {
         int position = getFirstPropertyInAColor(color);
         String whereToPlaceHouse;
 
-
         if (hasMonopoly(position, player)){
             int price = ALL_SQUARES[position].getHousePrice();
             if (player.getBalance() >= price * amountOfHouses){
@@ -333,8 +332,8 @@ public class Board {
                     if (placementOkay) {
                         ALL_SQUARES[position].setAmountOfHouses(ALL_SQUARES[position].getAmountOfHouses()+1);
                         amountOfHouses--;
+                        GUIController.setHouses(position, ALL_SQUARES[position].getAmountOfHouses());
                     }
-
                 }while(amountOfHouses > 0);
             }
         }
