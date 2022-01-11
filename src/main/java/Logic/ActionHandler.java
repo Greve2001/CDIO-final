@@ -106,24 +106,24 @@ public class ActionHandler {
 
         for (int i = 0; i < players.length; i++) {
             // Checks which players initially are allowed to participate in the auction.
-            if(players[i].getActive()) {
+            if (players[i].getActive()) {
                 participants[i] = true;
                 activeBidders++;
             }
 
             // Finds the current player out of all players.
-            if(players[i].getName().equals(player.getName()))
+            if (players[i].getName().equals(player.getName()))
                 biddingPlayer = i;
         }
 
         boolean notSold = true;
         int highestBid = 0;
-        while(notSold) {
+        while (notSold) {
             boolean wantToBid;
 
             // Declares the last active bidder in the auction the winner.
             if (activeBidders == 1) {
-               for (int i = 0; i < participants.length; i++) {
+                for (int i = 0; i < participants.length; i++) {
                     if (participants[i]) {
                         GUIController.showMessage(players[i].getName() + Language.get("hasWonAuction"));
 
@@ -165,11 +165,10 @@ public class ActionHandler {
         }
     }
 
-    // Pay the owner if they are not in jail.
-    // TODO Implement if the square is pledged as well.
+    // Pay the owner if they are not in jail and the square is not pledged.
     private void payRent(Player player, Square square, int amount) {
-        if (!square.getOwner().isInJail())
-            BANK.PlayersPayToPlayer(square.getOwner(), amount, player);
+        if (!square.getOwner().isInJail() && !square.getPledge() && square.getOwner().getActive())
+            BANK.playersPayToPlayer(square.getOwner(), amount, player);
     }
 
     private void taxAction(Player player, Square square) {
@@ -191,6 +190,7 @@ public class ActionHandler {
         }
     }
 
+    // TODO fix rounding errors
     public int roundToNearest50(int valueToRound) {
         int modulo = valueToRound % 50;
         if (modulo < 25)
@@ -213,25 +213,23 @@ public class ActionHandler {
         BANK.payToBank(player, amount);
     }
 
-    public void setPlayers(Player[] players){
+    public void setPlayers(Player[] players) {
         this.players = players;
     }
 
-    public boolean isBuyingHousePossible(Player player, int price, int amount){
-        boolean result = false;
-        if (player.getBalance() > price * amount && BANK.getHousesAvailable() >= amount){
-            BANK.buyHouses(player, amount, price);
-            result = true;
-        }
-        return result;
+    public boolean buyHouse(Player player, int price, int amount) {
+        return BANK.buyHouses(player, amount, price);
     }
 
-    public boolean isBuyingHotelPossible(Player player, int price, int amount){
-        boolean result = false;
-        if (player.getBalance() > price * amount && BANK.getHotelsAvailable() >= amount){
-            BANK.buyHotels(player, amount, price);
-            result = true;
-        }
-        return result;
+    public boolean buyHotels(Player player, int price, int amount) {
+        return BANK.buyHotels(player, amount, price);
+    }
+
+    public int getHousesAvailable() {
+        return BANK.getHousesAvailable();
+    }
+
+    public int getHotelsAvailable() {
+        return BANK.getHotelsAvailable();
     }
 }

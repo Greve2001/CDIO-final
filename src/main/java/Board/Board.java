@@ -275,7 +275,7 @@ public class Board {
 
         if (hasMonopoly(position, player)){
             int price = ALL_SQUARES[position].getHousePrice();
-            if (actionHandler.isBuyingHousePossible(player, price, amountOfHouses)){
+            if (actionHandler.buyHouse(player, price, amountOfHouses)){
                 String[] choice = new String[amountOwnedWithinTheColor(position)];
                 for (int i = 0, j = 0; i < ALL_SQUARES.length; i++){
                     if (color.equals(ALL_SQUARES[i].getColor())){

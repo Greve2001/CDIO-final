@@ -42,7 +42,7 @@ class BankTest {
 
         // Act
         GUIController.setTesting(true);
-        bank.PlayersPayToPlayer(player,10, fishy,jack,hidi);
+        bank.playersPayToPlayer(player,10, fishy,jack,hidi);
 
         // Assert
         Assertions.assertEquals(30025, player.getBalance());
@@ -57,7 +57,7 @@ class BankTest {
 
         // Act
         GUIController.setTesting(true);
-        bank.PlayersPayToPlayer(player,10, fishy,jack,hidi);
+        bank.playersPayToPlayer(player,10, fishy,jack,hidi);
 
         // Assert
         Assertions.assertEquals(0, fishy.getBalance());
@@ -69,7 +69,7 @@ class BankTest {
     void when_bankPayToPlayer_then_playerAmountMustBeIncreased() {
         // Act
         GUIController.setTesting(true);
-        bank.BankpaytoPlayer(player,250);
+        bank.bankpaytoPlayer(player,250);
 
         // Assert
         Assertions.assertEquals(30250,player.getBalance());
