@@ -228,7 +228,10 @@ public class Board {
                 if (ALL_SQUARES[position].getAmountOfHouses() == 0 && hasMonopoly(position))
                     result = result * 2;
             } else {
-                result = getCurrentCost(amountOwnedWithinTheColor(position));
+                if (ALL_SQUARES[position].getOwner() != null)
+                    result = ALL_SQUARES[position].getRent()[amountOwnedWithinTheColor(position) - 1];
+                else
+                    result = ALL_SQUARES[position].getPrice();
             }
         }
         return result;

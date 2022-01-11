@@ -45,6 +45,8 @@ public abstract class Ownable extends Square{
         this.owner = player;
     }
 
+    public void setAmountOfHouses(int i){}
+
     public int getAmountOfHouses(){
         return 0;
     }
