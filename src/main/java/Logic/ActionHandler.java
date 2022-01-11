@@ -3,14 +3,19 @@ package Logic;
 import Board.*;
 import Interface.GUIController;
 import Utilities.Language;
+import cards.ChanceCard;
+import cards.Deck;
 
 public class ActionHandler {
     private final Bank BANK = new Bank();
     private final Board BOARD;
     private Player[] players;
+    private Deck deck;
 
     public ActionHandler(Board BOARD) {
         this.BOARD = BOARD;
+        this.deck = new Deck();
+
     }
 
     public void squareAction(Player player, Square square, int diceSum) {
@@ -204,9 +209,48 @@ public class ActionHandler {
         BOARD.setPlayerInJail(player);
     }
 
+    /**
+     * Call this method, when a player needs to pull a ChanceCard from the deck.
+     * The method provides a chanceCard, via the pullCard-method in Deck, and then follows the
+     * instructions on that card.
+     *
+     * @param player represents the player that draws the ChanceCard
+     */
     public void cardAction(Player player) {
+        ChanceCard card = deck.pullCard();
 
+        handleMoveFields(card, player);
+        handleReceiveMoney(card, player);
+        handlePayMoney(card, player);
     }
+
+    // This method calls the updatePlayerPosition in Board, with the int fieldsToMove, provided by the drawn ChanceCard.
+    // fieldsToMove can be either positive or negative.
+    private void handleMoveFields(ChanceCard card, Player player){
+        int fieldsToMove = card.moveNumOfFields();
+        if(fieldsToMove != 0) {
+            BOARD.updatePlayerPosition(player, fieldsToMove);
+        }
+    }
+
+    // This method updates the playerBalance.
+    // The player RECEIVES money FROM the bank.
+    private void handleReceiveMoney(ChanceCard card, Player player){
+        int amount = card.updateBalancePositive();
+        if (amount != 0) {
+            BANK.bankPayToPlayer(player, amount);
+        }
+    }
+
+    // This method updates the playerBalance.
+    // The player PAYS money TO the bank.
+    private void handlePayMoney(ChanceCard card, Player player){
+        int amount = card.updateBalanceNegative();
+        if (amount != 0) {
+            BANK.payToBank(player, amount);
+        }
+    }
+
 
     public void boardPaymentsToBank(Player player, int amount) {
         BANK.payToBank(player, amount);
