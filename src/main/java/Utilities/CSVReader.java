@@ -39,14 +39,14 @@ public class CSVReader {
 
     // Takes the file and converts it to a 2D array.
     private String[][] fileAsArr() {
-        String[][] result = new String[20][1];
+        String[][] result = new String[20][];
 
         size = 0;
         while (FILE_SCANNER.hasNextLine()) {
 
             // Increases the size of the array if the file is longer than 20 lines.
             if (result.length <= size) {
-                String[][] temp = new String[result.length * 2][1];
+                String[][] temp = new String[result.length * 2][];
 
                 // Copies the old array to the new array with increased size.
                 int i = 0;
@@ -64,7 +64,7 @@ public class CSVReader {
     }
 
     private String[][] trimArrLength() {
-        String[][] trimmedArray = new String[size][1];
+        String[][] trimmedArray = new String[size][];
 
         for (int i = 0; i < size; i++) {
             trimmedArray[i] = file[i];
