@@ -28,9 +28,6 @@ public class GameController {
     private int playersLeft;
 
 
-    // TODO REMOVE THIS
-    Scanner input = new Scanner(System.in);
-
     public void setupGame() {
         Language.getInstance();
         diceCup = new DiceCup();
@@ -97,12 +94,12 @@ public class GameController {
                 }
             }
 
-            if (!currentPlayer.getHasEkstraTurn()){
+            if (!currentPlayer.getHasExtraTurn()){
                 changeTurn();
                 doublesRolled = 0;
             }
 
-            currentPlayer.setHasEkstraTurn(false); // Make sure that extra turn is reset
+            currentPlayer.setHasExtraTurn(false); // Make sure that extra turn is reset
 
             checkForBust();
 
@@ -122,7 +119,7 @@ public class GameController {
 
         // Rolled double gives extra turn.
         if (isDoubles(faceValues)) { // Means that player has rolled doubles
-            currentPlayer.setHasEkstraTurn(true);
+            currentPlayer.setHasExtraTurn(true);
             doublesRolled++;
 
             // If 3 doubles are rolled, go to jail
@@ -132,7 +129,6 @@ public class GameController {
 
         }
 
-        // TODO make sure that the player positions then get update in the Board class
         board.updatePlayerPosition(currentPlayer, diceSum(faceValues));
 
     }
@@ -227,8 +223,12 @@ public class GameController {
         for (Player player : players){
             if (player.getBalance() <= 0 || player.getActive() == false){
                 player.setActive(false);
-                player.setHasEkstraTurn(false);
+                player.setHasExtraTurn(false);
+                player.setHasExtraTurn(false);
                 playersLeft--;
+
+
+
             }
         }
     }

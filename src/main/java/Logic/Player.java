@@ -11,7 +11,7 @@ public class Player {
     private boolean inJail = false;
     private int jailEscapeAttempts = 0;
     private int getOutJailCards = 0;
-    private boolean hasEkstraTurn = false;
+    private boolean hasExtraTurn = false;
 
     public Player(String name, int startBalance, int startPosition){
         this.name = name;
@@ -98,10 +98,10 @@ public class Player {
         return jailEscapeAttempts;
     }
 
-    public boolean getHasEkstraTurn(){
-        return hasEkstraTurn;
+    public boolean getHasExtraTurn(){
+        return hasExtraTurn;
     }
-    public void setHasEkstraTurn(boolean condition){
-        hasEkstraTurn = condition;
+    public void setHasExtraTurn(boolean condition){
+        hasExtraTurn = condition;
     }
 }

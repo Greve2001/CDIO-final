@@ -198,7 +198,7 @@ public class Board {
             return (endPosition + ALL_SQUARES.length) - startPosition;
         }
     }
-    
+
     private void payStartBonus(Player currentPlayer) {
         actionHandler.boardPaymentsToBank(currentPlayer, -4000);
     }
@@ -210,7 +210,7 @@ public class Board {
     public void setPlayerInJail(Player player) {
         GUIController.showMessage(Language.get("goToPrison"));
         setPlayerPosition(player, jailPosition, true);
-        player.setHasEkstraTurn(false);
+        player.setHasExtraTurn(false);
     }
 
     public int getCurrentCost(int position) {
