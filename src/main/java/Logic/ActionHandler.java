@@ -253,7 +253,10 @@ public class ActionHandler {
 
 
     public void boardPaymentsToBank(Player player, int amount) {
-        BANK.payToBank(player, amount);
+        if (amount < 0)
+            BANK.bankPayToPlayer(player, Math.abs(amount));
+        else
+            BANK.payToBank(player, amount);
     }
 
     public void setPlayers(Player[] players) {
