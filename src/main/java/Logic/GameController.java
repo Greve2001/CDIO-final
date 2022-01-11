@@ -9,13 +9,13 @@ import org.apache.commons.codec.language.bm.Lang;
 import java.util.Scanner;
 
 public class GameController {
-    //object to be created
+
     private DiceCup diceCup;
     private Board board;
     private Player[] players;
 
-    //other object references
     private Player currentPlayer;
+    private int minPlayers = 3, maxPlayers = 6;
 
     // Extra turn varaibles
     private int doublesRolled = 0;
@@ -35,7 +35,7 @@ public class GameController {
 
         GUIController gui = new GUIController(board);
 
-        GUIController.createPlayers(START_MONEY);
+        GUIController.createPlayers(minPlayers, maxPlayers, START_MONEY);
         setupPlayers(GUIController.getPlayerNames());
 
         board.givePlayerToActionHandler(players);
@@ -43,7 +43,7 @@ public class GameController {
     }
 
     public void setupPlayers(String[] playerNames) {
-        if (playerNames.length >=3 && playerNames.length <=6) {
+        if (playerNames.length >= minPlayers && playerNames.length <= maxPlayers) {
             players = new Player[playerNames.length];
 
             for (int i = 0; i < playerNames.length; i++) {
@@ -160,11 +160,8 @@ public class GameController {
             if (doublesRolled >= 3){
                 board.setPlayerInJail(currentPlayer);
             }
-
         }
-
         board.updatePlayerPosition(currentPlayer, diceSum(faceValues));
-
     }
 
     private void changeTurn(){
@@ -180,7 +177,6 @@ public class GameController {
             else
                 currentPlayer = players[currentPlayerIndex +1];
 
-
             currentPlayerIndex = java.util.Arrays.asList(players).indexOf(currentPlayer); // Set again since we need to check in while-loop.
             isNotActive = !players[currentPlayerIndex].getActive();
         }while (isNotActive);
@@ -188,7 +184,7 @@ public class GameController {
 
     private boolean jailAttempt() {
         // Give player choices between paying or trying to throw dice
-        String msg = "Choose";
+        String msg = Language.get("choose");
 
         //construction the different disicions the player have access to
         String[] choices;

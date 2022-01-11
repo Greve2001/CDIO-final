@@ -14,8 +14,8 @@ public class GameControllerTest {
     @Test
     void testAllowedNumberOfPlayers()
     {
-        int[] numOfPlayers = {0, 1, 2, 3, 4, 5, 6};
-        int[] expectedNumPlayers = {0, 0, 0, 3 , 4, 5, 6};
+        int[] numOfPlayers = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int[] expectedNumPlayers = {0, 0, 0, 3 , 4, 5, 6, 0, 0, 0};
 
         for (int i = 0; i < numOfPlayers.length; i++){
             String[] playerNames = new String[numOfPlayers[i]];

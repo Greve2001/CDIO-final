@@ -49,6 +49,7 @@ Vælg en felt farve at købe egendom til,chooseStreetColor
 Huse,houses
 Hoteller,hotels
 Kast terningerne,throwDice
+Vælg,choose
 
 ,,GUIErrors
 Ikke en vej. Den kan ikke ejes!,notAStreet
