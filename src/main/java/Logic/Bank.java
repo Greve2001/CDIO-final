@@ -1,6 +1,7 @@
 package Logic;
 
 import Interface.GUIController;
+import Utilities.Language;
 
 public class Bank {
     private int housesAvailable = 100;
@@ -12,6 +13,7 @@ public class Bank {
         } else {
             player.setBalance(0);
         }
+        GUIController.showCenterMessage(player.getName() + Language.get("paid") + amount + Language.get("paidToBank1"));
         GUIController.setPlayerBalance(player, player.getBalance());
     }
 
@@ -31,6 +33,7 @@ public class Bank {
 
                 players[i].setBalance(0);
             }
+            GUIController.showCenterMessage(player.getName() + Language.get("paid") + amount + Language.get("paidToPlayer") + players[i].getName());
             GUIController.setPlayerBalance(player, player.getBalance());
             GUIController.setPlayerBalance(players[i], players[i].getBalance());
         }
@@ -40,6 +43,7 @@ public class Bank {
     public void bankPayToPlayer(Player player, int amount) {
         int balance = player.getBalance() + amount;
         player.setBalance(balance);
+        GUIController.showCenterMessage(Language.get("bankPaid1") + amount + Language.get("bankPaid2") + player.getName());
         GUIController.setPlayerBalance(player, player.getBalance());
     }
 
