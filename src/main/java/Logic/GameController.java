@@ -63,37 +63,35 @@ public class GameController {
             if (allowedDecision){ // Not in jail or gotten out in good standing.
 
                 // Ask if want to buy houses etc.
-                String msg = currentPlayer.getName() + ": " + Language.get("askAction");
-                String[] choices = new String[]{Language.get("choice1"), Language.get("choice2")};
-                String answer = GUIController.givePlayerChoice(msg, choices);
+                String msg1 = currentPlayer.getName() + ": " + Language.get("askAction");
+                String[] choices1 = new String[]{Language.get("choice1"), Language.get("choice2")};
+                String answer1 = GUIController.givePlayerChoice(msg1, choices1);
 
                 String case1 = Language.get("choice1");
                 String case2 = Language.get("choice2");
 
-                if (answer.equals(case1)){ // Throw Dice
+                if (answer1.equals(case1)){ // Throw Dice
                     takeTurn();
 
-                } else if(answer.equals(case2)){ // Buy Property
+                } else if(answer1.equals(case2)){ // Buy Property
                     boolean wantToKeepBuying = true;
 
                     do {
                         // Construct message
-                        msg  = Language.get("whatToBuy?");
-                        choices = new String[]{Language.get("houses"), Language.get("hotels"), Language.get("stopBuying")};
-                        answer = GUIController.givePlayerChoice(msg, choices);
+                        String msg2 = Language.get("whatToBuy?");
+                        String[] choices2 = new String[]{Language.get("houses"), Language.get("hotels"), Language.get("stopBuying")};
+                        String answer2 = GUIController.givePlayerChoice(msg2, choices2);
 
                         // Sort after answer
-                        if (answer.equals(choices[0]) || answer.equals(choices[1])){ // Houses and hotels. Have same price
+                        if (answer2.equals(choices2[0]) || answer2.equals(choices2[1])){ // Houses and hotels. Have same price
                             // TODO ensure that the player can buy property if the have monopoly on that street color
 
                             String[] allColors = board.getAllStreetColors();
 
-                            msg = Language.get("chooseStreetColor");
-                            choices = allColors;
+                            String msg3 = Language.get("chooseStreetColor");
+                            String[] choices3 = allColors;
 
-                            System.out.println(allColors[1]);
-
-                            String colorChosen = GUIController.givePlayerChoice(msg, choices);
+                            String colorChosen = GUIController.givePlayerChoice(msg3, choices3);
                             int housePrice = board.getHousePrice(colorChosen); // Same as hotelprice
 
                             int amountToBuy = GUIController.getPlayerInteger(Language.get("howManyToBuy?") + housePrice);
@@ -102,9 +100,11 @@ public class GameController {
                             }
 
                             // Buy properties
-                            if (answer.equals(choices[0])) // houses
+                            System.out.println(answer2);
+                            System.out.println(choices2[0]);
+                            if (answer2.equals(choices2[0])) // houses
                                 board.buyHouse(currentPlayer, colorChosen, amountToBuy);
-                            else if (answer.equals(choices[1]));
+                            else if (answer2.equals(choices2[1]));
                             // TODO not implemented
                             //board.buyHotel(currentPlayer, colorChosen, amountToBuy);
 

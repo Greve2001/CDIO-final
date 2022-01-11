@@ -4,12 +4,9 @@ Vælg antallet af spillere: ,enterName
 Ønsker du at købe rederiet? ,buyFerry
 Ønsker du at købe bryggeriet? ,buyBrewery
 
-,,GameController
 Vælg handling,askAction
 Kast terning,choice1
 Køb egendom,choice2
-
-,,GUIController
 Grund rente,baseRent
 1 hus,1house
 2 huse,2house
