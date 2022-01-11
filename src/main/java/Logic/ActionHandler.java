@@ -11,6 +11,7 @@ public class ActionHandler {
     private final Board BOARD;
     private Player[] players;
     private Deck deck;
+    private int activeBidders;
 
     public ActionHandler(Board BOARD) {
         this.BOARD = BOARD;
@@ -105,7 +106,7 @@ public class ActionHandler {
 
     public void holdAuction(Player player, Square square) {
         int biddingPlayer = 0;
-        int activeBidders = 0;
+        activeBidders = 0;
         boolean[] participants = new boolean[players.length];
 
         for (int i = 0; i < players.length; i++) {
@@ -123,50 +124,56 @@ public class ActionHandler {
         boolean notSold = true;
         int highestBid = 0;
         while (notSold) {
-            boolean wantToBid;
-
             // Declares the last active bidder in the auction the winner.
             if (activeBidders == 1) {
-                for (int i = 0; i < participants.length; i++) {
-                    if (participants[i]) {
-                        GUIController.showMessage(players[i].getName() + Language.get("hasWonAuction"));
+                declareAuctionWinner(participants, square, highestBid);
+                notSold = false;
+            } else if (participants[biddingPlayer]) { // Checks if the player is still an active bidder before letting them place a new bet.
+                highestBid = biddingRound(participants, highestBid, biddingPlayer);
+            }
 
-                        square.setOwner(players[i]);
-                        BANK.payToBank(players[i], highestBid);
-                        GUIController.setOwner(players[i], square.getPOSITION());
-                        notSold = false;
-                    }
-                }
-            } else { // Checks if the player is still an active bidder before letting them place a new bet.
-                if (participants[biddingPlayer]) {
-                    wantToBid = GUIController.askPlayerAccept(players[biddingPlayer].getName() + Language.get("wishToBid"));
+            // Change the bidding player.
+            if (biddingPlayer >= players.length - 1)
+                biddingPlayer = 0;
+            else
+                biddingPlayer++;
+        }
+    }
 
-                    // Asks if the players wants to bet and if not takes them out of the auction.
-                    if (!wantToBid) {
-                        participants[biddingPlayer] = false;
-                        activeBidders--;
-                    } else {
-                        int bid;
+    public void declareAuctionWinner(boolean[] participants, Square square, int highestBid) {
+        for (int i = 0; i < participants.length; i++) {
+            if (participants[i]) {
+                GUIController.showMessage(players[i].getName() + Language.get("hasWonAuction"));
 
-                        // Ask the player how much they want to bet and checks if the bet is large enough.
-                        do {
-                            bid = GUIController.getPlayerInteger(players[biddingPlayer].getName() +
-                                    Language.get("askForBid") + highestBid + " kr.)");
-
-                        } while (bid < highestBid + 100);
-
-                        if (bid >= highestBid + 100)
-                            highestBid = bid;
-                    }
-                }
-
-                // Change the bidding player.
-                if (biddingPlayer >= players.length - 1)
-                    biddingPlayer = 0;
-                else
-                    biddingPlayer++;
+                square.setOwner(players[i]);
+                BANK.payToBank(players[i], highestBid);
+                GUIController.setOwner(players[i], square.getPOSITION());
             }
         }
+    }
+
+    public int biddingRound(boolean[] participants, int highestBid, int biddingPlayer) {
+        boolean wantToBid = GUIController.askPlayerAccept(players[biddingPlayer].getName() + Language.get("wishToBid"));
+
+        // Asks if the players wants to bet and if not takes them out of the auction.
+        if (!wantToBid) {
+            participants[biddingPlayer] = false;
+            activeBidders--;
+        } else {
+            int bid;
+
+            // Ask the player how much they want to bet and checks if the bet is large enough.
+            do {
+                bid = GUIController.getPlayerInteger(players[biddingPlayer].getName() +
+                        Language.get("askForBid") + highestBid + " kr.)");
+
+            } while (bid < highestBid + 100);
+
+            if (bid >= highestBid + 100)
+                highestBid = bid;
+        }
+
+        return highestBid;
     }
 
     // Pay the owner if they are not in jail and the square is not pledged.
