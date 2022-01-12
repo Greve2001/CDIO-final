@@ -199,10 +199,32 @@ class ActionHandlerTest {
     }
 
     @Test
-    void holdAuction() {
+    void pay10PctTax() {
+        actionHandler.squareAction(players[0], squares[4], 10);
+
+        int expected = 27000;
+        int actual = players[0].getBalance();
+        assertEquals(expected, actual);
     }
 
     @Test
-    void roundToNearest50() {
+    void declareAuctionWinner() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        Method declareAuctionWinner = actionHandler.getClass().getDeclaredMethod("declareAuctionWinner",
+                boolean[].class, Square.class, int.class);
+        declareAuctionWinner.setAccessible(true);
+        actionHandler.setPlayers(players);
+
+        boolean[] participants = {false, false, true};
+        Object[] args = {participants, squares[1], 2000};
+        declareAuctionWinner.invoke(actionHandler, args);
+
+        Player expected = players[2];
+        Player actual = squares[1].getOwner();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void holdAuction() {
     }
 }
