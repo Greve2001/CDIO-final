@@ -251,7 +251,7 @@ public class GUIController {
 
         boolean ownable = fields[position].getOwnable();
         if (ownable){
-            if (playerName.equals("")){
+            if (!playerName.equals("")){
                 ((GUI_Ownable) GUIFields[position]).setOwnerName(playerName);
                 ((GUI_Ownable) GUIFields[position]).setBorder(playerColor);
                 //TODO set the current rent or make another function for more uses
