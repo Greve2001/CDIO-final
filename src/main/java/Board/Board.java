@@ -445,14 +445,8 @@ public class Board {
 
             //this section prepares all the data we need to test before we can actualy buy the house
             int price = ALL_SQUARES[position].getHousePrice();
-            int count = 0;
-            int amountOfHousesOnAllProperties = 0;
-            for (Square field: ALL_SQUARES){
-                if (ALL_SQUARES[position].getColor().equals(field.getColor())){
-                    amountOfHousesOnAllProperties += field.getAmountOfHouses();
-                    count++;
-                }
-            }
+            int streetWithinColor = amountOwnedWithinTheColor(position);
+            int amountOfHousesBefore = amountOfHousesOnColor(color);
 
             //this section handle control of setup and the purchase of the houses.
             if (player.getBalance() >= price * amountOfHotels && //if the player have enough money
