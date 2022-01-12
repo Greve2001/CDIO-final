@@ -285,12 +285,22 @@ public class ActionHandler {
         this.players = players;
     }
 
-    public boolean buyHouse(Player player, int price, int amount) {
-        return BANK.buyHouses(player, amount, price);
+    public void buyHouse(Player player, int price, int amount) {
+        BANK.buyHouses(player, amount, price);
     }
 
-    public boolean buyHotels(Player player, int price, int amount) {
-        return BANK.buyHotels(player, amount, price);
+    public void buyHotels(Player player, int price, int amount) {
+         BANK.buyHotels(player, amount, price);
+    }
+
+    public void sellHouses(Player player, int pricePerHouse, int numOfHouses) {
+        BANK.bankPayToPlayer(player, pricePerHouse * numOfHouses);
+        BANK.setHousesAvailable(BANK.getHousesAvailable() + numOfHouses);
+    }
+
+    public void sellHotels(Player player, int pricePerHotel, int numOfHotels) {
+        BANK.bankPayToPlayer(player, pricePerHotel * numOfHotels);
+        BANK.setHotelsAvailable(BANK.getHotelsAvailable() + numOfHotels);
     }
 
     public int getHousesAvailable() {
