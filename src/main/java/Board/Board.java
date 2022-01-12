@@ -534,7 +534,6 @@ public class Board {
                 String[] choices = getNameOfAllStreetsWithinAColor(color);
                 boolean removeOkay;
                 do {
-                    removeOkay = false;
                     String disicion = GUIController.givePlayerChoice(Language.get("whatToSell"),choices);
                     position = getPositionFromName(disicion);
                     removeOkay = ensureEvenDistribution(position, false);
