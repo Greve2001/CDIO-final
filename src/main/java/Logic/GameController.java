@@ -62,18 +62,21 @@ public class GameController {
 
             if (allowedDecision){ // Not in jail or gotten out in good standing.
 
+                String case1 = Language.get("choice1"); // Throw Dice
+                String case2 = Language.get("choice2"); // Buy properties
+                String case3 = Language.get("choice3"); // Sell properties
+
                 // Ask if want to buy houses etc.
                 String msg1 = currentPlayer.getName() + ": " + Language.get("askAction");
-                String[] choices1 = new String[]{Language.get("choice1"), Language.get("choice2")};
+                String[] choices1 = new String[]{case1, case2, case3};
                 String answer1 = GUIController.givePlayerChoice(msg1, choices1);
 
-                String case1 = Language.get("choice1");
-                String case2 = Language.get("choice2");
 
                 if (answer1.equals(case1)){ // Throw Dice
                     takeTurn();
 
                 } else if(answer1.equals(case2)){ // Buy Property
+
                     boolean wantToKeepBuying = true;
 
                     do {
@@ -86,10 +89,14 @@ public class GameController {
                         if (answer2.equals(choices2[0]) || answer2.equals(choices2[1])){ // Houses and hotels. Have same price
                             // TODO ensure that the player can buy property if the have monopoly on that street color
 
-                            String[] allColors = board.getAllStreetColors();
+                            String[] colorsToChooseFrom = board.allMonopolyColorsByPlayer(currentPlayer);
 
                             String msg3 = Language.get("chooseStreetColor");
-                            String[] choices3 = allColors;
+                            if (colorsToChooseFrom.length <= 0){
+                                GUIController.getPlayerAction(currentPlayer.getName(), Language.get("noMonopoly"));
+                                break;
+                            }
+                            String[] choices3 = colorsToChooseFrom;
 
                             String colorChosen = GUIController.givePlayerChoice(msg3, choices3);
                             int housePrice = board.getHousePrice(colorChosen); // Same as hotelprice
@@ -102,15 +109,61 @@ public class GameController {
                             // Buy properties
                             if (answer2.equals(choices2[0])) // houses
                                 board.buyHouse(currentPlayer, colorChosen, amountToBuy);
-                            else if (answer2.equals(choices2[1]));
-                            // TODO not implemented
-                            //board.buyHotel(currentPlayer, colorChosen, amountToBuy);
+                            else if (answer2.equals(choices2[1]))
+                                board.buyHotel(currentPlayer, colorChosen, amountToBuy);
 
                         } else { // Stop buying
                             wantToKeepBuying = false;
                         }
 
                     }while (wantToKeepBuying);
+
+                    // When done buying, take turn.
+                    GUIController.getPlayerAction(currentPlayer.getName(), Language.get("throwDice"));
+                    takeTurn();
+
+                } else if (answer1.equals(case3)){ // Sell properties
+
+                    boolean wantToKeepSelling = true;
+                    do {
+                        // Construct message
+                        String msg2 = Language.get("whatToSell?");
+                        String[] choices2 = new String[]{Language.get("houses"), Language.get("hotels"), Language.get("stopSelling")};
+                        String answer2 = GUIController.givePlayerChoice(msg2, choices2);
+
+                        // Sort after answer
+                        if (answer2.equals(choices2[0]) || answer2.equals(choices2[1])){ // Houses and hotels. Have same price
+                            // TODO ensure that the player can buy property if the have monopoly on that street color
+
+                            String[] colorsToChooseFrom = board.allMonopolyColorsByPlayer(currentPlayer);
+
+                            String msg3 = Language.get("chooseStreetColor");
+                            if (colorsToChooseFrom.length <= 0){
+                                GUIController.getPlayerAction(currentPlayer.getName(), Language.get("noMonopoly"));
+                                break;
+                            }
+                            String[] choices3 = colorsToChooseFrom;
+
+                            String colorChosen = GUIController.givePlayerChoice(msg3, choices3);
+                            int housePrice = board.getHousePrice(colorChosen); // Same as hotelprice
+
+                            int amountToSell = GUIController.getPlayerInteger(Language.get("howManyToBuy?") + housePrice);
+                            if (amountToSell <= 0){
+                                break;
+                            }
+
+                            // Sell properties
+                            //TODO wait until board has this implemented
+                            if (answer2.equals(choices2[0])); // houses
+
+                            else if (answer2.equals(choices2[1]));
+                                //board.buyHotel(currentPlayer, colorChosen, amountToSell);
+
+                        } else { // Stop buying
+                            wantToKeepSelling = false;
+                        }
+
+                    }while (wantToKeepSelling);
 
                     // When done buying, take turn.
                     GUIController.getPlayerAction(currentPlayer.getName(), Language.get("throwDice"));
