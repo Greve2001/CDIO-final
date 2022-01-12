@@ -4,8 +4,8 @@ import Interface.GUIController;
 import Utilities.Language;
 
 public class Bank {
-    private int housesAvailable = 100;
-    private int hotelsAvailable = 20;
+    private int housesAvailable = 32;
+    private int hotelsAvailable = 12;
 
     public void payToBank(Player player, int amount) {
         if (player.getBalance() >= amount) {

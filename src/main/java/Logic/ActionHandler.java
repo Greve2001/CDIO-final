@@ -300,7 +300,7 @@ public class ActionHandler {
 
     public void sellHotels(Player player, int pricePerHotel, int numOfHotels) {
         BANK.bankPayToPlayer(player, pricePerHotel * numOfHotels);
-        BANK.setHousesAvailable(BANK.getHotelsAvailable() + numOfHotels);
+        BANK.setHotelsAvailable(BANK.getHotelsAvailable() + numOfHotels);
     }
 
     public int getHousesAvailable() {
