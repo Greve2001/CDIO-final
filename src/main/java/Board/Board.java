@@ -369,54 +369,34 @@ public class Board {
 
             //this section prepares all the data we need to test before we can actualy buy the house
             int price = ALL_SQUARES[position].getHousePrice();
-            int count = 0;
-            int amountOfHousesBefore = 0;
-            for (Square field: ALL_SQUARES){
-                if (ALL_SQUARES[position].getColor().equals(field.getColor())){
-                    amountOfHousesBefore += field.getAmountOfHouses();
-                    count++;
-                }
-            }
+            int streetWithinColor = amountOwnedWithinTheColor(position);
+            int amountOfHousesBefore = amountOfHousesOnColor(color);
 
             //this section handle control of setup and the purchase of the houses.
             if (player.getBalance() >= price * amountOfHouses && //if the player have enough money
                 actionHandler.getHousesAvailable() >= amountOfHouses && //if the bank has enough houses
-                amountOfHousesBefore + amountOfHouses <= count * 4){ //if the total amount of houses doesn't surpass 4 per Street
+                amountOfHousesBefore + amountOfHouses <= streetWithinColor * 4){ //if the total amount of houses doesn't surpass 4 per Street
 
                 actionHandler.buyHouse(player, price, amountOfHouses);
 
                 //this prepare the streets name, so that we can easily pass them to the player.
                 String[] choice = getNameOfAllStreetsWithinAColor(color);
 
-
                 boolean placementOkay;
                 int amountOfHousesOnStreet;
                 do {
+                    placementOkay = true;
                     //this section handle the GUI and player interaction for where to place the houses.
                     whereToPlaceHouse = GUIController.givePlayerChoice(Language.get("placeHouse"), choice);
-                    placementOkay = true;
-                    for (Square field: ALL_SQUARES){
-                        if(whereToPlaceHouse.equals(field.getName())) {
-                            position = field.getPOSITION();
-                            break;
-                        }
-                    }
+                    position = getPositionFromName(whereToPlaceHouse);
 
                     //this ensure that the houses is evenly distributed on the different streets within the color.
                     amountOfHousesOnStreet = ALL_SQUARES[position].getAmountOfHouses();
-                    for (Square field: ALL_SQUARES){
-                        if(ALL_SQUARES[position].getColor().equals(field.getColor())){
-                            if (!(amountOfHousesOnStreet + 1 == field.getAmountOfHouses() ||
-                                amountOfHousesOnStreet == field.getAmountOfHouses()) ||
-                                field.getAmountOfHouses() == 4)
-                                    placementOkay = false;
-                        }
-                    }
+                    placementOkay = ensureEvenDistribution(position, amountOfHousesOnStreet);
 
                     //this places the houses
                     if (placementOkay) {
                         ALL_SQUARES[position].setAmountOfHouses(amountOfHousesOnStreet + 1);
-
                         amountOfHouses--;
                         GUIController.setHouses(position, ALL_SQUARES[position].getAmountOfHouses());
                     }
@@ -428,13 +408,33 @@ public class Board {
                 GUIController.getPlayerAction(player.getName(),Language.get("insuficientMoney"));
             else if(actionHandler.getHousesAvailable() >= amountOfHouses) //if the bank has enough houses
                 GUIController.getPlayerAction(player.getName(), Language.get("bankOutOfHouses"));
-            else if(amountOfHousesBefore + amountOfHouses <= count * 4)//if the total amount of houses doesn't surpass 4 per Street
+            else if(amountOfHousesBefore + amountOfHouses <= streetWithinColor * 4)//if the total amount of houses doesn't surpass 4 per Street
                 GUIController.getPlayerAction(player.getName(), Language.get("MaxAmountOfHouses"));
             else
                 GUIController.getPlayerAction(player.getName(),Language.get("boardUnknowError"));
         }
         else
             GUIController.getPlayerAction(player.getName(),Language.get("missingMonopoly"));
+    }
+
+    private boolean ensureEvenDistribution(int position, int amountOfHousesOnStreet) {
+        for (Square field: ALL_SQUARES){
+            if(ALL_SQUARES[position].getColor().equals(field.getColor())){
+                if (!(amountOfHousesOnStreet + 1 == field.getAmountOfHouses() ||
+                        amountOfHousesOnStreet == field.getAmountOfHouses()))
+                    return  false;
+            }
+        }
+        return true;
+    }
+
+    private int getPositionFromName(String name) {
+        for (Square field: ALL_SQUARES){
+            if(name.equals(field.getName())) {
+                return field.getPOSITION();
+            }
+        }
+        return 0;
     }
 
     public void buyHotel(Player player, String color, int amountOfHotels){
@@ -535,8 +535,8 @@ public class Board {
         return 0;
     }
 
-    public void sellProperty(Player player){
-        //TODO maybe?
+    public void sellProperty(Player player, String color, String type, int amount){
+        //TODO
     }
 
     /**
@@ -620,6 +620,15 @@ public class Board {
             }
         }
         result = reduceStringArraySize(result, count);
+        return result;
+    }
+    
+    public int amountOfHousesOnColor(String color){
+        int result = 0;
+        for (Square field: ALL_SQUARES){
+            if (color.equals(field.getColor()))
+                result = field.getAmountOfHouses();
+        }
         return result;
     }
 }
