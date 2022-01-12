@@ -34,8 +34,8 @@ package Logic{
 
 
          +payToBank(Player, amount:int) : void
-         +payToPlayer(Player, amount:int) : void
-         +payPlayer(Player, amount:int) : void
+         +playersPayToPlayer(Player, amount:int) : void
+         +bankpayPlayer(Player, amount:int) : void
 
      }
      class ActionHandler {
