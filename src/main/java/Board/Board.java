@@ -641,4 +641,19 @@ public class Board {
         }
         return result;
     }
+
+    public void playerGoingBankrupt(Player player){
+        int amountOfHouses = 0;
+        int amountOfHotels = 0;
+        for (Square field: ALL_SQUARES){
+            if (player.equals(field.getOwner())){
+                if (field.getAmountOfHouses() == 5)
+                    amountOfHotels += 1;
+                else
+                    amountOfHotels += field.getAmountOfHouses();
+                field.setOwner(null);
+            }
+        }
+        actionHandler.bankruptPlayerHandover(amountOfHouses,amountOfHotels);
+    }
 }

@@ -310,4 +310,9 @@ public class ActionHandler {
     public int getHotelsAvailable() {
         return BANK.getHotelsAvailable();
     }
+
+    public void bankruptPlayerHandover(int amountOfHouses, int amountOfHotels){
+        BANK.setHousesAvailable(BANK.getHousesAvailable() + amountOfHouses);
+        BANK.setHotelsAvailable(BANK.getHotelsAvailable() + amountOfHotels);
+    }
 }
