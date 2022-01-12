@@ -1,31 +1,47 @@
 @startuml
 
-autonumber
 hidefootbox
 
-Actor User
 Participant ": GameController" as GameC
+Participant ": Board" as Board
 Participant ": GUIController" as GuiC
-Participant "board : Board" as Board
-Participant ": Square" as Square
 Participant ": ActionHandler" as AH
-Participant ": Bank" as Bank
 Participant ": Player" as Player
+Participant ": DiceCup" as DiceCup
 
--> GameC : "new GameController()"
+
+-> GameC : new GameController()
 Activate GameC
 -> GameC : setupGame()
+    GameC -> DiceCup : new DiceCup
+        Activate DiceCup
     GameC -> Board : new Board()
-        Board -> Square : new Square : loop
+        Activate Board
+        Board -> AH : new ActionHandler()
+            Activate AH
     GameC -> Board : getAllSquares()
     GameC <-- Board : allSquares : Square[]
     GameC -> GuiC : new GUIController(allSquares)
+        Activate GuiC
     GameC -> GuiC : createPlayers()
     GameC -> GuiC : getPlayerNames()
     GameC <-- GuiC : playerNames : String[]
     GameC -> GameC : setupPlayers()
     GameC -> Player : new Player() : loop
+        Activate Player
 
 -> GameC : startGame()
+    GameC -> GuiC : givePlayerChoice(choices : String[])
+    GameC <-- GuiC : answer : String
+    GameC -> GameC : takeTurn() : (Only this specific answer)
 
+    GameC -> DiceCup : rollDice()
+    GameC -> DiceCup : getFaceValues()
+    GameC <-- DiceCup : faceValues() : int[]
+    GameC -> GuiC : showDice(faceValues)
+
+    GameC -> Board : updatePlayerPosition(Player, diceSum)
+        Board -> Player : setPosition(endPosition:int)
+        Board -> GuiC : movePlayer(Player.getName(), startPos:int, diceSum)
+        Board -> AH : squareAction(Player, Square, diceSum)
 @enduml
