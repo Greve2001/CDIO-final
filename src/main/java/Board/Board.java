@@ -498,11 +498,11 @@ public class Board {
                             }
                         }
 
-                        //this places the houses
+                        //this places the Hotels
                         if (placementOkay) {
                             ALL_SQUARES[position].setAmountOfHouses(amountOfHousesOnStreet + 1);
                             amountOfHotels--;
-                            GUIController.setHouses(position, ALL_SQUARES[position].getAmountOfHouses());
+                            GUIController.setHotel(position, true);
                         }
                     } while (amountOfHotels > 0);
                 }
