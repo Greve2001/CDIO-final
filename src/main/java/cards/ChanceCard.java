@@ -31,7 +31,6 @@ public abstract class ChanceCard {
         return 0;
     }
 
-
     /**
      * This method will return 0, unless the ChanceCard dictates, that the player who drew the card
      *      should move a number of fields, either forward og backwards on the board.
