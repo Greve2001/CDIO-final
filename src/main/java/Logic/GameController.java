@@ -191,7 +191,7 @@ public class GameController {
     }
 
 
-    private void takeTurn() throws InterruptedException {
+    private void takeTurn() {
         // Roll dice and get results
         diceCup.rollDice();
         int[] faceValues = diceCup.getFaceValues();
@@ -330,5 +330,12 @@ public class GameController {
 
     public Player[] getPlayers() {
         return players;
+    }
+
+
+    public class GameControllerTest{
+        public void TestTakeTurn(){
+            //takeTurn();
+        }
     }
 }

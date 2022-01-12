@@ -78,6 +78,7 @@ public class Player {
     public void useOneGetOutOfJailCard(){
         if (getOutJailCards > 0){
             getOutJailCards--;
+            inJail = false;
         }
     }
     public void giveOneGetOutOfJailCard() {
