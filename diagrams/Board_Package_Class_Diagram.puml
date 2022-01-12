@@ -72,9 +72,9 @@ Square <|-- "1" GoToPrison: \t Is a    \t
 Square <|-- "             1" Prison
 Square <|--  "            6" Chance
 
-GameController *-- Board
-ActionHandler --* Board
-
+GameController <-- Board
+ActionHandler --> Board
+CSVReader --> Board
 
 
 @enduml
