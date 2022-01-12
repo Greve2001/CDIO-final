@@ -456,7 +456,7 @@ public class Board {
 
             //this section handle control of setup and the purchase of the houses.
             if (player.getBalance() >= price * amountOfHotels && //if the player have enough money
-                    actionHandler.getHousesAvailable() >= amountOfHotels && //if the bank has enough houses
+                    actionHandler.getHotelsAvailable() >= amountOfHotels && //if the bank has enough houses
                     amountOfHousesOnAllProperties == count * 4) { //if the total amount of houses is equal to 4 on each square
 
                 actionHandler.buyHotels(player, price, amountOfHotels);
