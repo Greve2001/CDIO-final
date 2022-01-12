@@ -54,12 +54,12 @@ package Utilities
 
 
 GameController -u- GUIController
-Bank -- ActionHandler
+Bank -u- ActionHandler
 GameController -- DiceCup
 DiceCup -- Die
 GameController -d- Player
 
-ActionHandler -u- Deck
+ActionHandler -d- Deck
 GameController *-u- Board
 Board *-d- Square
 
