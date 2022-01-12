@@ -1,2 +1,85 @@
 translate,varName,comments
 Insert your name: ,enterName
+Do you wish to buy this street? ,buyStreet
+Do you wish to buy this ferry? ,buyFerry
+Do you wish to buy this brewery? ,buyBrewery
+Chose action,askAction
+Throw dice,choice1
+Buy property,choice2
+Sell property,choice3
+Base rent,baseRent
+1 house,1house
+2 houses,2house
+3 houses,3house
+4 houses,4house
+1 hotel,hotel
+2 ferry,2ferries
+3 ferries,3ferries
+4 ferries,4ferries
+Owns 1 brewery: <br>Pay 100x the face value of the dices,1brewery
+Owns 2 breweries: <br>Pay 200x the face value of the dices,2brewery
+Pull a chance card,pullChancecard
+Prison,prison
+Parking,parking
+Choose the number of players,selectPlayers
+Write the name of the player,enterName
+Extraordinary tax,extraTax
+Income tax,incomeTax
+Start here!,startHere
+Use your get out of jail card,useEscapeCard
+Try escaping by getting to alike,attemptEscaping
+Pay 1000kr,payFee
+You escaped prison!,youBrokeFree
+Your escape attempt was not successful,didNotEscape
+You don't have any escape attempts left. Pay the fine,noMoreTries
+The winner is ,winnerIs
+Go to prison,goToPrison
+ payed: ,paid
+ kr to the bank,paidToBank1
+ kr to ,paidToPlayer
+ The bank payed ,bankPaid1
+ kr to ,bankPaid2
+What do you want to buy?,whatToBuy?
+What do you want to sell?,whatToSell?
+How many do you want to buy? They cost: ,howManyToBuy?
+How many do you want to sell? You get: ,howManyToSell?
+Stop buying,stopBuying
+Stop selling,stopSelling
+Choose a street color you want to buy property for,chooseStreetColor
+Houses,houses
+Hotels,hotels
+Throw dice,throwDice
+You have thrown to alike. It is your turn again.,haveExtraTurn
+Choose,choose
+You don't own all streets of this color,noMonopoly
+You landed on a chance card,hitChance
+
+,,GUIErrors
+Not a street. This can't be owned!,notAStreet
+Error. This square is not a street at position: ,notAStreetAt
+
+,,General
+Yes,yes
+No,no
+Price,price
+Rent,rent
+
+,,ActionHandler
+Pay ,payPct
+Pay income tax.,payIncomeTax
+ do you wish to place a bid?,wishToBid
+ your bid? (Currently the highest bid is: ,askForBid
+ has won the auction,hasWonAuction
+
+,,Board
+Where should the next house be placed?,placeHouse
+You have an insufficient amount of money,insuficientMoney
+The bank does have enough houses,bankOutOfHouses
+The max allowed number og houses per street is 4,MaxAmountOfHouses
+Unknown error buy house try again,boardUnknowError
+You need to own all street in the same color to buy the buildings,missingMonopoly
+Where should the next hotel be placed?,placeHotel
+The bank doesn't have enough hotels in its inventory,bankOutOfHotels
+You need to own all street in the same color to buy the buildings,youNeedMoreHouses
+What street should there be sold a house from?,whatToSell
+There needs to be removed houses ,ensureEvenDistribution
