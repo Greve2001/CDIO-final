@@ -1,5 +1,5 @@
 translate,varName,comments
-Vælg antallet af spillere: ,enterName
+Indtast dit navn: ,enterName
 Ønsker du at købe skødet? ,buyStreet
 Ønsker du at købe rederiet? ,buyFerry
 Ønsker du at købe bryggeriet? ,buyBrewery
