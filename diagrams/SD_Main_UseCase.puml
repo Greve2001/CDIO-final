@@ -1,6 +1,6 @@
 @startuml
 
-hidefootbox
+hide footbox
 
 Participant ": GameController" as GameC
 Participant ": Board" as Board
@@ -27,21 +27,29 @@ Activate GameC
     GameC -> GuiC : getPlayerNames()
     GameC <-- GuiC : playerNames : String[]
     GameC -> GameC : setupPlayers()
-    GameC -> Player : new Player() : loop
-        Activate Player
+    loop for all Players
+        GameC -> Player : new Player() : loop
+            Activate Player
+    end
 
 -> GameC : startGame()
     GameC -> GuiC : givePlayerChoice(choices : String[])
     GameC <-- GuiC : answer : String
-    GameC -> GameC : takeTurn() : (Only this specific answer)
 
-    GameC -> DiceCup : rollDice()
-    GameC -> DiceCup : getFaceValues()
-    GameC <-- DiceCup : faceValues() : int[]
-    GameC -> GuiC : showDice(faceValues)
+    opt (answer == "takeTurn")
+        GameC -> GameC : takeTurn()
 
-    GameC -> Board : updatePlayerPosition(Player, diceSum)
-        Board -> Player : setPosition(endPosition:int)
-        Board -> GuiC : movePlayer(Player.getName(), startPos:int, diceSum)
-        Board -> AH : squareAction(Player, Square, diceSum)
+        GameC -> DiceCup : rollDice()
+        GameC -> DiceCup : getFaceValues()
+        GameC <-- DiceCup : faceValues() : int[]
+        GameC -> GuiC : showDice(faceValues)
+
+        GameC -> Board : updatePlayerPosition(Player, diceSum)
+            Board -> Player : setPosition(endPosition:int)
+            Board -> GuiC : movePlayer(Player.getName(), startPos:int, diceSum:int)
+            Board -> AH : squareAction(Player, Square, diceSum)
+            alt switch(square.type)
+                AH -> AH : squareAction()
+            end
+    end
 @enduml
