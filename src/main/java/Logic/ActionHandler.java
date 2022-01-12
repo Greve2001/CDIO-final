@@ -83,9 +83,7 @@ public class ActionHandler {
         if (square.getOwner() == null) { // Buy if no owner
             buySquare(player, square, "buyFerry");
         } else { // Pay the rent
-            int amountOwned = BOARD.amountOwnedWithinTheColor(square.getPOSITION());
-            int amountToPay = square.getCurrentCost(amountOwned);
-
+            int amountToPay = BOARD.getCurrentCost(square.getPOSITION());
             payRent(player, square, amountToPay);
         }
 

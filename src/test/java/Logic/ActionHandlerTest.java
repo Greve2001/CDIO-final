@@ -60,6 +60,81 @@ class ActionHandlerTest {
     }
 
     @Test
+    void breweryActionBuyingDeed() {
+        actionHandler.squareAction(players[0], squares[12], 10);
+
+        int expectedBalance = 27000;
+        int actualBalance = players[0].getBalance();
+        assertEquals(expectedBalance, actualBalance);
+
+        Player expectedOwner = players[0];
+        Player actualOwner = squares[12].getOwner();
+        assertEquals(expectedOwner, actualOwner);
+    }
+
+    @Test
+    void breweryActionPayRent() {
+        squares[12].setOwner(players[0]);
+        actionHandler.squareAction(players[1], squares[12], 10);
+
+        // Player landing on the street.
+        int expectedBalance = 29000;
+        int actualBalance = players[1].getBalance();
+        assertEquals(expectedBalance, actualBalance);
+
+        // Owner of the street.
+        expectedBalance = 31000;
+        actualBalance = players[0].getBalance();
+        assertEquals(expectedBalance, actualBalance);
+    }
+
+    @Test
+    void breweryMonopolyPayRent() {
+        squares[12].setOwner(players[0]);
+        squares[28].setOwner(players[0]);
+        actionHandler.squareAction(players[1], squares[12], 10);
+
+        // Player landing on the street.
+        int expectedBalance = 28000;
+        int actualBalance = players[1].getBalance();
+        assertEquals(expectedBalance, actualBalance);
+
+        // Owner of the street.
+        expectedBalance = 32000;
+        actualBalance = players[0].getBalance();
+        assertEquals(expectedBalance, actualBalance);
+    }
+
+    @Test
+    void ferryActionBuyingDeed() {
+        actionHandler.squareAction(players[0], squares[5], 10);
+
+        int expectedBalance = 26000;
+        int actualBalance = players[0].getBalance();
+        assertEquals(expectedBalance, actualBalance);
+
+        Player expectedOwner = players[0];
+        Player actualOwner = squares[5].getOwner();
+        assertEquals(expectedOwner, actualOwner);
+    }
+
+    @Test
+    void ferryActionPayRent() {
+        squares[5].setOwner(players[0]);
+        actionHandler.squareAction(players[1], squares[5], 10);
+
+        // Player landing on the street.
+        int expectedBalance = 29500;
+        int actualBalance = players[1].getBalance();
+        assertEquals(expectedBalance, actualBalance);
+
+        // Owner of the street.
+        expectedBalance = 30500;
+        actualBalance = players[0].getBalance();
+        assertEquals(expectedBalance, actualBalance);
+    }
+    
+    @Test
     void payTax() {
         actionHandler.squareAction(players[0], squares[38], 10);
 
