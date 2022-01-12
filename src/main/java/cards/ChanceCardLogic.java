@@ -10,11 +10,13 @@ public class ChanceCardLogic {
     Board board;
     Deck deck;
     Bank bank;
+    private Player[] players;
 
-    public ChanceCardLogic(Board board, Bank bank) {
+    public ChanceCardLogic(Board board, Bank bank, Player[] players) {
         this.deck = new Deck();
         this.board = board;
         this.bank = bank;
+        this.players = players;
     }
 
     /**
@@ -30,9 +32,9 @@ public class ChanceCardLogic {
         GUIController.showCenterMessage(card.getDescription());
 
         handleMoveFields(card, player);
-        handleReceiveMoney(card, player);
+        handleReceiveMoneyFromBank(card, player);
         handlePayMoney(card, player);
-
+        handleReceiveMoneyFromPlayers(card, player, players);
     }
 
     // This method calls the updatePlayerPosition in Board, with the int fieldsToMove, provided by the drawn ChanceCard.
@@ -46,7 +48,7 @@ public class ChanceCardLogic {
 
     // This method updates the playerBalance.
     // The player RECEIVES money FROM the bank.
-    private void handleReceiveMoney(ChanceCard card, Player player){
+    private void handleReceiveMoneyFromBank(ChanceCard card, Player player){
         int amount = card.updateBalancePositive();
         if (amount != 0) {
             bank.bankPayToPlayer(player, amount);
@@ -60,6 +62,16 @@ public class ChanceCardLogic {
         if (amount != 0) {
             bank.payToBank(player, amount);
         }
+    }
+
+    // This method updates the playerBalance
+    // The rest of the players PAYS money TO the player who drew the ChanceCard
+    private void handleReceiveMoneyFromPlayers(ChanceCard card, Player player, Player ... players){
+        int amount = card.updateBalancePositive();
+        if (amount !=0) {
+            bank.playersPayToPlayer(player, amount, players);
+        }
+
     }
     
 }

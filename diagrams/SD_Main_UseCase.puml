@@ -1,0 +1,31 @@
+@startuml
+
+autonumber
+hidefootbox
+
+Actor User
+Participant ": GameController" as GameC
+Participant ": GUIController" as GuiC
+Participant "board : Board" as Board
+Participant ": Square" as Square
+Participant ": ActionHandler" as AH
+Participant ": Bank" as Bank
+Participant ": Player" as Player
+
+-> GameC : "new GameController()"
+Activate GameC
+-> GameC : setupGame()
+    GameC -> Board : new Board()
+        Board -> Square : new Square : loop
+    GameC -> Board : getAllSquares()
+    GameC <-- Board : allSquares : Square[]
+    GameC -> GuiC : new GUIController(allSquares)
+    GameC -> GuiC : createPlayers()
+    GameC -> GuiC : getPlayerNames()
+    GameC <-- GuiC : playerNames : String[]
+    GameC -> GameC : setupPlayers()
+    GameC -> Player : new Player() : loop
+
+-> GameC : startGame()
+
+@enduml

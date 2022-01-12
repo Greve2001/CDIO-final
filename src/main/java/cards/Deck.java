@@ -14,7 +14,7 @@ public class Deck {
     // Three types of chanceCard so far. Rest OTW.
 
     public Deck() {
-        this.chanceCardDeck = new ChanceCard[25];
+        this.chanceCardDeck = new ChanceCard[28];
 
         chanceCardDeck[0] = new PayMoneyCard("De har kørt frem for \"fuldt stop.\" Betal 1000 kr. i bøde.", 1000);
         chanceCardDeck[1] = new PayMoneyCard("Betal for vognvask og smøring, kr. 300.", 300);
@@ -34,7 +34,7 @@ public class Deck {
         chanceCardDeck[14] = new ReceiveMoneyCard("De modtager deres aktieudbytte. Modtag kr. 1000 af banken", 1000);
         chanceCardDeck[15] = new ReceiveMoneyCard("Kommunen har eftergivet et kvartals skat. Hæv i banken kr. 3000.", 3000 );
         chanceCardDeck[16] = new ReceiveMoneyCard("De havde en række med elleve rigtige i tipning. Modtag kr. 1000.", 1000);
-        chanceCardDeck[17] = new ReceiveMoneyCard("Grundet dyrtiden har De fået gageforhøjelse.", 1000);
+        chanceCardDeck[17] = new ReceiveMoneyCard("Grundet dyrtiden har De fået gageforhøjelse, modtag kr. 1000.", 1000);
         chanceCardDeck[18] = new ReceiveMoneyCard("Deres præmieobligation er udtrukket. De modtager kr. 1000 af banken.", 1000);
         chanceCardDeck[19] = new ReceiveMoneyCard("Deres præmieobligation er udtrukket. De modtager kr. 1000 af banken.", 1000);
         chanceCardDeck[20] = new ReceiveMoneyCard("De har solgt nogle gamle møbler på auktion. Modtag kr. 1000 af banken.", 1000);
@@ -43,6 +43,13 @@ public class Deck {
         chanceCardDeck[22] = new MoveFieldsCard("Ryk tre felter frem.", 3);
         chanceCardDeck[23] = new MoveFieldsCard("Ryk tre felter tilbage", -3);
         chanceCardDeck[24] = new MoveFieldsCard("Ryk tre felter tilbage", -3);
+
+        chanceCardDeck[25] = new ReceiveMoneyFromPlayersCard("Det er deres fødselsdag, modtag af hver medspiller kr. 200", 200);
+        chanceCardDeck[26] = new ReceiveMoneyFromPlayersCard("De har lagt ud til et sammenskudsgilde. Mærkværdigvis betaler alle straks. Modtag fra hver medspiller kr. 500", 500);
+        chanceCardDeck[27] = new ReceiveMoneyFromPlayersCard("De skal holde familiefest og får et tilskud fra hver medspiller på 500 kroner.", 500);
+
+
+
 
         shuffleCards();
     }

@@ -232,8 +232,9 @@ public class ActionHandler {
         GUIController.getPlayerAction(player.getName(), Language.get("hitChance"));
 
         handleMoveFields(card, player);
-        handleReceiveMoney(card, player);
+        handleReceiveMoneyFromBank(card, player);
         handlePayMoney(card, player);
+        handleReceiveMoneyFromPlayers(card, player, players);
     }
 
     // This method calls the updatePlayerPosition in Board, with the int fieldsToMove, provided by the drawn ChanceCard.
@@ -247,7 +248,7 @@ public class ActionHandler {
 
     // This method updates the playerBalance.
     // The player RECEIVES money FROM the bank.
-    private void handleReceiveMoney(ChanceCard card, Player player){
+    private void handleReceiveMoneyFromBank(ChanceCard card, Player player){
         int amount = card.updateBalancePositive();
         if (amount != 0) {
             BANK.bankPayToPlayer(player, amount);
@@ -262,6 +263,15 @@ public class ActionHandler {
             BANK.payToBank(player, amount);
         }
     }
+    // This method updates the playerBalance
+    // The rest of the players PAYS money TO the player who drew the ChanceCard
+    private void handleReceiveMoneyFromPlayers(ChanceCard card, Player player, Player ... players){
+        int amount = card.updateBalancePositive();
+        if (amount !=0) {
+            BANK.playersPayToPlayer(player, amount, players);
+        }
+
+    }
 
 
     public void boardPaymentsToBank(Player player, int amount) {
@@ -275,12 +285,22 @@ public class ActionHandler {
         this.players = players;
     }
 
-    public boolean buyHouse(Player player, int price, int amount) {
-        return BANK.buyHouses(player, amount, price);
+    public void buyHouse(Player player, int price, int amount) {
+        BANK.buyHouses(player, amount, price);
     }
 
-    public boolean buyHotels(Player player, int price, int amount) {
-        return BANK.buyHotels(player, amount, price);
+    public void buyHotels(Player player, int price, int amount) {
+         BANK.buyHotels(player, amount, price);
+    }
+
+    public void sellHouses(Player player, int pricePerHouse, int numOfHouses) {
+        BANK.bankPayToPlayer(player, pricePerHouse * numOfHouses);
+        BANK.setHousesAvailable(BANK.getHousesAvailable() + numOfHouses);
+    }
+
+    public void sellHotels(Player player, int pricePerHotel, int numOfHotels) {
+        BANK.bankPayToPlayer(player, pricePerHotel * numOfHotels);
+        BANK.setHotelsAvailable(BANK.getHotelsAvailable() + numOfHotels);
     }
 
     public int getHousesAvailable() {

@@ -21,7 +21,7 @@ public class GUIController {
     private static Square[] fields;
 
     // Changeable variables
-    private static int moveTime = 5;
+    private static int moveTime = 20;
 
 
     public GUIController(Square[] inputSquares){
@@ -172,12 +172,16 @@ public class GUIController {
     public static void movePlayer(String playerName, int startPosition, int spacesToMove){ // Make sure it needs the Player or name of Player
         if (testing) return;
 
-        try {
-            int time = moveTime * spacesToMove;
-            for (int i = 1; i <= spacesToMove; i++) {
-                // Get informations
+        int direction = 1;
+        if (spacesToMove < 0)
+            direction = -1;
 
-                int newPosition = (i + startPosition)  % fields.length;
+        try {
+            for (int i = 1; i <= Math.abs(spacesToMove); i++) {
+                // Get informations
+                int newPosition = direction * (i + startPosition) % fields.length;
+                if (newPosition < 0) newPosition = fields.length + direction * (i + startPosition);
+
                 GUI_Field toField = gui.getFields()[newPosition];
                 int guiPlayerIndex = getGuiPlayerIndex(playerName);
 
@@ -185,7 +189,7 @@ public class GUIController {
                 guiPlayers[guiPlayerIndex].getCar().setPosition(toField);
 
                 // Sleep, so the car stops breifly for the player to see movement
-                Thread.sleep(time);
+                Thread.sleep(moveTime);
             }
         } catch (InterruptedException exception){ // Needs to be made beacuse of thread.sleep()
             System.out.println(exception);

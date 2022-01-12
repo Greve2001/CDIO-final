@@ -56,19 +56,25 @@ package Board
      }
 }
 
+Board "1  "  *--d- "1..40" Square: Has
 
-Board *-d- Square
-Square <|-- Tax
+Ownable "1     " <|--- "22" Street : Is\t
+Ownable "1" <|--- " 4    " Ferry : Is \t
+Ownable "           1" <|--- " 2" Brewery : Is\t
+
+
+Square <|-- "1" Tax
 Square <|-- Ownable
-Square <|-- incomeTax
-Square <|-- Start
-Square <|-- Refugee
-Square <|-- GoToPrison
-Square <|-- Prison
-Square <|-- Chance
-Ownable <|-- Street
-Ownable <|-- Ferry
-Ownable <|-- Brewery
+Square <|-- "1" incomeTax
+Square <|-- "           1" Start
+Square <|-- "             1" Refugee
+Square <|-- "1" GoToPrison: \t Is a    \t
+Square <|-- "             1" Prison
+Square <|--  "            6" Chance
+
+GameController <-- Board
+ActionHandler --> Board
+CSVReader --> Board
 
 
 @enduml

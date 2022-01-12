@@ -10,9 +10,10 @@ class GUIControllerTest {
         Language.getInstance();
 
         Board board = new Board();
-        Player test = new Player("Test", 0, 0);
 
         GUIController controller = new GUIController(board.getALL_SQUARES());
+        GUIController.createPlayers(3, 6, 10000);
 
+        GUIController.movePlayer("1", 0, -4);
     }
 }
