@@ -10,12 +10,12 @@ public class ActionHandler {
     private final Bank BANK = new Bank();
     private final Board BOARD;
     private Player[] players;
-    private Deck deck;
+    private final Deck DECK;
     private int activeBidders;
 
     public ActionHandler(Board BOARD) {
         this.BOARD = BOARD;
-        this.deck = new Deck();
+        this.DECK = new Deck();
 
     }
 
@@ -103,7 +103,7 @@ public class ActionHandler {
         }
     }
 
-    public void holdAuction(Player player, Square square) {
+    private void holdAuction(Player player, Square square) {
         int biddingPlayer = 0;
         activeBidders = 0;
         boolean[] participants = new boolean[players.length];
@@ -139,7 +139,7 @@ public class ActionHandler {
         }
     }
 
-    public void declareAuctionWinner(boolean[] participants, Square square, int highestBid) {
+    private void declareAuctionWinner(boolean[] participants, Square square, int highestBid) {
         for (int i = 0; i < participants.length; i++) {
             if (participants[i]) {
                 GUIController.showMessage(players[i].getName() + Language.get("hasWonAuction"));
@@ -152,7 +152,7 @@ public class ActionHandler {
         }
     }
 
-    public int biddingRound(boolean[] participants, int highestBid, int biddingPlayer) {
+    private int biddingRound(boolean[] participants, int highestBid, int biddingPlayer) {
         boolean wantToBid = GUIController.askPlayerAccept(players[biddingPlayer].getName() + Language.get("wishToBid"));
 
         // Asks if the players wants to bet and if not takes them out of the auction.
@@ -202,7 +202,7 @@ public class ActionHandler {
     }
 
     // TODO fix rounding errors
-    public int roundToNearest50(int valueToRound) {
+    private int roundToNearest50(int valueToRound) {
         int modulo = valueToRound % 50;
         if (modulo < 25)
             valueToRound = valueToRound - modulo;
@@ -223,8 +223,8 @@ public class ActionHandler {
      *
      * @param player represents the player that draws the ChanceCard
      */
-    public void cardAction(Player player) {
-        ChanceCard card = deck.pullCard();
+    private void cardAction(Player player) {
+        ChanceCard card = DECK.pullCard();
 
         GUIController.showCenterMessage(card.getDescription());
         GUIController.getPlayerAction(player.getName(), Language.get("hitChance"));

@@ -133,7 +133,7 @@ class ActionHandlerTest {
         actualBalance = players[0].getBalance();
         assertEquals(expectedBalance, actualBalance);
     }
-    
+
     @Test
     void payTax() {
         actionHandler.squareAction(players[0], squares[38], 10);
