@@ -1,0 +1,90 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam groupInheritance 2
+
+skinparam linetype polyline
+
+package Board
+{
+     class Board {
+    }
+     abstract class Square {
+     }
+}
+package Cards
+{
+   abstract class chanceCard{
+   }
+   class Deck{
+   }
+   class ChanceCardLogic{
+   }
+   class MoveFieldsChanceCard{
+
+   }
+   class PayMoneyChanceCard{
+
+   }
+   class ReceiveMoneyChanceCard{
+
+   }
+}
+
+package Logic{
+     class Player{
+     }
+     class Die {
+     }
+
+     class DiceCup {
+     }
+     class Bank {
+     }
+     class ActionHandler {
+     }
+     class GameController {
+     }
+}
+package Interface{
+class GUIController{
+
+}
+
+}
+package Utilities
+{
+  class CSVReader{
+  }
+  class Language{
+  }
+}
+
+
+
+GameController -u- GUIController
+Bank -- ActionHandler
+GameController -- DiceCup
+DiceCup -- Die
+GameController -d- Player
+
+ActionHandler -u- Deck
+GameController *-u- Board
+Board *-d- Square
+
+
+Deck -- ChanceCardLogic
+ChanceCardLogic -- chanceCard
+chanceCard <|-- MoveFieldsChanceCard
+chanceCard <|-- PayMoneyChanceCard
+chanceCard <|-- ReceiveMoneyChanceCard
+
+Board -u- CSVReader
+Board *- ActionHandler
+CSVReader -- Language
+
+
+
+
+
+
+@enduml
