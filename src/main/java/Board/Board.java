@@ -5,6 +5,7 @@ import Logic.ActionHandler;
 import Logic.Player;
 import Utilities.CSVReader;
 import Utilities.Language;
+import gui_main.GUI;
 
 public class Board {
     private final Square[] ALL_SQUARES;
@@ -391,7 +392,7 @@ public class Board {
 
                     //this ensure that the houses is evenly distributed on the different streets within the color.
                     amountOfHousesOnStreet = ALL_SQUARES[position].getAmountOfHouses();
-                    placementOkay = ensureEvenDistribution(position, amountOfHousesOnStreet);
+                    placementOkay = ensureEvenDistribution(position, true);
 
                     //this places the houses
                     if (placementOkay) {
@@ -417,12 +418,14 @@ public class Board {
             GUIController.getPlayerAction(player.getName(),Language.get("missingMonopoly"));
     }
 
-    private boolean ensureEvenDistribution(int position, int amountOfHousesOnStreet) {
+    private boolean ensureEvenDistribution(int position, boolean buy) {
+        int amountOfHousesOnStreet = ALL_SQUARES[position].getAmountOfHouses();
         for (Square field: ALL_SQUARES){
             if(ALL_SQUARES[position].getColor().equals(field.getColor())){
-                if (!(amountOfHousesOnStreet + 1 == field.getAmountOfHouses() ||
-                        amountOfHousesOnStreet == field.getAmountOfHouses()))
-                    return  false;
+                if (!(amountOfHousesOnStreet == field.getAmountOfHouses() ||
+                    (amountOfHousesOnStreet == field.getAmountOfHouses()+1 && buy) ||
+                    (amountOfHousesOnStreet +1 == field.getAmountOfHouses() && !buy)))
+                        return false;
             }
         }
         return true;
@@ -507,8 +510,44 @@ public class Board {
         return 0;
     }
 
-    public void sellProperty(Player player, String color, String type, int amount){
-        //TODO
+    public void sellProperty(Player player, String color, String type, int amount) {
+        int position = getFirstPropertyInAColor(color);
+        if (type.equals("hotel")) {
+            if (amountOwnedWithinTheColor(position) == amount){
+                //TODO actionhandler.sellhotel
+                for (Square field: ALL_SQUARES){
+                    if (color.equals(field.getColor())){
+                        field.setAmountOfHouses(0);
+                        GUIController.setHotel(field.getPOSITION(), false);
+                    }
+                }
+            }
+        } else {
+            if (amount == amountOfHousesOnColor(color)) {
+                //TODO actionhandler.sellHouse
+                for (Square field: ALL_SQUARES){
+                    field.setAmountOfHouses(0);
+                    GUIController.setHouses(field.getPOSITION(),0);
+                }
+            } else {
+                //remove 1 house at a time
+                String[] choices = getNameOfAllStreetsWithinAColor(color);
+                boolean removeOkay;
+                do {
+                    removeOkay = false;
+                    String disicion = GUIController.givePlayerChoice(Language.get("whatToSell"),choices);
+                    position = getPositionFromName(disicion);
+                    removeOkay = ensureEvenDistribution(position, false);
+                    if (removeOkay){
+                        ALL_SQUARES[position].setAmountOfHouses(ALL_SQUARES[position].getAmountOfHouses()-1);
+                        GUIController.setHouses(position, ALL_SQUARES[position].getAmountOfHouses());
+                        amount--;
+                    } else
+                        GUIController.showMessage(Language.get("ensureEvenDistribution"));
+
+                }while (amount != 0);
+            }
+        }
     }
 
     /**

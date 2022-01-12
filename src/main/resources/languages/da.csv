@@ -81,6 +81,8 @@ Du skal eje alle grunde i farven for at købe bygninger, missingMonopoly
 Hvor skal det næste hotel placeres?, placeHotel
 Banken har ikke nok hoteller, bankOutOfHotels
 Du skal have 4 huse på alle grunde i farven før du kan bygge hoteller, youNeedMoreHouses
+Hvilken grund skal der sælges et hus fra?,whatToSell
+Der skal fjernes huse ,ensureEvenDistribution
 
 
 
