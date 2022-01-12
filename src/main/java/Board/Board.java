@@ -385,7 +385,6 @@ public class Board {
                 boolean placementOkay;
                 int amountOfHousesOnStreet;
                 do {
-                    placementOkay = true;
                     //this section handle the GUI and player interaction for where to place the houses.
                     whereToPlaceHouse = GUIController.givePlayerChoice(Language.get("placeHouse"), choice);
                     position = getPositionFromName(whereToPlaceHouse);
