@@ -1,4 +1,9 @@
 package Logic;
+import Board.Board;
+import Interface.GUIController;
+import gui_fields.GUI_Car;
+import gui_fields.GUI_Player;
+import gui_main.GUI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,22 +32,75 @@ public class GameControllerTest {
             int actualNumOfPlayers = gameController.getPlayers().length;
 
             assertEquals(expectedNumPlayers[i], actualNumOfPlayers);
-
-
         }
-
     }
 
 
+    @Test
+    void TestEveryPlayerStartBalance(){
+        gameController.setupPlayers(new String[]{"1", "2", "3", "4"});
+        Player[] players = gameController.getPlayers();
 
+        int expectedStartBalance = 30000;
 
+        for (Player player : players){
+            assertEquals(expectedStartBalance, player.getBalance());
+        }
+    }
 
+    @Test
+    void TestEveryPlayerHasATokenOnTheBoard(){
+        GUI gui = new GUI();
 
+        gameController.setupPlayers(new String[]{"1", "2", "3", "4"});
+        Player[] players = gameController.getPlayers();
 
+        for (Player player : players){
+            GUI_Player GUIplayer = new GUI_Player(player.getName());
+            gui.addPlayer(GUIplayer);
 
+            GUI_Car car = GUIplayer.getCar();
+            assertNotNull(car);
+        }
+    }
 
+    @Test
+    void ensureInactivePlayersCannotPlay(){
+        gameController.setupPlayers(new String[]{"1", "2", "3", "4"});
+        Player[] players = gameController.getPlayers();
 
+        Player currentPlayer = players[0];
 
+        // Again what to do? Cannot access the right methods
+        //TODO when figuring out how to make innerclass
+    }
 
+    @Test
+    void TestFreeFromJailCard(){
+        // Setup
+        gameController.setupPlayers(new String[]{"1", "2", "3", "4"});
+        Player[] players = gameController.getPlayers();
 
+        // Part 1 //
+        // Action
+        players[1].setInJail(true);
+        players[1].useOneGetOutOfJailCard();
+
+        // Assert
+        boolean actualStatus = players[1].isInJail();
+        boolean expectedStatus = true; // Beacuse they havent been given a card.
+
+        assertEquals(expectedStatus, actualStatus);
+
+        // Part 2 //
+        // Action
+        players[2].setInJail(true);
+        players[2].giveOneGetOutOfJailCard();
+        players[2].useOneGetOutOfJailCard();
+
+        actualStatus = players[2].isInJail();
+        expectedStatus = false; // Beacuse they have a card
+
+        assertEquals(expectedStatus, actualStatus);
+    }
 }
