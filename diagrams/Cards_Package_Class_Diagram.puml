@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam groupInheritance 2
+
+skinparam linetype polyline
+package Cards
+{
+   abstract class chanceCard{
+       #amount :dobule
+       #fieldToMove :int
+       -description
+
+       +updateBalancePositive(double amount) : double
+       +updateBalanceNegative(double amount) : double
+       +moveNumOfFields(int fieldsmove) : int
+   }
+   class Deck{
+      -chanceCardCheck :Chancecard[]
+      -drawCardCoubt : int
+
+      +pullCard(): chanceCard
+   }
+   class ChanceCardLogic{
+   }
+   class MoveFieldsChanceCard{
+
+   }
+   class PayMoneyChanceCard{
+
+   }
+   class ReceiveMoneyChanceCard{
+
+   }
+}
+
+Deck -- chanceCard
+chanceCard <|-- MoveFieldsChanceCard
+chanceCard <|-- PayMoneyChanceCard
+chanceCard <|-- ReceiveMoneyChanceCard
+
+
+@enduml
