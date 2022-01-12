@@ -419,6 +419,7 @@ public class Board {
 
                         amountOfHouses--;
                         GUIController.setHouses(position, ALL_SQUARES[position].getAmountOfHouses());
+                        GUIController.updateRent(position, getCurrentCost(position));
                     }
                 }while(amountOfHouses > 0);
             }
@@ -503,6 +504,7 @@ public class Board {
                             ALL_SQUARES[position].setAmountOfHouses(amountOfHousesOnStreet + 1);
                             amountOfHotels--;
                             GUIController.setHouses(position, ALL_SQUARES[position].getAmountOfHouses());
+                            GUIController.updateRent(position, getCurrentCost(position));
                         }
                     } while (amountOfHotels > 0);
                 }

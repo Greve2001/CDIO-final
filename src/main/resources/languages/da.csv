@@ -58,6 +58,7 @@ Fejl. Dette felt er ikke en vej på position: ,notAStreetAt
 Ja,yes
 Nej,no
 Pris,price
+Leje,rent
 
 ,,ActionHandler
 Betal ,payPct

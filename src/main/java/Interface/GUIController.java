@@ -172,7 +172,6 @@ public class GUIController {
     public static void movePlayer(String playerName, int startPosition, int spacesToMove){ // Make sure it needs the Player or name of Player
         if (testing) return;
 
-        // TODO NEW
         try {
             int time = moveTime * spacesToMove;
             for (int i = 1; i <= spacesToMove; i++) {
@@ -225,12 +224,6 @@ public class GUIController {
         gui.setDice(faceValues[0], faceValues[1]);
     }
 
-    //TODO when Pi has it made
-    // Used for more than displayChanceCard. Also just for normal messages.
-    //public void displayChanceCard(ChanceCard card) { // Use CSV Reader
-    //    gui.displayChanceCard("ChanceCard" + "\n" + card.toString());
-    //}
-
     public static void setHouses(int position, int amount){
         if (testing) return;
 
@@ -269,7 +262,7 @@ public class GUIController {
     public static void updateRent(int position, int currentCost){
         if (testing) return;
 
-        GUIFields[position].setSubText(String.valueOf(currentCost));
+        GUIFields[position].setSubText(Language.get("rent") + ": " + String.valueOf(currentCost));
     }
 
 

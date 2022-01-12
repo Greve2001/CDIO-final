@@ -99,6 +99,7 @@ public class ActionHandler {
             BANK.payToBank(player, square.getPrice());
             square.setOwner(player);
             GUIController.setOwner(player.getName(), player.getColor(), square.getPOSITION());
+            GUIController.updateRent(square.getPOSITION(), BOARD.getCurrentCost(square.getPOSITION()));
         } else {
             holdAuction(player, square);
         }
@@ -148,6 +149,7 @@ public class ActionHandler {
                 square.setOwner(players[i]);
                 BANK.payToBank(players[i], highestBid);
                 GUIController.setOwner(players[i].getName(), players[i].getColor(),  square.getPOSITION());
+                GUIController.updateRent(square.getPOSITION(), BOARD.getCurrentCost(square.getPOSITION()));
             }
         }
     }
