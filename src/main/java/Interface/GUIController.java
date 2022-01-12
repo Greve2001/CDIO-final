@@ -302,11 +302,13 @@ public class GUIController {
     }
 
     public static void showCenterMessage(String msg){
-        gui.displayChanceCard(msg);
+        if (!testing)
+            gui.displayChanceCard(msg);
     }
 
     public static void showMessage(String msg){
-        gui.showMessage(msg);
+        if (!testing)
+            gui.showMessage(msg);
     }
 
 
