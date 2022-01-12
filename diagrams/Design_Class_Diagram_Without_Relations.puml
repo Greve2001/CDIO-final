@@ -19,15 +19,7 @@ package Cards
    }
    class ChanceCardLogic{
    }
-   class MoveFieldsChanceCard{
 
-   }
-   class PayMoneyChanceCard{
-
-   }
-   class ReceiveMoneyChanceCard{
-
-   }
 }
 
 package Logic{
@@ -62,21 +54,19 @@ package Utilities
 
 
 GameController -u- GUIController
-Bank -- ActionHandler
+Bank -u- ActionHandler
 GameController -- DiceCup
 DiceCup -- Die
 GameController -d- Player
 
-ActionHandler -u- Deck
+ActionHandler -d- Deck
 GameController *-u- Board
 Board *-d- Square
 
 
 Deck -- ChanceCardLogic
 ChanceCardLogic -- chanceCard
-chanceCard <|-- MoveFieldsChanceCard
-chanceCard <|-- PayMoneyChanceCard
-chanceCard <|-- ReceiveMoneyChanceCard
+
 
 Board -u- CSVReader
 Board *- ActionHandler
