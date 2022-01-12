@@ -512,7 +512,9 @@ public class Board {
 
     public void sellProperty(Player player, String color, String type, int amount) {
         int position = getFirstPropertyInAColor(color);
-        if (type.equals("hotel")) {
+        int amountOfHouses = amountOfHousesOnColor(color);
+        int amountOfStreets = getNameOfAllStreetsWithinAColor(color).length;
+        if (type.equals("hotel") && (amountOfHouses == amountOfStreets * 5)) {
             if (amountOwnedWithinTheColor(position) == amount){
                 actionHandler.sellHotels(player, ALL_SQUARES[position].getHousePrice() / 2, amount);
                 for (Square field: ALL_SQUARES){
@@ -522,14 +524,14 @@ public class Board {
                     }
                 }
             }
-        } else {
+        } else if (type.equals("house") && (amountOfHouses <= amountOfStreets * 4)){
             if (amount == amountOfHousesOnColor(color)) {
                 actionHandler.sellHouses(player, ALL_SQUARES[position].getHousePrice() / 2, amount);
                 for (Square field: ALL_SQUARES){
                     field.setAmountOfHouses(0);
                     GUIController.setHouses(field.getPOSITION(),0);
                 }
-            } else {
+            } else if(amount < amountOfHousesOnColor(color)) {
                 //remove 1 house at a time
                 String[] choices = getNameOfAllStreetsWithinAColor(color);
                 boolean removeOkay;
@@ -539,6 +541,7 @@ public class Board {
                     removeOkay = ensureEvenDistribution(position, false);
                     if (removeOkay){
                         ALL_SQUARES[position].setAmountOfHouses(ALL_SQUARES[position].getAmountOfHouses()-1);
+                        actionHandler.sellHouses(player, ALL_SQUARES[position].getHousePrice() / 2, 1);
                         GUIController.setHouses(position, ALL_SQUARES[position].getAmountOfHouses());
                         amount--;
                     } else
@@ -637,7 +640,7 @@ public class Board {
         int result = 0;
         for (Square field: ALL_SQUARES){
             if (color.equals(field.getColor()))
-                result = field.getAmountOfHouses();
+                result += field.getAmountOfHouses();
         }
         return result;
     }

@@ -44,16 +44,17 @@ class BoardTest {
         int playerStartBalance = 10000;
         player.setBalance(playerStartBalance);
         player.setPosition(35);
-        board.updatePlayerPosition(player, 12);
-        assertEquals(7, player.getPosition());
+        board.updatePlayerPosition(player, 10);
+        assertEquals(5, player.getPosition());
         assertEquals(14000, player.getBalance());
+        assertEquals(player, ALL_SQUARES[5].getOwner());
 
         //checking if start bonus is payed if player move backward over start
         player.setBalance(playerStartBalance);
         player.setPosition(2);
-        board.updatePlayerPosition(player, -6);
-        assertEquals(36, player.getPosition());
-        assertEquals(10000, player.getBalance());
+        board.updatePlayerPosition(player, -4);
+        assertEquals(38, player.getPosition());
+        assertEquals(8000, player.getBalance());
     }
 
     @Test
@@ -258,4 +259,109 @@ class BoardTest {
         String[] test = board.allMonopolyColorsByPlayer(player);
         assertEquals(0,test.length);
     }
+
+    @Test
+    void testBuildHotel(){
+        int position1 = 16, position2 = 18, position3 = 19;
+
+        String color = ALL_SQUARES[position1].getColor();
+
+        ALL_SQUARES[position1].setOwner(player);
+        ALL_SQUARES[position2].setOwner(player);
+        ALL_SQUARES[position3].setOwner(player);
+
+        ALL_SQUARES[position1].setAmountOfHouses(3);
+        ALL_SQUARES[position2].setAmountOfHouses(3);
+        ALL_SQUARES[position3].setAmountOfHouses(3);
+
+        //test if non have 4 houses
+        board.buyHotel(player, color, 3);
+        assertEquals(9,board.amountOfHousesOnColor(color));
+
+
+        ALL_SQUARES[position1].setAmountOfHouses(4);
+        ALL_SQUARES[position2].setAmountOfHouses(3);
+        ALL_SQUARES[position3].setAmountOfHouses(3);
+
+        //test if 1 street have 4 houses
+        board.buyHotel(player, color, 3);
+        assertEquals(10,board.amountOfHousesOnColor(color));
+
+        ALL_SQUARES[position1].setAmountOfHouses(4);
+        ALL_SQUARES[position2].setAmountOfHouses(4);
+        ALL_SQUARES[position3].setAmountOfHouses(3);
+
+        //test if 2 streets have 4 houses
+        board.buyHotel(player, color, 3);
+        assertEquals(11,board.amountOfHousesOnColor(color));
+
+        ALL_SQUARES[position1].setAmountOfHouses(4);
+        ALL_SQUARES[position2].setAmountOfHouses(4);
+        ALL_SQUARES[position3].setAmountOfHouses(4);
+
+        //test if all streets have 4 houses
+        board.buyHotel(player, color, 3);
+        assertEquals(15,board.amountOfHousesOnColor(color));
+    }
+
+    @Test
+    void sellProperty(){
+        int position1 = 16, position2 = 18, position3 = 19;
+
+        String color = ALL_SQUARES[position1].getColor();
+        int price = ALL_SQUARES[position1].getHousePrice();
+        int amountToSell;
+        int newBalance;
+
+        ALL_SQUARES[position1].setOwner(player);
+        ALL_SQUARES[position2].setOwner(player);
+        ALL_SQUARES[position3].setOwner(player);
+
+        ALL_SQUARES[position1].setAmountOfHouses(4);
+        ALL_SQUARES[position2].setAmountOfHouses(4);
+        ALL_SQUARES[position3].setAmountOfHouses(4);
+
+        amountToSell = 1;
+        newBalance = player.getBalance() + amountToSell * (price / 2);
+        board.sellProperty(player, color, "house", amountToSell);
+
+        assertEquals(newBalance, player.getBalance());
+        assertEquals(3, ALL_SQUARES[position1].getAmountOfHouses());
+        assertEquals(4, ALL_SQUARES[position2].getAmountOfHouses());
+        assertEquals(4, ALL_SQUARES[position3].getAmountOfHouses());
+
+        ALL_SQUARES[position1].setAmountOfHouses(1);
+        ALL_SQUARES[position2].setAmountOfHouses(1);
+        ALL_SQUARES[position3].setAmountOfHouses(1);
+        amountToSell = 6;
+        newBalance = player.getBalance();
+        board.sellProperty(player, color, "house", amountToSell);
+
+        assertEquals(newBalance, player.getBalance());
+        assertEquals(1, ALL_SQUARES[position1].getAmountOfHouses());
+        assertEquals(1, ALL_SQUARES[position2].getAmountOfHouses());
+        assertEquals(1, ALL_SQUARES[position3].getAmountOfHouses());
+
+        //equels 1 hotel
+        ALL_SQUARES[position1].setAmountOfHouses(5);
+        ALL_SQUARES[position2].setAmountOfHouses(5);
+        ALL_SQUARES[position3].setAmountOfHouses(5);
+
+        amountToSell = 3;
+        board.sellProperty(player, color, "house", amountToSell);
+
+        assertEquals(newBalance, player.getBalance());
+        assertEquals(5, ALL_SQUARES[position1].getAmountOfHouses());
+        assertEquals(5, ALL_SQUARES[position2].getAmountOfHouses());
+        assertEquals(5, ALL_SQUARES[position3].getAmountOfHouses());
+
+        newBalance = player.getBalance() + amountToSell * price / 2;
+        board.sellProperty(player, color, "hotel", amountToSell);
+
+        assertEquals(newBalance, player.getBalance());
+        assertEquals(0, ALL_SQUARES[position1].getAmountOfHouses());
+        assertEquals(0, ALL_SQUARES[position2].getAmountOfHouses());
+        assertEquals(0, ALL_SQUARES[position3].getAmountOfHouses());
+    }
+
 }
