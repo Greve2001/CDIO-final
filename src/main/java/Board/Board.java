@@ -446,58 +446,36 @@ public class Board {
             //this section prepares all the data we need to test before we can actualy buy the house
             int price = ALL_SQUARES[position].getHousePrice();
             int streetWithinColor = amountOwnedWithinTheColor(position);
-            int amountOfHousesBefore = amountOfHousesOnColor(color);
+            int amountOfHousesOnAllProperties = amountOfHousesOnColor(color);
 
             //this section handle control of setup and the purchase of the houses.
             if (player.getBalance() >= price * amountOfHotels && //if the player have enough money
                     actionHandler.getHotelsAvailable() >= amountOfHotels && //if the bank has enough houses
-                    amountOfHousesOnAllProperties == count * 4) { //if the total amount of houses is equal to 4 on each square
+                    amountOfHousesOnAllProperties == streetWithinColor * 4) { //if the total amount of houses is equal to 4 on each square
 
                 actionHandler.buyHotels(player, price, amountOfHotels);
 
                 //this prepare the streets name, so that we can easily pass them to the player.
                 String[] choice = getNameOfAllStreetsWithinAColor(color);
 
-
-                boolean placementOkay;
-                int amountOfHousesOnStreet;
-                if (amountOfHotels == count) { //if a hotel is bought for each property we can just place it without asking
+                if (amountOfHotels == streetWithinColor) { //if a hotel is bought for each property we can just place it without asking
                     for (Square field : ALL_SQUARES) {
                         if (ALL_SQUARES[position].getColor().equals(field.getColor())){
                             field.setAmountOfHouses(5);
                             //TODO actionhandler
                         }
-
                     }
                 } else {
                     do {
                         //this section handle the GUI and player interaction for where to place the houses.
                         whereToPlaceHotel = GUIController.givePlayerChoice(Language.get("placeHotel"), choice);
-                        placementOkay = true;
-                        for (Square field : ALL_SQUARES) {
-                            if (whereToPlaceHotel.equals(field.getName())) {
-                                position = field.getPOSITION();
-                                break;
-                            }
-                        }
-
-                        //this ensure that the houses is evenly distributed on the different streets within the color.
-                        amountOfHousesOnStreet = ALL_SQUARES[position].getAmountOfHouses();
-                        for (Square field : ALL_SQUARES) {
-                            if (ALL_SQUARES[position].getColor().equals(field.getColor())) {
-                                if (!(amountOfHousesOnStreet + 1 == field.getAmountOfHouses() ||
-                                        amountOfHousesOnStreet == field.getAmountOfHouses()) ||
-                                        field.getAmountOfHouses() == 4)
-                                    placementOkay = false;
-                            }
-                        }
+                        position = getPositionFromName(whereToPlaceHotel);
 
                         //this places the Hotels
-                        if (placementOkay) {
-                            ALL_SQUARES[position].setAmountOfHouses(amountOfHousesOnStreet + 1);
-                            amountOfHotels--;
-                            GUIController.setHotel(position, true);
-                        }
+                        ALL_SQUARES[position].setAmountOfHouses(5);
+                        amountOfHotels--;
+                        GUIController.setHotel(position, true);
+
                     } while (amountOfHotels > 0);
                 }
             }
@@ -507,7 +485,7 @@ public class Board {
                 GUIController.getPlayerAction(player.getName(),Language.get("insuficientMoney"));
             else if(actionHandler.getHousesAvailable() >= amountOfHotels) //if the bank has enough houses
                 GUIController.getPlayerAction(player.getName(), Language.get("bankOutOfHotels"));
-            else if(amountOfHousesOnAllProperties != count * 4)//if the total amount of houses isn't exacly 4
+            else if(amountOfHousesOnAllProperties != streetWithinColor * 4)//if the total amount of houses isn't exacly 4
                 GUIController.getPlayerAction(player.getName(), Language.get("youNeedMoreHouses"));
             else
                 GUIController.getPlayerAction(player.getName(),Language.get("boardUnknowError"));
