@@ -47,32 +47,32 @@ public class Bank {
         GUIController.setPlayerBalance(player.getName(), player.getBalance());
     }
 
-    public boolean buyHouses(Player player, int nr, int price) {
-        boolean result = false;
+    public void buyHouses(Player player, int nr, int price) {
         if (housesAvailable >= nr && player.getBalance() >= (price * nr)) {
             housesAvailable -= nr;
             int balance = player.getBalance() - (price * nr);
             player.setBalance(balance);
-            result = true;
         }
-
-        return result;
     }
 
-    public boolean buyHotels(Player player, int nr, int price) {
-        boolean result = false;
+    public void buyHotels(Player player, int nr, int price) {
         if (hotelsAvailable >= nr && player.getBalance() >= (nr * price)) {
             hotelsAvailable -= nr;
             int balance = player.getBalance() - (nr * price);
             player.setBalance(balance);
-            result = true;
         }
+    }
 
-        return result;
+    public void setHousesAvailable(int housesAvailable) {
+        this.housesAvailable = housesAvailable;
     }
 
     public int getHousesAvailable() {
         return housesAvailable;
+    }
+
+    public void setHotelsAvailable(int hotelsAvailable) {
+        this.hotelsAvailable = hotelsAvailable;
     }
 
     public int getHotelsAvailable() {
