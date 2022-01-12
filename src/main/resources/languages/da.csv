@@ -63,3 +63,17 @@ Betal indkomstskat.,payIncomeTax
  ønsker du at afgive et bud?,wishToBid
  dit bud? (Nuværende højeste bud er: ,askForBid
  har vundet auktionen,hasWonAuction
+
+,,Board
+Hvor skal det næste hus placeres?, placeHouse
+Du har ikke penge nok, insuficientMoney
+Banken har ikke nok huse, bankOutOfHouses
+Du kan max have 4 huse per grund, MaxAmountOfHouses
+Ukendt fejl ved køb prøv igen, boardUnknowError
+Du skal eje alle grunde i farven for at købe bygninger, missingMonopoly
+Hvor skal det næste hotel placeres?, placeHotel
+Banken har ikke nok hoteller, bankOutOfHotels
+Du skal have 4 huse på alle grunde i farven før du kan bygge hoteller, youNeedMoreHouses
+
+
+

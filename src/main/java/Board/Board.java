@@ -393,7 +393,7 @@ public class Board {
                 int amountOfHousesOnStreet;
                 do {
                     //this section handle the GUI and player interaction for where to place the houses.
-                    whereToPlaceHouse = GUIController.givePlayerChoice("Place a house", choice);
+                    whereToPlaceHouse = GUIController.givePlayerChoice(Language.get("placeHouse"), choice);
                     placementOkay = true;
                     for (Square field: ALL_SQUARES){
                         if(whereToPlaceHouse.equals(field.getName())) {
@@ -425,16 +425,16 @@ public class Board {
 
             //this gives the correct failure message to the player
             else if(player.getBalance() >= price * amountOfHouses) //if the player have enough money
-                GUIController.getPlayerAction(player.getName(),"Player insuficient money");
+                GUIController.getPlayerAction(player.getName(),Language.get("insuficientMoney"));
             else if(actionHandler.getHousesAvailable() >= amountOfHouses) //if the bank has enough houses
-                GUIController.getPlayerAction(player.getName(), "Bank out of houses");
+                GUIController.getPlayerAction(player.getName(), Language.get("bankOutOfHouses"));
             else if(amountOfHousesBefore + amountOfHouses <= count * 4)//if the total amount of houses doesn't surpass 4 per Street
-                GUIController.getPlayerAction(player.getName(), "to many houses on the color");
+                GUIController.getPlayerAction(player.getName(), Language.get("MaxAmountOfHouses"));
             else
-                GUIController.getPlayerAction(player.getName(),"unknown error, please try again");
+                GUIController.getPlayerAction(player.getName(),Language.get("boardUnknowError"));
         }
         else
-            GUIController.getPlayerAction(player.getName(),"You do not own all the properties in the color");
+            GUIController.getPlayerAction(player.getName(),Language.get("missingMonopoly"));
     }
 
     public void buyHotel(Player player, String color, int amountOfHotels){
@@ -478,7 +478,7 @@ public class Board {
                 } else {
                     do {
                         //this section handle the GUI and player interaction for where to place the houses.
-                        whereToPlaceHotel = GUIController.givePlayerChoice("Place hotel", choice);
+                        whereToPlaceHotel = GUIController.givePlayerChoice(Language.get("placeHotel"), choice);
                         placementOkay = true;
                         for (Square field : ALL_SQUARES) {
                             if (whereToPlaceHotel.equals(field.getName())) {
@@ -510,16 +510,16 @@ public class Board {
 
             //this gives the correct failure message to the player
             else if(player.getBalance() >= price * amountOfHotels) //if the player have enough money
-                GUIController.getPlayerAction(player.getName(),"Player insuficient money");
+                GUIController.getPlayerAction(player.getName(),Language.get("insuficientMoney"));
             else if(actionHandler.getHousesAvailable() >= amountOfHotels) //if the bank has enough houses
-                GUIController.getPlayerAction(player.getName(), "Bank out of hotels");
+                GUIController.getPlayerAction(player.getName(), Language.get("bankOutOfHotels"));
             else if(amountOfHousesOnAllProperties != count * 4)//if the total amount of houses isn't exacly 4
-                GUIController.getPlayerAction(player.getName(), "to few houses");
+                GUIController.getPlayerAction(player.getName(), Language.get("youNeedMoreHouses"));
             else
-                GUIController.getPlayerAction(player.getName(),"unknown error, please try again");
+                GUIController.getPlayerAction(player.getName(),Language.get("boardUnknowError"));
         }
         else
-            GUIController.getPlayerAction(player.getName(),"You do not own all the properties in the color");
+            GUIController.getPlayerAction(player.getName(),Language.get("missingMonopoly"));
     }
 
     /**
