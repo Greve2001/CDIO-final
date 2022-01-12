@@ -226,6 +226,8 @@ public class ActionHandler {
     public void cardAction(Player player) {
         ChanceCard card = deck.pullCard();
 
+        GUIController.showCenterMessage(card.getDescription());
+
         handleMoveFields(card, player);
         handleReceiveMoney(card, player);
         handlePayMoney(card, player);
