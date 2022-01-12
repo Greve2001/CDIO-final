@@ -411,8 +411,10 @@ public class Board {
                     amountOfHousesOnStreet = ALL_SQUARES[position].getAmountOfHouses();
                     for (Square field: ALL_SQUARES){
                         if(ALL_SQUARES[position].getColor().equals(field.getColor())){
-                            if (!(amountOfHousesOnStreet + 1 == field.getAmountOfHouses() || amountOfHousesOnStreet == field.getAmountOfHouses()))
-                                placementOkay = false;
+                            if (!(amountOfHousesOnStreet + 1 == field.getAmountOfHouses() ||
+                                amountOfHousesOnStreet == field.getAmountOfHouses()) ||
+                                field.getAmountOfHouses() == 4)
+                                    placementOkay = false;
                         }
                     }
 
@@ -462,7 +464,7 @@ public class Board {
      * @return all the squares that the given player own
      */
     public String[] allSquaresOwnedByPlayer(Player player){
-        String[] temp = new String[100];
+        String[] temp = new String[ALL_SQUARES.length];
         int count = 0;
         for (Square field: ALL_SQUARES){
             if (player.equals(field.getOwner())){
@@ -479,7 +481,7 @@ public class Board {
      * @return all the squares that the given player own and have a house on
      */
     public String[] allSquaresWherePlayerHaveHouses(Player player){
-        String[] temp = new String[100];
+        String[] temp = new String[ALL_SQUARES.length];
         int count = 0;
         for (Square field: ALL_SQUARES){
             if (player.equals(field.getOwner())){
@@ -498,7 +500,7 @@ public class Board {
      * @return the colors that the play have monopoly on.
      */
     public String[] allMonopolyColorsByPlayer(Player player){
-        String[] temp = new String[100];
+        String[] temp = new String[ALL_SQUARES.length];
         int count = 0;
         String[] color = getAllStreetColors();
         int position;
