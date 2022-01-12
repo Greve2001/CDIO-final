@@ -1,12 +1,12 @@
 translate,varName,comments
 Indtast dit navn: ,enterName
-Ønsker du at købe skødet? ,buyStreet
+Ønsker du at købe grunden? ,buyStreet
 Ønsker du at købe rederiet? ,buyFerry
 Ønsker du at købe bryggeriet? ,buyBrewery
 
 Vælg handling,askAction
-Kast terning,choice1
-Køb egendom,choice2
+Kast terningerne,choice1
+Køb ejendomme,choice2
 Grund rente,baseRent
 1 hus,1house
 2 huse,2house
@@ -46,7 +46,9 @@ Vælg en felt farve at købe egendom til,chooseStreetColor
 Huse,houses
 Hoteller,hotels
 Kast terningerne,throwDice
+Du har slået 2 ens. Det er din tur igen.,haveExtraTurn
 Vælg,choose
+Du ramte et prøv lykken kort,hitChance
 
 ,,GUIErrors
 Ikke en vej. Den kan ikke ejes!,notAStreet

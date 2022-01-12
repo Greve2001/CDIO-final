@@ -64,6 +64,9 @@ public class GameController {
 
                 // Ask if want to buy houses etc.
                 String msg1 = currentPlayer.getName() + ": " + Language.get("askAction");
+                if (doublesRolled > 0) // New message when hitting doubles
+                    msg1 = Language.get("haveExtraTurn") + " " + msg1;
+
                 String[] choices1 = new String[]{Language.get("choice1"), Language.get("choice2")};
                 String answer1 = GUIController.givePlayerChoice(msg1, choices1);
 
@@ -113,6 +116,8 @@ public class GameController {
                     }while (wantToKeepBuying);
 
                     // When done buying, take turn.
+
+
                     GUIController.getPlayerAction(currentPlayer.getName(), Language.get("throwDice"));
                     takeTurn();
                 }
