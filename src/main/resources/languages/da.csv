@@ -1,6 +1,6 @@
 translate,varName,comments
-Vælg antallet af spillere: ,enterName
-Ønsker du at købe skødet? ,buyStreet
+Indtast dit navn: ,enterName
+Ønsker du at købe grunden? ,buyStreet
 Ønsker du at købe rederiet? ,buyFerry
 Ønsker du at købe bryggeriet? ,buyBrewery
 Vælg handling,askAction
@@ -49,8 +49,10 @@ Vælg en felt farve at købe egendom til,chooseStreetColor
 Huse,houses
 Hoteller,hotels
 Kast terningerne,throwDice
+Du har slået 2 ens. Det er din tur igen.,haveExtraTurn
 Vælg,choose
 Du har ikke monopol på nogle farver,noMonopoly
+Du ramte et prøv lykken kort,hitChance
 
 ,,GUIErrors
 Ikke en vej. Den kan ikke ejes!,notAStreet
@@ -60,6 +62,7 @@ Fejl. Dette felt er ikke en vej på position: ,notAStreetAt
 Ja,yes
 Nej,no
 Pris,price
+Leje,rent
 
 ,,ActionHandler
 Betal ,payPct

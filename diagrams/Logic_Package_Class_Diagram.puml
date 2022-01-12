@@ -74,10 +74,12 @@ package Logic{
 }
 
 
-Bank -- ActionHandler
-GameController -- DiceCup
-DiceCup -- Die
-GameController -d- Player
+ActionHandler  "1 " --> "1 " Bank: Has \t
+GameController "1 " *-- "1  " DiceCup: Uses
+DiceCup "1 " *-u- "2 " Die: Contains \t
+GameController "1  " -d-> "3..6" Player: Plays
+Board --> ActionHandler
+GameController --> Board
 
 
 

@@ -398,6 +398,7 @@ public class Board {
                         ALL_SQUARES[position].setAmountOfHouses(amountOfHousesOnStreet + 1);
                         amountOfHouses--;
                         GUIController.setHouses(position, ALL_SQUARES[position].getAmountOfHouses());
+                        GUIController.updateRent(position, getCurrentCost(position));
                     }
                 }while(amountOfHouses > 0);
             }
@@ -621,7 +622,7 @@ public class Board {
         result = reduceStringArraySize(result, count);
         return result;
     }
-    
+
     public int amountOfHousesOnColor(String color){
         int result = 0;
         for (Square field: ALL_SQUARES){
