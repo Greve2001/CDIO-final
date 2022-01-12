@@ -647,11 +647,17 @@ public class Board {
         int amountOfHotels = 0;
         for (Square field: ALL_SQUARES){
             if (player.equals(field.getOwner())){
-                if (field.getAmountOfHouses() == 5)
+                if (field.getAmountOfHouses() == 5) {
                     amountOfHotels += 1;
-                else
+                    GUIController.setHotel(field.getPOSITION(), false);
+                }
+                else {
                     amountOfHotels += field.getAmountOfHouses();
+                    GUIController.setHouses(field.getPOSITION(), 0);
+                }
+                field.setAmountOfHouses(0);
                 field.setOwner(null);
+                GUIController.setOwner(null, null, field.getPOSITION());
             }
         }
         actionHandler.bankruptPlayerHandover(amountOfHouses,amountOfHotels);
