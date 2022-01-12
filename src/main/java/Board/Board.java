@@ -514,7 +514,7 @@ public class Board {
         int position = getFirstPropertyInAColor(color);
         if (type.equals("hotel")) {
             if (amountOwnedWithinTheColor(position) == amount){
-                //TODO actionhandler.sellhotel
+                actionHandler.sellHotels(player, ALL_SQUARES[position].getHousePrice() / 2, amount);
                 for (Square field: ALL_SQUARES){
                     if (color.equals(field.getColor())){
                         field.setAmountOfHouses(0);
@@ -524,7 +524,7 @@ public class Board {
             }
         } else {
             if (amount == amountOfHousesOnColor(color)) {
-                //TODO actionhandler.sellHouse
+                actionHandler.sellHouses(player, ALL_SQUARES[position].getHousePrice() / 2, amount);
                 for (Square field: ALL_SQUARES){
                     field.setAmountOfHouses(0);
                     GUIController.setHouses(field.getPOSITION(),0);
