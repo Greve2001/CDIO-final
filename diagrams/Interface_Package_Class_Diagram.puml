@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam groupInheritance 2
+
+skinparam linetype polyline
+
+package Interface{
+class GUIController{
+      {static} -testing : boolean
+      {static} -gui : GUI
+      {static} -colorToChooseFrom : Color[]
+      {static} -playerNames : String[]
+      {static} -guiPlayers : GUI_Player
+      {static} -playerPositions : int[]
+      {static} -GUIFields : GUI_Field[]
+      {static} -fields : Square[]
+      {static} -gameBoard : Board
+      {static} -moveTime : int
+
+      {static} +createBoard(Square[] inputSquares): GUI_FIELD
+      {static} +createPlayers(int startBalance): void
+      {static} +movePlayer(Player player, int destination: void)
+      {static} +showDice(int[] facevalues): void
+      {static} +setHouses(int position, int amount): void
+      {static} +setHotel(int position, boolean bool): void
+      {static} +setOwner(Player player, int position): void
+      {static} +updateRent(int position): void
+      {static} +posToStreet(int position): GUI_Street
+      {static} +givePlayerChoice(String msg, String[] choices): String
+      {static} +askPlayerAccept(String msg): boolean
+      {static} +convertColor(String colorStr): Color
+}
+
+
+
+@enduml

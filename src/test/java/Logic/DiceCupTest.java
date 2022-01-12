@@ -1,12 +1,13 @@
 package Logic;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DiceCupTest {
-    DiceCup diceCup=new DiceCup();
+    DiceCup diceCup=new DiceCup(); // Standard dice cup with 2 dice, having 6 sides
 
     @Test
     void cupMustHaveTwoDice() {
@@ -14,7 +15,7 @@ class DiceCupTest {
         Assertions.assertEquals(2, diceCup.getFaceValues().length);
     }
 
-    @Test
+    @RepeatedTest(100)
     void when_rollDice_andThen_getFaceValues_sumMustBeGreaterThanOrEqualToTwo() {
         // Act
         diceCup.rollDice();

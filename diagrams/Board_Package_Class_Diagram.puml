@@ -1,0 +1,74 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam groupInheritance 2
+
+skinparam linetype polyline
+
+package Board
+{
+     class Board {
+     -ALL_SQUARES : square[]
+     -ACTIONHANDLER : ActionHandler
+     -jailposition : int
+
+    -payStartBonus(Player) : void
+    -stringArrayToIntArray(String[], size:int) : int[]
+    +hasMonopoly() : boolean
+    +movePlayer(Player, spacesToMove:int) : void
+    +setPlayerPosition(Player, position:int) : void
+
+    }
+     abstract class Square {
+         -name : String
+         -position : int
+     }
+     class Street{
+        -amountOfHouses : int
+
+     }
+     abstract class Ownable{
+        -COLOR : String
+        -PRICE : int
+        -RENT : int[]
+        -owner : Player
+        -pledge : boolean
+     }
+     class incomeTax{
+       AMOUNT : int
+       PERCENTAGE : int
+     }
+     class Tax{
+        -AMOUNT : int
+     }
+     class Ferry{
+     }
+     class Brewery{
+     }
+     class GoToPrison{
+     }
+     class Prison{
+     }
+     class Refugee{
+     }
+     class Start{
+     }
+     class Chance{
+     }
+}
+
+
+Board *-d- Square
+Square <|-- Tax
+Square <|-- Ownable
+Square <|-- incomeTax
+Square <|-- Start
+Square <|-- Refugee
+Square <|-- GoToPrison
+Square <|-- Prison
+Square <|-- Chance
+Ownable <|-- Street
+Ownable <|-- Ferry
+Ownable <|-- Brewery
+
+
+@enduml
