@@ -31,7 +31,7 @@ class BoardTest {
     }
 
     @Test
-    void updatePlayerPosition() {
+    void testUpdatePlayerPosition() {
         player.setPosition(35);
         board.updatePlayerPosition(player, 10);
         assertEquals(5, player.getPosition());
