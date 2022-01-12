@@ -3,10 +3,10 @@ Vælg antallet af spillere: ,enterName
 Ønsker du at købe skødet? ,buyStreet
 Ønsker du at købe rederiet? ,buyFerry
 Ønsker du at købe bryggeriet? ,buyBrewery
-
 Vælg handling,askAction
 Kast terning,choice1
 Køb egendom,choice2
+Sælg egendom,choice3
 Grund rente,baseRent
 1 hus,1house
 2 huse,2house
@@ -40,13 +40,17 @@ Gå i fængsel,goToPrison
  Banken betalte ,bankPaid1
  kr til ,bankPaid2
 Hvad vil du købe?,whatToBuy?
+Hvad vil du sælge?,whatToSell?
 Hvor mange vil du købe? De koster per styk: ,howManyToBuy?
+Hvor mange vil du sælge? Så meget får du pr styk: ,howManyToSell?
 Stop med at købe,stopBuying
+Stop med at sælge,stopSelling
 Vælg en felt farve at købe egendom til,chooseStreetColor
 Huse,houses
 Hoteller,hotels
 Kast terningerne,throwDice
 Vælg,choose
+Du har ikke monopol på nogle farver,noMonopoly
 
 ,,GUIErrors
 Ikke en vej. Den kan ikke ejes!,notAStreet
@@ -63,3 +67,17 @@ Betal indkomstskat.,payIncomeTax
  ønsker du at afgive et bud?,wishToBid
  dit bud? (Nuværende højeste bud er: ,askForBid
  har vundet auktionen,hasWonAuction
+
+,,Board
+Hvor skal det næste hus placeres?, placeHouse
+Du har ikke penge nok, insuficientMoney
+Banken har ikke nok huse, bankOutOfHouses
+Du kan max have 4 huse per grund, MaxAmountOfHouses
+Ukendt fejl ved køb prøv igen, boardUnknowError
+Du skal eje alle grunde i farven for at købe bygninger, missingMonopoly
+Hvor skal det næste hotel placeres?, placeHotel
+Banken har ikke nok hoteller, bankOutOfHotels
+Du skal have 4 huse på alle grunde i farven før du kan bygge hoteller, youNeedMoreHouses
+
+
+
