@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam groupInheritance 2
+
+skinparam linetype polyline
+package Utilities
+{
+  class CSVReader{
+    -FILESCANNER :Scnaner
+    -DELIMITER : String
+    -file : String[][]
+    -size : int
+
+    -readLine(): String[]
+    -fileAsArr(): String[][]
+    -trimArrLength(): String[][]
+    +close(): void
+    +toString(): String
+  }
+  class Language{
+     {static} instance : Language
+     {static} language : CSVReader
+     {static} langInUse: String
+
+     {static} -chooseLanguage(String lang): void
+     {static} +getInstace() : Language
+     {static} +get(String textToRetrieve) : String
+
+
+  }
+}
+
+
+
+@enduml

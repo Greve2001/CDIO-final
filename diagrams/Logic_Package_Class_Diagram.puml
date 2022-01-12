@@ -1,0 +1,84 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam groupInheritance 2
+
+skinparam linetype polyline
+package Logic{
+   class Player{
+    -NAME : String
+    -balance : int
+    -position : int
+    -color : Color
+    -active : boolean
+    -inJail : boolean
+
+    +toString(): String
+
+     }
+     class Die {
+         -faceValue : int
+
+         +roll() : void
+     }
+
+     class DiceCup {
+         -dice : Die[]
+
+         +rollDice() : void
+         +getFaceValues() : int[]
+     }
+     class Bank {
+         -housesAvailable : int
+         -hotelsAvailable : int
+
+
+         +payToBank(Player, amount:int) : void
+         +payToPlayer(Player, amount:int) : void
+         +payPlayer(Player, amount:int) : void
+
+     }
+     class ActionHandler {
+         -BANK : Bank
+         -board : Board
+
+         +squareAction(Player player, Square square): void
+         +streetAction(Player player, Square square): void
+         +breweryAction(Player player, Square square): void
+         +ferryAction(Player player, Square square): void
+         +taxAction(Player player, Square square): void
+         +incomeTaxAction(Player player, Square square): void
+         +goToPrison(Player player): void
+         +cardAction(): void
+
+
+     }
+     class GameController {
+         -START_MONEY : int
+         -doublesRolled :int
+         -hasExtraTurn : boolean
+         -currentPlayer : Player
+         -diceCup :DiceCup
+         -board : Board
+         -players : Player[]
+         -playerLeft : int
+
+         -setupPlayers(String[] playernames)
+         -takeTurn(): void
+         -changeTurn() : void
+         +setupGame() : void
+         +playGame() : void
+
+
+     }
+}
+
+
+Bank -- ActionHandler
+GameController -- DiceCup
+DiceCup -- Die
+GameController -d- Player
+
+
+
+@enduml
