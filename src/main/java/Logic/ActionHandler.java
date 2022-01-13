@@ -4,8 +4,8 @@ import Board.*;
 import Interface.GUIController;
 import SimpleClasses.Player;
 import Utilities.Language;
-import cards.ChanceCard;
-import cards.Deck;
+import Cards.ChanceCard;
+import Cards.Deck;
 
 public class ActionHandler {
     private final Bank BANK = new Bank();

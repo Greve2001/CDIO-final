@@ -1,4 +1,4 @@
-package cards;
+package Cards;
 
 /**
  * The ChanceCard-class is made abstract, since it shouldn't be instantiated.

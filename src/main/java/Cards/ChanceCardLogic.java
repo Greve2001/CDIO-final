@@ -1,4 +1,4 @@
-package cards;
+package Cards;
 
 import Board.Board;
 import Interface.GUIController;
