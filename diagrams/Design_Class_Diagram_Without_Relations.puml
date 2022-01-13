@@ -60,7 +60,7 @@ DiceCup -- Die
 GameController -d- Player
 
 ActionHandler -d- Deck
-GameController *-u- Board
+GameController <-u- Board
 Board *-d- Square
 
 
@@ -69,7 +69,7 @@ ChanceCardLogic -- chanceCard
 
 
 Board -u- CSVReader
-Board *- ActionHandler
+Board <- ActionHandler
 CSVReader -- Language
 
 
