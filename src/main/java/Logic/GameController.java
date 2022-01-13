@@ -175,6 +175,7 @@ public class GameController {
                 board.setPlayerInJail(currentPlayer);
             }
         }
+        // Make board move the player
         board.updatePlayerPosition(currentPlayer, diceSum(faceValues));
     }
 
@@ -187,13 +188,14 @@ public class GameController {
             // Get index of current player
             currentPlayerIndex = java.util.Arrays.asList(players).indexOf(currentPlayer);
 
-            if (currentPlayerIndex >= (players.length-1))
+            if (currentPlayerIndex >= (players.length-1)) // If last in array, set new currentPlayer as index 0
                 currentPlayer = players[0];
             else
-                currentPlayer = players[currentPlayerIndex +1];
+                currentPlayer = players[currentPlayerIndex +1]; // If not add end of array, take next index
 
-            currentPlayerIndex = java.util.Arrays.asList(players).indexOf(currentPlayer); // Set again since we need to check in while-loop.
+            currentPlayerIndex = java.util.Arrays.asList(players).indexOf(currentPlayer); // Set again since we need to check after aswell
             isNotActive = !players[currentPlayerIndex].getActive();
+
         }while (isNotActive);
     }
 
@@ -207,25 +209,20 @@ public class GameController {
         if (currentPlayer.getGetOutJailCards() > 0){
             choices = new String[3];
             choices[2] = Language.get("useEscapeCard"); // Make Dynamic
-        }else{
+        }else
             choices = new String[2];
-        }
+
         choices[0] = Language.get("attemptEscaping");
         choices[1] = Language.get("payFee");
-
         String answer = GUIController.givePlayerChoice(msg, choices);
 
         boolean forcedToMove = false, haveToPay = false, usedChanceCard = false;
         boolean result = true;
 
-        String case1 = Language.get("attemptEscaping");
-        String case2 = Language.get("payFee");
-        String case3 = Language.get("useEscapeCard");
 
-        // Need to be if-else because of Language
-        if (answer.equals(case1)){ // Attempt escape
-
-            forcedToMove = true;//if player escape, they are forced to move what ever they rolled
+        //OBS! Need to be if-else because of Language OBS!
+        if (answer.equals(choices[0])){ // Attempt escape
+            forcedToMove = true;//if player escape, they are forced to move whatever they rolled
 
             // Throw Dice
             diceCup.rollDice();
@@ -238,6 +235,7 @@ public class GameController {
                 currentPlayer.addJailEscapeAttempt();
                 GUIController.showMessage(Language.get("didNotEscape"));
 
+                // If thirds try is a fail.
                 if (currentPlayer.getJailEscapeAttempts() >= 3) {
                     haveToPay = true;
                     result = true;
@@ -245,9 +243,9 @@ public class GameController {
                 }
             }
 
-        }else if (answer.equals(case2)){ // Pay fee
+        }else if (answer.equals(choices[1])){ // Pay fee
             haveToPay = true;
-        }else if (answer.equals(case3)){ // Use free of jail card
+        }else if (answer.equals(choices[2])){ // Use free of jail card
             usedChanceCard = true;
         }else{
             System.out.println("Not know answer: " + answer);
@@ -266,17 +264,18 @@ public class GameController {
 
         for (Player player : players){
             if (player.getBalance() <= 0 || !player.getActive()){
-                player.setActive(false);
-                player.setHasExtraTurn(false);
-                player.setHasExtraTurn(false);
+                player.setActive(false); // Make Inactive
+                player.setHasExtraTurn(false); // Ensure that they dont have extra turn.
                 playersLeft--;
             }
         }
     }
 
 
+    // Finds the player with the highest balance
     private void findWinner(){
         Player winner = players[0]; // Somewhere to start
+
         for (Player player : players){
             if (player.getBalance() > winner.getBalance()){
                 winner = player;
