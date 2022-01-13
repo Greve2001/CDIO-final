@@ -250,6 +250,24 @@ public class ActionHandler {
 
     }
 
+    private void moveToNearest(Player player, String type) {
+        int position = player.getPosition();
+        Square[] squares = BOARD.getALL_SQUARES();
+
+        boolean notFound = true;
+        while (notFound) {
+            if (squares.length <= position + 1)
+                position = 0;
+
+            String squareType = squares[++position].getClass().getSimpleName();
+
+            if (type.equals(squareType)) {
+                notFound = false;
+            }
+        }
+
+        BOARD.setPlayerPosition(player, position, false);
+    }
 
     public void boardPaymentsToBank(Player player, int amount) {
         if (amount < 0)

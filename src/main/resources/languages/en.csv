@@ -43,8 +43,8 @@ What do you want to buy?,whatToBuy?
 What do you want to sell?,whatToSell?
 How many do you want to buy? They cost: ,howManyToBuy?
 How many do you want to sell? You get: ,howManyToSell?
-Stop buying,stopBuying
-Stop selling,stopSelling
+Stop,stop
+Cancel,cancel
 Choose a street color you want to buy property for,chooseStreetColor
 Houses,houses
 Hotels,hotels
