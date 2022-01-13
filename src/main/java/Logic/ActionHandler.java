@@ -64,15 +64,8 @@ public class ActionHandler {
         if (square.getOwner() == null) { // Ask to buy
             buySquare(player, square, "buyBrewery");
         } else { // Pay the rent
-            boolean payDouble = BOARD.amountOwnedWithinTheColor(square.getPOSITION()) == 2;
-
             // Doubles the amount of rent if the player owns all breweries.
-            int amountToPay;
-            if (!payDouble) {
-                amountToPay = diceSum * square.getRent()[0];
-            } else {
-                amountToPay = diceSum * square.getRent()[1];
-            }
+            int amountToPay = BOARD.getCurrentCost(square.getPOSITION()) * diceSum;
 
             payRent(player, square, amountToPay);
         }
