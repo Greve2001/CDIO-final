@@ -22,31 +22,16 @@ public class ActionHandler {
 
     public void squareAction(Player player, Square square, int diceSum) {
         switch (square.getClass().getSimpleName()) {
-            case "Street":
-                streetAction(player, square);
-                break;
-            case "Brewery":
-                breweryAction(player, square, diceSum);
-                break;
-            case "Ferry":
-                ferryAction(player, square);
-                break;
-            case "Tax":
-                taxAction(player, square);
-                break;
-            case "IncomeTax":
-                incomeTaxAction(player, square);
-                break;
-            case "Chance":
-                cardAction(player);
-                break;
-            case "GoToPrison":
-                goToPrison(player);
-                break;
-            default:
-
-                // TODO Implement default case
-                break;
+            case "Street" -> streetAction(player, square);
+            case "Brewery" -> breweryAction(player, square, diceSum);
+            case "Ferry" -> ferryAction(player, square);
+            case "Tax" -> taxAction(player, square);
+            case "IncomeTax" -> incomeTaxAction(player, square);
+            case "Chance" -> cardAction(player);
+            case "GoToPrison" -> goToPrison(player);
+            default -> {
+            }
+            // TODO Implement default case
         }
     }
 
