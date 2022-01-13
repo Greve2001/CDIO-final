@@ -66,20 +66,28 @@ public class GameController {
 
                 // Give player choice; Throw, Buy, sell
                 String actionMsg = currentPlayer.getName() + ": " + Language.get("askAction");
+                String[] actionChoices;
+                String actionAnswer;
                 String action1 = Language.get("choice1"); // Throw Dice
-                String action2 = Language.get("choice2"); // Buy properties
-                String action3 = Language.get("choice3"); // Sell properties
-                String[] actionChoices = new String[]{action1, action2, action3};
-                String actionAnswer = GUIController.givePlayerChoice(actionMsg, actionChoices);
-                
 
-                // OBS! Can not use swithc because of the implementation of Language  OBS!
-                // Do actions depending on answer.
-                if (actionAnswer.equals(action2)) // Buy
-                    manageProperty("buy");
-                else if (actionAnswer.equals(action3)) // Sell
-                    manageProperty("sell");
+                // If the player does not have monoply. No other choice than taking turn.
+                if (board.allMonopolyColorsByPlayer(currentPlayer).length > 0){
+                    String action2 = Language.get("choice2"); // Buy properties
+                    String action3 = Language.get("choice3"); // Sell properties
+                    actionChoices = new String[]{action1, action2, action3};
+                    actionAnswer = GUIController.givePlayerChoice(actionMsg, actionChoices);
 
+                    // OBS! Can not use switch because of the implementation of Language  OBS!
+                    // Do action depending on answer.
+                    if (actionAnswer.equals(action2)) // Buy
+                        manageProperty("buy");
+                    else if (actionAnswer.equals(action3)) // Sell
+                        manageProperty("sell");
+
+                }else { // Only give prompt to throw dice
+                    actionChoices = new String[]{action1};
+                    actionAnswer = GUIController.givePlayerChoice(actionMsg, actionChoices);
+                }
 
                 // Always take turn after other actions.
                 if (actionAnswer.equals(action1)) // Dont asker for another prompt if this is the first choice
@@ -97,7 +105,7 @@ public class GameController {
                 currentPlayer.setHasExtraTurn(false); // Make sure that extra turn is reset
                 checkForBust(); // See if any player has gone bust.
 
-            }while (playersLeft != 1);
+            }while (!(playersLeft <= 1));
             // Game is stopped. Find the winner
             findWinner();
         }
