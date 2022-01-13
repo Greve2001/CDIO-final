@@ -2,15 +2,7 @@ package cards;
 
 public class ReceiveMoneyFromPlayersCard extends ChanceCard{
 
-    protected int amount;
-
     public ReceiveMoneyFromPlayersCard(String description, int amount){
-        super(description);
-        this.amount = amount;
-    }
-
-    @Override
-    public int updateBalancePositive(){
-        return amount;
+        super(ChanceCardType.RECEIVE_MONEY_FROM_PLAYERS_CARD, description, amount);
     }
 }

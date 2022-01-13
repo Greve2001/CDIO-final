@@ -1,7 +1,10 @@
 package cards;
 
+import Utilities.Language;
+
 public class Deck {
 
+    final static int DECK_SIZE = 41;
     private ChanceCard[] chanceCardDeck;
     private int drawCardCount = 0;
 
@@ -9,50 +12,62 @@ public class Deck {
     /**
      * Constructor for the Matador-game.
      * Initializes the Chance Cards used in the game.
+     * Then calls the shuffleCards-method.
      */
-
-    // Three types of chanceCard so far. Rest OTW.
-
     public Deck() {
-        this.chanceCardDeck = new ChanceCard[28];
+        this.chanceCardDeck = new ChanceCard[DECK_SIZE];
 
-        chanceCardDeck[0] = new PayMoneyCard("De har kørt frem for \"fuldt stop.\" Betal 1000 kr. i bøde.", 1000);
-        chanceCardDeck[1] = new PayMoneyCard("Betal for vognvask og smøring, kr. 300.", 300);
-        chanceCardDeck[2] = new PayMoneyCard("Betal kr. 200 for levering af to kasser øl.", 200);
-        chanceCardDeck[3] = new PayMoneyCard("Betal 3000 for reperation af deres vogn.", 3000);
-        chanceCardDeck[4] = new PayMoneyCard("Betal 3000 for reperation af deres vogn.", 3000);
-        chanceCardDeck[5] = new PayMoneyCard("De har købt 4 nye dæk til deres vogn. Betal kr. 1000.", 1000);
-        chanceCardDeck[6] = new PayMoneyCard("De har fået en parkeringsbøde. Betal kr. 200 i bøde.", 200);
-        chanceCardDeck[7] = new PayMoneyCard("Betal deres bilforsikring, kr. 1000.", 1000);
-        chanceCardDeck[8] = new PayMoneyCard("De har været udenlands og har købt for mange smøger med hjem. Betal kr. 200 i told.", 200);
-        chanceCardDeck[9] = new PayMoneyCard("Tandlægeregning, betal kr. 2000.", 2000);
+        chanceCardDeck[0] = new PayMoneyToBankCard(Language.get("ccFuldtStop"), 1000);
+        chanceCardDeck[1] = new PayMoneyToBankCard(Language.get("ccVognvaskOgSmøring"), 300);
+        chanceCardDeck[2] = new PayMoneyToBankCard(Language.get("ccLeveringAfToKasserØl"), 200);
+        chanceCardDeck[3] = new PayMoneyToBankCard(Language.get("ccReparationAfVogn"), 3000);
+        chanceCardDeck[4] = new PayMoneyToBankCard(Language.get("ccReparationAfVogn"), 3000);
+        chanceCardDeck[5] = new PayMoneyToBankCard(Language.get("ccNyeDæk"), 1000);
+        chanceCardDeck[6] = new PayMoneyToBankCard(Language.get("ccParkeringsbøde"), 200);
+        chanceCardDeck[7] = new PayMoneyToBankCard(Language.get("ccBilforsikring"), 1000);
+        chanceCardDeck[8] = new PayMoneyToBankCard(Language.get("ccTold"), 200);
+        chanceCardDeck[9] = new PayMoneyToBankCard(Language.get("ccTandlægeregning"), 2000);
 
-        chanceCardDeck[10] = new ReceiveMoneyCard("De har vundet i klasselotteriet. Modtag 500 kr.", 500);
-        chanceCardDeck[11] = new ReceiveMoneyCard("De har vundet i klasselotteriet. Modtag 500 kr.", 500);
-        chanceCardDeck[12] = new ReceiveMoneyCard("De modtager deres aktieudbytte. Modtag kr. 1000 af banken", 1000);
-        chanceCardDeck[13] = new ReceiveMoneyCard("De modtager deres aktieudbytte. Modtag kr. 1000 af banken", 1000);
-        chanceCardDeck[14] = new ReceiveMoneyCard("De modtager deres aktieudbytte. Modtag kr. 1000 af banken", 1000);
-        chanceCardDeck[15] = new ReceiveMoneyCard("Kommunen har eftergivet et kvartals skat. Hæv i banken kr. 3000.", 3000 );
-        chanceCardDeck[16] = new ReceiveMoneyCard("De havde en række med elleve rigtige i tipning. Modtag kr. 1000.", 1000);
-        chanceCardDeck[17] = new ReceiveMoneyCard("Grundet dyrtiden har De fået gageforhøjelse, modtag kr. 1000.", 1000);
-        chanceCardDeck[18] = new ReceiveMoneyCard("Deres præmieobligation er udtrukket. De modtager kr. 1000 af banken.", 1000);
-        chanceCardDeck[19] = new ReceiveMoneyCard("Deres præmieobligation er udtrukket. De modtager kr. 1000 af banken.", 1000);
-        chanceCardDeck[20] = new ReceiveMoneyCard("De har solgt nogle gamle møbler på auktion. Modtag kr. 1000 af banken.", 1000);
-        chanceCardDeck[21] = new ReceiveMoneyCard("Værdien af egen avl fra nyttehaven udgør kr. 200 som de modtager af banken.", 200);
+        chanceCardDeck[10] = new ReceiveMoneyFromBankCard(Language.get("ccVundetIKlasselotteriet"), 500);
+        chanceCardDeck[11] = new ReceiveMoneyFromBankCard(Language.get("ccVundetIKlasselotteriet"), 500);
+        chanceCardDeck[12] = new ReceiveMoneyFromBankCard(Language.get("ccModtagAktieudbytte"), 1000);
+        chanceCardDeck[13] = new ReceiveMoneyFromBankCard(Language.get("ccModtagAktieudbytte"), 1000);
+        chanceCardDeck[14] = new ReceiveMoneyFromBankCard(Language.get("ccModtagAktieudbytte"), 1000);
+        chanceCardDeck[15] = new ReceiveMoneyFromBankCard(Language.get("ccEftergivetSkat"), 3000 );
+        chanceCardDeck[16] = new ReceiveMoneyFromBankCard(Language.get("cc11RigtigeITipning"), 1000);
+        chanceCardDeck[17] = new ReceiveMoneyFromBankCard(Language.get("ccGageforhøjelse"), 1000);
+        chanceCardDeck[18] = new ReceiveMoneyFromBankCard(Language.get("ccPræmieobligationUdtrukket"), 1000);
+        chanceCardDeck[19] = new ReceiveMoneyFromBankCard(Language.get("ccPræmieobligationUdtrukket"), 1000);
+        chanceCardDeck[20] = new ReceiveMoneyFromBankCard(Language.get("ccSalgPåAuktion"), 1000);
+        chanceCardDeck[21] = new ReceiveMoneyFromBankCard(Language.get("ccVærdiAfAvlFraNyttehaven"), 200);
 
-        chanceCardDeck[22] = new MoveFieldsCard("Ryk tre felter frem.", 3);
-        chanceCardDeck[23] = new MoveFieldsCard("Ryk tre felter tilbage", -3);
-        chanceCardDeck[24] = new MoveFieldsCard("Ryk tre felter tilbage", -3);
+        chanceCardDeck[22] = new MoveNrOfFieldsCard(Language.get("ccRykTreFelterFrem"), 3);
+        chanceCardDeck[23] = new MoveNrOfFieldsCard(Language.get("ccRykTreFelterTilbage"), -3);
+        chanceCardDeck[24] = new MoveNrOfFieldsCard(Language.get("ccRykTreFelterTilbage"), -3);
 
-        chanceCardDeck[25] = new ReceiveMoneyFromPlayersCard("Det er deres fødselsdag, modtag af hver medspiller kr. 200", 200);
-        chanceCardDeck[26] = new ReceiveMoneyFromPlayersCard("De har lagt ud til et sammenskudsgilde. Mærkværdigvis betaler alle straks. Modtag fra hver medspiller kr. 500", 500);
-        chanceCardDeck[27] = new ReceiveMoneyFromPlayersCard("De skal holde familiefest og får et tilskud fra hver medspiller på 500 kroner.", 500);
+        chanceCardDeck[25] = new ReceiveMoneyFromPlayersCard(Language.get("ccFødselsdag"), 200);
+        chanceCardDeck[26] = new ReceiveMoneyFromPlayersCard(Language.get("ccSammenskudsgilde"), 500);
+        chanceCardDeck[27] = new ReceiveMoneyFromPlayersCard(Language.get("ccFamiliefest"), 500);
 
+        chanceCardDeck[28] = new MoveToSpecificFieldCard(Language.get("ccRykFremTilStart"), 0);
+        chanceCardDeck[29] = new MoveToSpecificFieldCard(Language.get("ccRykFremTilStart"), 0);
+        chanceCardDeck[30] = new MoveToSpecificFieldCard(Language.get("ccRykFremTilFrederiksbergAllé"), 11);
+        chanceCardDeck[31] = new MoveToSpecificFieldCard(Language.get("ccTagMedMolsLinjen"), 15);
+        chanceCardDeck[32] = new MoveToSpecificFieldCard(Language.get("ccRykFremTilGrønningen"), 24);
+        chanceCardDeck[33] = new MoveToSpecificFieldCard(Language.get("ccRykFremTilVimmelskaftet"), 32);
+        chanceCardDeck[34] = new MoveToSpecificFieldCard(Language.get("ccRykFremTilStrandvejen"), 19);
+        chanceCardDeck[35] = new MoveToSpecificFieldCard(Language.get("ccTagIndTilRådhuspladsen"), 39);
+        chanceCardDeck[36] = new MoveToSpecificFieldCard(Language.get("ccGåIFængsel"), 10);
+        chanceCardDeck[37] = new MoveToSpecificFieldCard(Language.get("ccGåIFængsel"), 10);
 
+        chanceCardDeck[38] = new MatadorGrantCard(Language.get("ccMatadorLegat"), 40000);
 
+        chanceCardDeck[39] = new GetOutOfJailCard(Language.get("ccBenådningforFængsel"));
+        chanceCardDeck[40] = new GetOutOfJailCard(Language.get("ccBenådningforFængsel"));
 
         shuffleCards();
     }
+
 
     /**
      * One-argument constructor, that initializes the deck with the input array.
