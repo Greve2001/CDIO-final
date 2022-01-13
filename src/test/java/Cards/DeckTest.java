@@ -8,7 +8,7 @@ public class DeckTest {
 
     @Test
     public void pullCardShouldReturnAChanceCardFromTheDeck(){
-        ChanceCard testCard = new MoveFieldsCard("", 0);
+        ChanceCard testCard = new MoveNrOfFieldsCard("", 0);
         Deck testDeck = new Deck(new ChanceCard[]{testCard});
 
         ChanceCard result = testDeck.pullCard();
@@ -19,9 +19,9 @@ public class DeckTest {
 
     @Test
     public void pullCardShouldReturnAChanceCardFromTheTopOfTheDeck(){
-        ChanceCard testCard0 = new MoveFieldsCard("",0);
-        ChanceCard testCard1 = new PayMoneyCard("",0);
-        ChanceCard testCard2 = new ReceiveMoneyCard("",0);
+        ChanceCard testCard0 = new MoveNrOfFieldsCard("",0);
+        ChanceCard testCard1 = new PayMoneyToBankCard("",0);
+        ChanceCard testCard2 = new ReceiveMoneyFromBankCard("",0);
 
         Deck testDeck = new Deck(new ChanceCard[]{testCard0, testCard1, testCard2});
 
@@ -33,9 +33,9 @@ public class DeckTest {
 
     @Test
     public void pullCardShouldReturnChanceCardWithIndexCorrespondingToDrawCardCount(){
-        ChanceCard testCard1 = new ReceiveMoneyCard("", 0);
-        ChanceCard testCard2 = new ReceiveMoneyCard("", 0);
-        ChanceCard testCard3 = new ReceiveMoneyCard("", 0);
+        ChanceCard testCard1 = new ReceiveMoneyFromBankCard("", 0);
+        ChanceCard testCard2 = new ReceiveMoneyFromBankCard("", 0);
+        ChanceCard testCard3 = new ReceiveMoneyFromBankCard("", 0);
 
 
         Deck testDeck = new Deck(new ChanceCard[]{testCard1, testCard2, testCard3});
@@ -51,9 +51,9 @@ public class DeckTest {
 
     @Test
     public void pullCardShouldReturnChanceCardFromTheTopOfTheDeckWhenTheLastCardInTheDeckHasBeenDrawn(){
-        ChanceCard testCard1 = new MoveFieldsCard("", 0);
-        ChanceCard testCard2 = new MoveFieldsCard("", 0);
-        ChanceCard testCard3 = new MoveFieldsCard("", 0);
+        ChanceCard testCard1 = new MoveNrOfFieldsCard("", 0);
+        ChanceCard testCard2 = new MoveNrOfFieldsCard("", 0);
+        ChanceCard testCard3 = new MoveNrOfFieldsCard("", 0);
 
         Deck testDeck = new Deck(new ChanceCard[]{testCard1, testCard2, testCard3});
 
@@ -66,14 +66,13 @@ public class DeckTest {
     }
 
     @Test
-
     public void shuffleCardsShouldReturnChanceCardsInDifferentOrderThanBeforeShuffle(){
-        ChanceCard testCard1 = new MoveFieldsCard("", 1);
-        ChanceCard testCard2 = new MoveFieldsCard("", 2);
-        ChanceCard testCard3 = new PayMoneyCard("", 3);
-        ChanceCard testCard4 = new PayMoneyCard("", 4);
-        ChanceCard testCard5 = new ReceiveMoneyCard("", 5);
-        ChanceCard testCard6 = new ReceiveMoneyCard("", 6);
+        ChanceCard testCard1 = new MoveNrOfFieldsCard("", 1);
+        ChanceCard testCard2 = new MoveNrOfFieldsCard("", 2);
+        ChanceCard testCard3 = new PayMoneyToBankCard("", 3);
+        ChanceCard testCard4 = new PayMoneyToBankCard("", 4);
+        ChanceCard testCard5 = new ReceiveMoneyFromBankCard("", 5);
+        ChanceCard testCard6 = new ReceiveMoneyFromBankCard("", 6);
 
         ChanceCard[] deckBeforeShuffle = new ChanceCard[]{testCard1, testCard2, testCard3, testCard4, testCard5, testCard6};
 
@@ -93,10 +92,6 @@ public class DeckTest {
         assertThat(deckAfterShuffle).isNotNull();
         assertThat(deckAfterShuffle).containsExactlyInAnyOrder(deckBeforeShuffle);
         assertThat(deckAfterShuffle).isNotEqualTo(deckBeforeShuffle);
-
     }
-
-
-
 
 }

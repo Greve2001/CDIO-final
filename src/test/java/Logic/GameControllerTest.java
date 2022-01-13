@@ -22,7 +22,7 @@ public class GameControllerTest {
     GameController gameController;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         gameController = new GameController();
         Language.getInstance();
         GUIController.setTesting(true);
@@ -230,6 +230,33 @@ public class GameControllerTest {
 
         assertTrue(players[0].isInJail());
         assertEquals(10, players[0].getPosition());
+    }
+
+    @Test
+    void TestInactivePlayersWontGetATurn() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, NoSuchFieldException {
+        // Setup
+        gameController.setupGame();
+        Player[] players = gameController.getPlayers();
+
+        Method takeTurn = gameController.getClass().getDeclaredMethod("takeTurn");
+        takeTurn.setAccessible(true);
+        Method changeTurn = gameController.getClass().getDeclaredMethod("changeTurn");
+        changeTurn.setAccessible(true);
+
+
+        // Action
+        players[1].setActive(false);
+
+        takeTurn.invoke(gameController, null);
+        changeTurn.invoke(gameController, null);
+
+        takeTurn.invoke(gameController, null);
+        changeTurn.invoke(gameController, null);
+
+        // Assert
+        assertNotEquals(0, players[0].getPosition());
+        assertEquals(0, players[1].getPosition());
+        assertNotEquals(0, players[2].getPosition());
     }
 
 

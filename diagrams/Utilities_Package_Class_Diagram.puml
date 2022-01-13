@@ -11,6 +11,7 @@ package Utilities
     -DELIMITER : String
     -file : String[][]
     -size : int
+    -columnHeaders : String[]
 
     -readLine(): String[]
     -fileAsArr(): String[][]

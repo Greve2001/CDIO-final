@@ -5,29 +5,7 @@ skinparam groupInheritance 2
 
 skinparam linetype polyline
 package Logic{
-   class Player{
-    -NAME : String
-    -balance : int
-    -position : int
-    -color : Color
-    -active : boolean
-    -inJail : boolean
 
-    +toString(): String
-
-     }
-     class Die {
-         -faceValue : int
-
-         +roll() : void
-     }
-
-     class DiceCup {
-         -dice : Die[]
-
-         +rollDice() : void
-         +getFaceValues() : int[]
-     }
      class Bank {
          -housesAvailable : int
          -hotelsAvailable : int
@@ -36,36 +14,63 @@ package Logic{
          +payToBank(Player, amount:int) : void
          +playersPayToPlayer(Player, amount:int) : void
          +bankpayPlayer(Player, amount:int) : void
+         +buyHouses(Player player, int nr, int price): void
+         +buyHotels(Player player, int nr, int price): void
 
      }
      class ActionHandler {
          -BANK : Bank
          -board : Board
+         -players : Player[]
+         -deck : Deck
+         -activeBidders : int
 
-         +squareAction(Player player, Square square): void
-         +streetAction(Player player, Square square): void
-         +breweryAction(Player player, Square square): void
-         +ferryAction(Player player, Square square): void
-         +taxAction(Player player, Square square): void
-         +incomeTaxAction(Player player, Square square): void
-         +goToPrison(Player player): void
-         +cardAction(): void
+
+         -streetAction(Player player, Square square): void
+         -breweryAction(Player player, Square square, int diceSum): void
+         -ferryAction(Player player, Square square): void
+         -buySquare(Player player, Square square, String msg): void
+         -holdAuction(Player player, Square square): void
+         -declareAuctionWinner(boolean[] participants, Square square, int highestBid): void
+         -biddingRound(boolean[] participants, int highestBid, int biddingPlayer): int
+         -payRent(Player player, Square square, int amount): void
+         -taxAction(Player player, Square square): void
+         -incomeTaxAction(Player player, Square square): void
+         -roundToNearest50(int valueToRound): int
+         -goToPrison(Player player): void
+         -cardAction(Player player): void
+         -handleMoveFields(ChanceCard card, Player player): void
+         -handleReceiveMoneyFromBank(ChanceCard card, Player player): void
+         -handlePayMoney(ChanceCard card, Player player): void
+         -handleReceiveMoneyFromPlayers(ChanceCard card, Player player, Player... players): void
+         -moveToNearest(Player player, string type): void
+         +squareAction(Player player, Square square, int diceSum): void
+         +boardPaymentsToBank(Player player, int amount): void
+
+
+
 
 
      }
      class GameController {
          -START_MONEY : int
          -doublesRolled :int
-         -hasExtraTurn : boolean
+         -MINPLAYERS : int
+         -MAXPLAYERS : int
          -currentPlayer : Player
          -diceCup :DiceCup
          -board : Board
          -players : Player[]
          -playerLeft : int
 
-         -setupPlayers(String[] playernames)
+
          -takeTurn(): void
          -changeTurn() : void
+         -manageProperty(String action): void
+         -jailAttempt(): boolean
+         -checkForBust(): void
+         -fintWinner(): void
+         +setupPlayers(String[] playernames)
          +setupGame() : void
          +playGame() : void
 
@@ -75,11 +80,8 @@ package Logic{
 
 
 ActionHandler  "1 " --> "1 " Bank: Has \t
-GameController "1 " *-- "1  " DiceCup: Uses
-DiceCup "1 " *-u- "2 " Die: Contains \t
-GameController "1  " -d-> "3..6" Player: Plays
-Board --> ActionHandler
-GameController --> Board
+Board <--> ActionHandler
+GameController <-- Board
 
 
 

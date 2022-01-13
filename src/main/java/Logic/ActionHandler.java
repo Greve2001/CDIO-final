@@ -208,46 +208,64 @@ public class ActionHandler {
         GUIController.showCenterMessage(card.getDescription());
         GUIController.getPlayerAction(player.getName(), Language.get("hitChance"));
 
-        handleMoveFields(card, player);
-        handleReceiveMoneyFromBank(card, player);
-        handlePayMoney(card, player);
-        handleReceiveMoneyFromPlayers(card, player, players);
+        switch (card.getType()) {
+            case PAY_MONEY_TO_BANK_CARD -> handlePayMoneyToBank(card, player);
+            case RECEIVE_MONEY_FROM_BANK_CARD -> handleReceiveMoneyFromBank(card, player);
+            case MOVE_NR_OF_FIELDS_CARD -> handleMoveNrOfFields(card, player);
+            case RECEIVE_MONEY_FROM_PLAYERS_CARD -> handleReceiveMoneyFromPlayers(card, player, players);
+            case MOVE_TO_SPECIFIC_FIELD_CARD -> handleMoveToSpecificField(card, player);
+            case MATADOR_GRANT_CARD -> handleMatadorGrantCard(card, player);
+            case GET_OUT_OF_JAIL_CARD -> handleGetOutOfJailCard(player);
+        }
+
+    }
+
+    // The player PAYS money TO the bank.
+    private void handlePayMoneyToBank(ChanceCard card, Player player) {
+        int amount = card.getValue();
+
+        BANK.payToBank(player, amount);
+    }
+
+    // The player RECEIVES money FROM the bank.
+    private void handleReceiveMoneyFromBank(ChanceCard card, Player player) {
+        int amount = card.getValue();
+
+        BANK.bankPayToPlayer(player, amount);
     }
 
     // This method calls the updatePlayerPosition in Board, with the int fieldsToMove, provided by the drawn ChanceCard.
     // fieldsToMove can be either positive or negative.
-    private void handleMoveFields(ChanceCard card, Player player){
-        int fieldsToMove = card.moveNumOfFields();
-        if(fieldsToMove != 0) {
-            BOARD.updatePlayerPosition(player, fieldsToMove);
+    private void handleMoveNrOfFields(ChanceCard card, Player player) {
+        int fieldsToMove = card.getValue();
+
+        BOARD.updatePlayerPosition(player, fieldsToMove);
+    }
+
+    // The rest of the players PAY money TO the player who drew the ChanceCard
+    private void handleReceiveMoneyFromPlayers(ChanceCard card, Player player, Player... players) {
+        int amount = card.getValue();
+
+        BANK.playersPayToPlayer(player, amount, players);
+    }
+
+    private void handleMoveToSpecificField(ChanceCard card, Player player) {
+        int fieldNr = card.getValue();
+
+        BOARD.setPlayerPosition(player, fieldNr, false);
+    }
+
+    private void handleMatadorGrantCard(ChanceCard card, Player player) {
+        int grant = card.getValue();
+        int playerPossessions = BOARD.playerTotalValue(player);
+
+        if (playerPossessions <= 15000) {
+            BANK.bankPayToPlayer(player, grant);
         }
     }
 
-    // This method updates the playerBalance.
-    // The player RECEIVES money FROM the bank.
-    private void handleReceiveMoneyFromBank(ChanceCard card, Player player){
-        int amount = card.updateBalancePositive();
-        if (amount != 0) {
-            BANK.bankPayToPlayer(player, amount);
-        }
-    }
-
-    // This method updates the playerBalance.
-    // The player PAYS money TO the bank.
-    private void handlePayMoney(ChanceCard card, Player player){
-        int amount = card.updateBalanceNegative();
-        if (amount != 0) {
-            BANK.payToBank(player, amount);
-        }
-    }
-    // This method updates the playerBalance
-    // The rest of the players PAYS money TO the player who drew the ChanceCard
-    private void handleReceiveMoneyFromPlayers(ChanceCard card, Player player, Player ... players){
-        int amount = card.updateBalancePositive();
-        if (amount !=0) {
-            BANK.playersPayToPlayer(player, amount, players);
-        }
-
+    private void handleGetOutOfJailCard(Player player) {
+        player.giveOneGetOutOfJailCard();
     }
 
     private void moveToNearest(Player player, String type) {

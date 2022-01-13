@@ -8,13 +8,11 @@ package Interface{
 class GUIController{
       {static} -testing : boolean
       {static} -gui : GUI
-      {static} -colorToChooseFrom : Color[]
-      {static} -playerNames : String[]
-      {static} -guiPlayers : GUI_Player
-      {static} -playerPositions : int[]
-      {static} -GUIFields : GUI_Field[]
       {static} -fields : Square[]
-      {static} -gameBoard : Board
+      {static} -GUIFields : GUI_Field[]
+      {static} -playersNames : String[]
+      {static} -guiPlayers : GUI_Plaers[]
+      {static} -colorToChooseFrom : Color[]
       {static} -moveTime : int
 
       {static} +createBoard(Square[] inputSquares): GUI_FIELD
@@ -25,9 +23,11 @@ class GUIController{
       {static} +setHotel(int position, boolean bool): void
       {static} +setOwner(Player player, int position): void
       {static} +updateRent(int position): void
-      {static} +posToStreet(int position): GUI_Street
       {static} +givePlayerChoice(String msg, String[] choices): String
       {static} +askPlayerAccept(String msg): boolean
+      {static} +showCenterMessage(String msg): void
+      {static} +showMessage(String msg): void
+      {static} +posToStreet(int position): GUI_Street
       {static} +convertColor(String colorStr): Color
 }
 

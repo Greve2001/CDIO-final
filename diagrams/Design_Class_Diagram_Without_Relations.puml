@@ -17,19 +17,9 @@ package Cards
    }
    class Deck{
    }
-   class ChanceCardLogic{
-   }
-
 }
 
 package Logic{
-     class Player{
-     }
-     class Die {
-     }
-
-     class DiceCup {
-     }
      class Bank {
      }
      class ActionHandler {
@@ -50,25 +40,37 @@ package Utilities
   class Language{
   }
 }
+package SimpleClasses{
+class Player{
+     }
+     class Die {
+     }
+
+     class DiceCup {
+     }
+
+
+}
 
 
 
 GameController -u- GUIController
-Bank -u- ActionHandler
-GameController -- DiceCup
-DiceCup -- Die
-GameController -d- Player
+Bank -u-> ActionHandler
+GameController <-u- DiceCup
+DiceCup *-- Die
+GameController <-u- Player
 
-ActionHandler -d- Deck
+ActionHandler <-d- Deck
 GameController <-u- Board
 Board *-d- Square
 
 
-Deck -- ChanceCardLogic
-ChanceCardLogic -- chanceCard
 
 
-Board <-u- CSVReader
+Deck *-- chanceCard
+
+
+Board <-d- CSVReader
 Board <- ActionHandler
 CSVReader -- Language
 
