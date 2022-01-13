@@ -1,4 +1,4 @@
-package Utilities;
+package Cards;
 
 import cards.*;
 import org.junit.jupiter.api.Test;
