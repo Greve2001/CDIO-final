@@ -117,7 +117,7 @@ public class Board {
         reader.close();
     }
 
-    /**
+    /*
      * Methods used regarding player taking there turn
      */
 
@@ -200,9 +200,9 @@ public class Board {
         //TODO return card logic
     }
 
-    /**
-     * Methods used by the ActionHandler to determinate how much a person have to pay for a Square.
-     * some may also be used by the GUI for display
+    /*
+      Methods used by the ActionHandler to determinate how much a person have to pay for a Square.
+      some may also be used by the GUI for display
      */
 
     /**
@@ -268,7 +268,7 @@ public class Board {
     }
 
 
-    /**
+    /*
      * All methods regarding buying and selling buildings
      */
 
@@ -513,7 +513,7 @@ public class Board {
     }
 
 
-    /**
+    /*
      * used by GameController to handle selling property or going bankrupt
      */
 
@@ -556,7 +556,7 @@ public class Board {
     }
 
 
-    /**
+    /*
      * these methods ensure that any relevant data is sent between the classes that needs them
      */
 
@@ -573,7 +573,7 @@ public class Board {
     }
 
 
-    /**
+    /*
      * this methods are the private method that board uses multiple places
      */
 
