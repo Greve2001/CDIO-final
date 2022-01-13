@@ -2,10 +2,9 @@ package Board;
 
 import Interface.GUIController;
 import Logic.ActionHandler;
-import Logic.Player;
+import SimpleClasses.Player;
 import Utilities.CSVReader;
 import Utilities.Language;
-import gui_main.GUI;
 import org.jetbrains.annotations.NotNull;
 
 public class Board {

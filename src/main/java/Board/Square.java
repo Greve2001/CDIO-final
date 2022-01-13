@@ -1,6 +1,6 @@
 package Board;
 
-import Logic.Player;
+import SimpleClasses.Player;
 
 public abstract class Square {
     private final String NAME;

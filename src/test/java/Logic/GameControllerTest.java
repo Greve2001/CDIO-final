@@ -1,6 +1,5 @@
 package Logic;
-import Board.Board;
-import Interface.GUIController;
+import SimpleClasses.Player;
 import gui_fields.GUI_Car;
 import gui_fields.GUI_Player;
 import gui_main.GUI;

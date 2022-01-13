@@ -1,13 +1,8 @@
 package Board;
 
-import Interface.GUIController;
-import Utilities.Language;
-import gui_main.GUI;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import Logic.Player;
-import javax.swing.*;
-import java.util.Locale;
+import SimpleClasses.Player;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardCSVTest {

@@ -2,11 +2,9 @@ package Logic;
 
 import Board.Board;
 import Interface.GUIController;
+import SimpleClasses.DiceCup;
+import SimpleClasses.Player;
 import Utilities.Language;
-import gui_main.GUI;
-import org.apache.commons.codec.language.bm.Lang;
-
-import java.util.Scanner;
 
 public class GameController {
 
