@@ -80,7 +80,7 @@ package Logic{
 
 
 ActionHandler  "1 " --> "1 " Bank: Has \t
-Board <-- ActionHandler
+Board <--> ActionHandler
 GameController <-- Board
 
 
