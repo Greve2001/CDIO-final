@@ -2,6 +2,7 @@ package Logic;
 
 import Board.*;
 import Interface.GUIController;
+import SimpleClasses.Player;
 import Utilities.Language;
 import cards.ChanceCard;
 import cards.Deck;

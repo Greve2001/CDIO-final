@@ -2,10 +2,10 @@ package Board;
 
 import Interface.GUIController;
 import Logic.ActionHandler;
-import Logic.Player;
+import SimpleClasses.Player;
 import Utilities.CSVReader;
 import Utilities.Language;
-import gui_main.GUI;
+import org.jetbrains.annotations.NotNull;
 
 public class Board {
     private final Square[] ALL_SQUARES;
@@ -116,54 +116,16 @@ public class Board {
         reader.close();
     }
 
-    public void givePlayerToActionHandler(Player[] players){
-        actionHandler.setPlayers(players);
-    }
-
-    //CSV only contain Strings, this allow us to change those to an int array for the rent
-    private int[] stringArrayToIntArray(String[] arr, String type) {
-        int offset = 7;
-        int[] result;
-
-        //set the size of the array based on with type
-        if (type.equals("street"))
-            result = new int[6];
-        else if (type.equals("ferry"))
-            result = new int[4];
-        else
-            result = new int[2];
-
-        for (int i = 0; i < result.length; i++) {
-            result[i] = Integer.parseInt(arr[offset + i]);
-        }
-        return result;
-    }
-
-    //checks whether or not all
-    private boolean hasMonopoly(int position, Player... player) {
-        String color = ALL_SQUARES[position].getColor();
-        Player owner = ALL_SQUARES[position].getOwner();
-        boolean result = false;
-
-        if (owner != null && ALL_SQUARES[position].isBuildAble()) {
-            result = true;
-            if (player.length != 0) //handle out of bounce
-                owner = player[0];
-
-            for (Square square : ALL_SQUARES) {
-                if (color.equals(square.getColor()) && !owner.equals(square.getOwner()))
-                    result = false;
-            }
-        }
-        return result;
-    }
+    /*
+     * Methods used regarding player taking there turn
+     */
 
     /**
      * This method updates the player position
      * @param player get the current player
      * @param diceValue get the sum of the dice values
      */
-    public void updatePlayerPosition(Player player, int diceValue) {
+    public void updatePlayerPosition(@NotNull Player player, int diceValue) {
         int startPos = player.getPosition();
         int sum = startPos + diceValue; //calculate the normerical end position
         int endPosition;
@@ -209,32 +171,6 @@ public class Board {
     }
 
     /**
-     * this method is used by the GUI, as the GUI need to know how many spaces the player need to move.
-     * @param startPosition where the player start
-     * @param endPosition where the player end
-     * @return the amount of Squares the player moved.
-     */
-    private int calculateSpaceToMove(int startPosition, int endPosition) {
-        if (startPosition < endPosition) {
-            return endPosition - startPosition;
-        } else {
-            return (endPosition + ALL_SQUARES.length) - startPosition;
-        }
-    }
-
-    private void payStartBonus(Player currentPlayer) {
-        actionHandler.boardPaymentsToBank(currentPlayer, -4000);
-    }
-
-    /**
-     * used by the GUI to display the Board.
-     * @return all squares
-     */
-    public Square[] getALL_SQUARES() {
-        return ALL_SQUARES;
-    }
-
-    /**
      * this ensure that all attributes related to a player getting jailed is set.
      * all guards to ensure the player have to go to jail, is made prior to this method call
      * @param player the player that need to go to jail
@@ -244,6 +180,29 @@ public class Board {
         setPlayerPosition(player, jailPosition, true);
         player.setHasExtraTurn(false);
     }
+
+    /**
+     * based on the method the player use to escape jail, different thing will happend.
+     * @param player trying to escape
+     * @param dieRoll is used when the player try to escape and either manage or are force to pay.
+     * @param forcedToMove if the player must move if they get out of jail
+     * @param haveToPay if the player decides or are forced to pay to get out
+     * @param usedChanceCard if they used the get out of jail chnace card.
+     */
+    public void escapeJail(Player player, int dieRoll, boolean forcedToMove, boolean haveToPay, boolean usedChanceCard) {
+        player.setInJail(false);
+        if (haveToPay)
+            actionHandler.boardPaymentsToBank(player, 1000);
+        if (forcedToMove)
+            updatePlayerPosition(player, dieRoll);
+        else if (usedChanceCard) ;
+        //TODO return card logic
+    }
+
+    /*
+      Methods used by the ActionHandler to determinate how much a person have to pay for a Square.
+      some may also be used by the GUI for display
+     */
 
     /**
      * this method is used to simplify the amount of data the different controller classes need.
@@ -287,24 +246,6 @@ public class Board {
     }
 
     /**
-     * based on the method the player use to escape jail, different thing will happend.
-     * @param player trying to escape
-     * @param dieRoll is used when the player try to escape and either manage or are force to pay.
-     * @param forcedToMove if the player must move if they get out of jail
-     * @param haveToPay if the player decides or are forced to pay to get out
-     * @param usedChanceCard if they used the get out of jail chnace card.
-     */
-    public void escapeJail(Player player, int dieRoll, boolean forcedToMove, boolean haveToPay, boolean usedChanceCard) {
-        player.setInJail(false);
-        if (haveToPay)
-            actionHandler.boardPaymentsToBank(player, 1000);
-        if (forcedToMove)
-            updatePlayerPosition(player, dieRoll);
-        else if (usedChanceCard) ;
-        //TODO return card logic
-    }
-
-    /**
      * the IncomeTax need to know the players total value of everything owned.
      * @param player is the one we want to check ownership of Square + properties for
      * @return the value of money in hand + Squares owned + properties owned.
@@ -325,36 +266,10 @@ public class Board {
         return result;
     }
 
-    /**
-     * this is used by the GameController so that player can take actions based on any of the color of squares.
-     * @return all the colors of squares of the type Street.
-     */
-    public String[] getAllStreetColors(){
-        int count = 0;
-        String[] arr = new String[100];
-        String color = "";
-        for (Square field: ALL_SQUARES){ //runs through all Squares
-            if (field.isBuildAble() && !color.equals(field.getColor())){ //if it's a street and we haven't already added the color to the array
-                color = field.getColor();
-                arr[count] = field.getColor();
-                count++;
-            }
-        }
-        return reduceStringArraySize(arr, count);
-    }
 
-    /**
-     * used by gamecontroller to display the price for a house on the selected color.
-     * @param color that the square should match
-     * @return the price of buying a house or hotel on the given color
+    /*
+     * All methods regarding buying and selling buildings
      */
-    public int getHousePrice(String color){
-        for (Square field: ALL_SQUARES){
-            if (color.equals(field.getColor())) //if the square color matches the given color.
-                return field.getHousePrice();
-        }
-        return 0;
-    }
 
     /**
      * ensures that all parameters for buying houses is correct, and ensure correct placement
@@ -375,8 +290,8 @@ public class Board {
 
             //this section handle control of setup and the purchase of the houses.
             if (player.getBalance() >= price * amountOfHouses && //if the player have enough money
-                actionHandler.getHousesAvailable() >= amountOfHouses && //if the bank has enough houses
-                amountOfHousesBefore + amountOfHouses <= streetWithinColor * 4){ //if the total amount of houses doesn't surpass 4 per Street
+                    actionHandler.getHousesAvailable() >= amountOfHouses && //if the bank has enough houses
+                    amountOfHousesBefore + amountOfHouses <= streetWithinColor * 4){ //if the total amount of houses doesn't surpass 4 per Street
 
                 actionHandler.buyHouse(player, price, amountOfHouses);
 
@@ -416,28 +331,6 @@ public class Board {
         }
         else
             GUIController.getPlayerAction(player.getName(),Language.get("missingMonopoly"));
-    }
-
-    private boolean ensureEvenDistribution(int position, boolean buy) {
-        int amountOfHousesOnStreet = ALL_SQUARES[position].getAmountOfHouses();
-        for (Square field: ALL_SQUARES){
-            if(ALL_SQUARES[position].getColor().equals(field.getColor())){
-                if (!(amountOfHousesOnStreet == field.getAmountOfHouses() ||
-                    (amountOfHousesOnStreet == field.getAmountOfHouses()+1 && buy) ||
-                    (amountOfHousesOnStreet +1 == field.getAmountOfHouses() && !buy)))
-                        return false;
-            }
-        }
-        return true;
-    }
-
-    private int getPositionFromName(String name) {
-        for (Square field: ALL_SQUARES){
-            if(name.equals(field.getName())) {
-                return field.getPOSITION();
-            }
-        }
-        return 0;
     }
 
     public void buyHotel(Player player, String color, int amountOfHotels){
@@ -497,19 +390,6 @@ public class Board {
             GUIController.getPlayerAction(player.getName(),Language.get("missingMonopoly"));
     }
 
-    /**
-     * since all the methods uses the position of the square, but the player will pick based on color, this allow for an easyer compability between them
-     * @param color the player have chosen
-     * @return the position of the first square that matches the color.
-     */
-    private int getFirstPropertyInAColor(String color){
-        for (Square field: ALL_SQUARES){
-            if (field.getColor().equals(color))
-                return field.getPOSITION();
-        }
-        return 0;
-    }
-
     public void sellProperty(Player player, String color, String type, int amount) {
         int position = getFirstPropertyInAColor(color);
         int amountOfHouses = amountOfHousesOnColor(color);
@@ -553,23 +433,6 @@ public class Board {
     }
 
     /**
-     * used for selling
-     * @param player that want to sell
-     * @return all the squares that the given player own
-     */
-    public String[] allSquaresOwnedByPlayer(Player player){
-        String[] temp = new String[ALL_SQUARES.length];
-        int count = 0;
-        for (Square field: ALL_SQUARES){
-            if (player.equals(field.getOwner())){
-                temp[count] = field.getName();
-                count++;
-            }
-        }
-        return reduceStringArraySize(temp,count);
-    }
-
-    /**
      * used for selling houses
      * @param player that want to sell
      * @return all the squares that the given player own and have a house on
@@ -609,31 +472,34 @@ public class Board {
     }
 
     /**
-     * used multiple places to ensure the arr size is reduces to only the size of wich there is data to fill.
-     * this ensures that we don't get outofbounce issues.
-     * @param arr the array that is bigger then needed
-     * @param size what size we want it reduced down to
-     * @return the data from arr that was within the size.
+     * this is used by the GameController so that player can take actions based on any of the color of squares.
+     * @return all the colors of squares of the type Street.
      */
-    private String[] reduceStringArraySize(String[] arr, int size){
-        String[] result = new String[size];
-        for (int i = 0; i < size; i++){
-            result [i] = arr[i];
-        }
-        return result;
-    }
-
-    private String[] getNameOfAllStreetsWithinAColor(String color){
-        String[] result = new String[ALL_SQUARES.length];
+    public String[] getAllStreetColors(){
         int count = 0;
-        for (Square field: ALL_SQUARES) {
-            if (color.equals(field.getColor())) {//if it's the same color
-                result[count] = field.getName();
+        String[] arr = new String[100];
+        String color = "";
+        for (Square field: ALL_SQUARES){ //runs through all Squares
+            if (field.isBuildAble() && !color.equals(field.getColor())){ //if it's a street and we haven't already added the color to the array
+                color = field.getColor();
+                arr[count] = field.getColor();
                 count++;
             }
         }
-        result = reduceStringArraySize(result, count);
-        return result;
+        return reduceStringArraySize(arr, count);
+    }
+
+    /**
+     * used by gamecontroller to display the price for a house on the selected color.
+     * @param color that the square should match
+     * @return the price of buying a house or hotel on the given color
+     */
+    public int getHousePrice(String color){
+        for (Square field: ALL_SQUARES){
+            if (color.equals(field.getColor())) //if the square color matches the given color.
+                return field.getHousePrice();
+        }
+        return 0;
     }
 
     public int amountOfHousesOnColor(String color){
@@ -643,6 +509,28 @@ public class Board {
                 result += field.getAmountOfHouses();
         }
         return result;
+    }
+
+
+    /*
+     * used by GameController to handle selling property or going bankrupt
+     */
+
+    /**
+     * used for selling
+     * @param player that want to sell
+     * @return all the squares that the given player own
+     */
+    public String[] allSquaresOwnedByPlayer(Player player){
+        String[] temp = new String[ALL_SQUARES.length];
+        int count = 0;
+        for (Square field: ALL_SQUARES){
+            if (player.equals(field.getOwner())){
+                temp[count] = field.getName();
+                count++;
+            }
+        }
+        return reduceStringArraySize(temp,count);
     }
 
     public void playerGoingBankrupt(Player player){
@@ -664,5 +552,146 @@ public class Board {
             }
         }
         actionHandler.bankruptPlayerHandover(amountOfHouses,amountOfHotels);
+    }
+
+
+    /*
+     * these methods ensure that any relevant data is sent between the classes that needs them
+     */
+
+    /**
+     * used by the GUI to display the Board.
+     * @return all squares
+     */
+    public Square[] getALL_SQUARES() {
+        return ALL_SQUARES;
+    }
+
+    public void givePlayerToActionHandler(Player[] players){
+        actionHandler.setPlayers(players);
+    }
+
+
+    /*
+     * this methods are the private method that board uses multiple places
+     */
+
+    //CSV only contain Strings, this allow us to change those to an int array for the rent
+    private int[] stringArrayToIntArray(String[] arr, String type) {
+        int offset = 7;
+        int[] result;
+
+        //set the size of the array based on with type
+        if (type.equals("street"))
+            result = new int[6];
+        else if (type.equals("ferry"))
+            result = new int[4];
+        else
+            result = new int[2];
+
+        for (int i = 0; i < result.length; i++) {
+            result[i] = Integer.parseInt(arr[offset + i]);
+        }
+        return result;
+    }
+
+    /**
+     * used multiple places to ensure the arr size is reduces to only the size of wich there is data to fill.
+     * this ensures that we don't get outofbounce issues.
+     * @param arr the array that is bigger then needed
+     * @param size what size we want it reduced down to
+     * @return the data from arr that was within the size.
+     */
+    private String[] reduceStringArraySize(String[] arr, int size){
+        String[] result = new String[size];
+        for (int i = 0; i < size; i++){
+            result [i] = arr[i];
+        }
+        return result;
+    }
+
+    /**
+     * this method is used by the GUI, as the GUI need to know how many spaces the player need to move.
+     * @param startPosition where the player start
+     * @param endPosition where the player end
+     * @return the amount of Squares the player moved.
+     */
+    private int calculateSpaceToMove(int startPosition, int endPosition) {
+        if (startPosition < endPosition) {
+            return endPosition - startPosition;
+        } else {
+            return (endPosition + ALL_SQUARES.length) - startPosition;
+        }
+    }
+
+    private void payStartBonus(Player currentPlayer) {
+        actionHandler.boardPaymentsToBank(currentPlayer, -4000);
+    }
+
+    //checks whether or not all
+    private boolean hasMonopoly(int position, Player... player) {
+        String color = ALL_SQUARES[position].getColor();
+        Player owner = ALL_SQUARES[position].getOwner();
+        boolean result = false;
+
+        if (owner != null && ALL_SQUARES[position].isBuildAble()) {
+            result = true;
+            if (player.length != 0) //handle out of bounce
+                owner = player[0];
+
+            for (Square square : ALL_SQUARES) {
+                if (color.equals(square.getColor()) && !owner.equals(square.getOwner()))
+                    result = false;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * since all the methods uses the position of the square, but the player will pick based on color, this allow for an easyer compability between them
+     * @param color the player have chosen
+     * @return the position of the first square that matches the color.
+     */
+    private int getFirstPropertyInAColor(String color){
+        for (Square field: ALL_SQUARES){
+            if (field.getColor().equals(color))
+                return field.getPOSITION();
+        }
+        return 0;
+    }
+
+    private int getPositionFromName(String name) {
+        for (Square field: ALL_SQUARES){
+            if(name.equals(field.getName())) {
+                return field.getPOSITION();
+            }
+        }
+        return 0;
+    }
+
+    private boolean ensureEvenDistribution(int position, boolean buy) {
+        int amountOfHousesOnStreet = ALL_SQUARES[position].getAmountOfHouses();
+        for (Square field: ALL_SQUARES){
+            if(ALL_SQUARES[position].getColor().equals(field.getColor())){
+                if (!(amountOfHousesOnStreet == field.getAmountOfHouses() ||
+                        (amountOfHousesOnStreet == field.getAmountOfHouses()+1 && buy) ||
+                        (amountOfHousesOnStreet +1 == field.getAmountOfHouses() && !buy)))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private String[] getNameOfAllStreetsWithinAColor(String color){
+        String[] result = new String[ALL_SQUARES.length];
+        int count = 0;
+        for (Square field: ALL_SQUARES) {
+            if (color.equals(field.getColor())) {//if it's the same color
+                result[count] = field.getName();
+                count++;
+            }
+        }
+        result = reduceStringArraySize(result, count);
+        return result;
     }
 }

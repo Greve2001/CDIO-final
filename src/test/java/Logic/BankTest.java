@@ -1,6 +1,7 @@
 package Logic;
 
 import Interface.GUIController;
+import SimpleClasses.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

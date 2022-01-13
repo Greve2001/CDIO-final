@@ -3,7 +3,7 @@ package cards;
 import Board.Board;
 import Interface.GUIController;
 import Logic.Bank;
-import Logic.Player;
+import SimpleClasses.Player;
 
 public class ChanceCardLogic {
 

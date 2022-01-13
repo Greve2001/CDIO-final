@@ -1,7 +1,5 @@
 package Board;
 
-import Logic.Player;
-
 public class Street extends Ownable {
     private final int HOUSEPRICE;
     private int amountOfHouses = 0;

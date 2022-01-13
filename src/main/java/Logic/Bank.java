@@ -1,6 +1,7 @@
 package Logic;
 
 import Interface.GUIController;
+import SimpleClasses.Player;
 import Utilities.Language;
 
 public class Bank {

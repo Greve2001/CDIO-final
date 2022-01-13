@@ -2,6 +2,7 @@ package Logic;
 
 import Board.*;
 import Interface.GUIController;
+import SimpleClasses.Player;
 import Utilities.Language;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

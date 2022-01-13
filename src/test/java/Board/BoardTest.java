@@ -1,17 +1,11 @@
 package Board;
 
 import Interface.GUIController;
-import Logic.Bank;
 import Utilities.Language;
-import gui_main.GUI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import Logic.Player;
+import SimpleClasses.Player;
 
-import javax.swing.*;
-
-
-import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -171,7 +165,6 @@ class BoardTest {
 
         int position1 = 16, position2 = 18, position3 = 19;
         String color = "grey";
-        boolean happend;
 
         ALL_SQUARES[position1].setOwner(a);
         ALL_SQUARES[position2].setOwner(a);
@@ -199,8 +192,8 @@ class BoardTest {
 
         assertEquals(28000, a.getBalance());
         assertEquals(1, ALL_SQUARES[position1].getAmountOfHouses());
-        //assertNotEquals(0, ALL_SQUARES[position2].getAmountOfHouses());
-        //assertNotEquals(0, ALL_SQUARES[position3].getAmountOfHouses());
+        assertEquals(0, ALL_SQUARES[position2].getAmountOfHouses());
+        assertEquals(0, ALL_SQUARES[position3].getAmountOfHouses());
     }
 
     @Test
