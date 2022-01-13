@@ -176,7 +176,8 @@ public class GameController {
             }
         }
         // Make board move the player
-        board.updatePlayerPosition(currentPlayer, diceSum(faceValues));
+        if (!currentPlayer.isInJail())
+            board.updatePlayerPosition(currentPlayer, diceSum(faceValues));
     }
 
 

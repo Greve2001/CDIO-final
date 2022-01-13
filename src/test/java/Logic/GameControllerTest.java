@@ -209,6 +209,34 @@ public class GameControllerTest {
 
     }
 
+    @Test
+    void TestGoingToJailBecauseOf3xDoublesWorksAsIntended() throws NoSuchFieldException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        // Setup
+        gameController.setupGame();
+        Player[] players = gameController.getPlayers();
+
+        Field diceCup = gameController.getClass().getDeclaredField("diceCup");
+        diceCup.setAccessible(true);
+        diceCup.set(gameController, new DiceCupStub(2, 2));
+
+        Method takeTurn = gameController.getClass().getDeclaredMethod("takeTurn");
+        takeTurn.setAccessible(true);
+
+        // Action
+        takeTurn.invoke(gameController, null);
+        takeTurn.invoke(gameController, null);
+        takeTurn.invoke(gameController, null);
+
+
+        assertTrue(players[0].isInJail());
+        assertEquals(10, players[0].getPosition());
+    }
+
+
+
+
+    ////////// Stubs //////////
+
     // Stub for testing
     class DiceCupStub extends DiceCup {
         private int val1 = 1, val2 = 1;
