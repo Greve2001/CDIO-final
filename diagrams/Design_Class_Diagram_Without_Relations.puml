@@ -68,7 +68,7 @@ Deck -- ChanceCardLogic
 ChanceCardLogic -- chanceCard
 
 
-Board -u- CSVReader
+Board <-u- CSVReader
 Board <- ActionHandler
 CSVReader -- Language
 
