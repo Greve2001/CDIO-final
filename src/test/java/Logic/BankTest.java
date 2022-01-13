@@ -3,6 +3,7 @@ package Logic;
 import Interface.GUIController;
 import SimpleClasses.Player;
 import Utilities.Language;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,7 +85,7 @@ class BankTest {
         bank.buyHouses(player,101,2);
 
         // Assert
-        Assertions.assertEquals(100,bank.getHousesAvailable());
+        Assertions.assertEquals(32,bank.getHousesAvailable());
         Assertions.assertEquals(30000,player.getBalance());
     }
 
@@ -94,7 +95,7 @@ class BankTest {
         bank.buyHouses(player,2,20000);
 
         // Assert
-        Assertions.assertEquals(100,bank.getHousesAvailable());
+        Assertions.assertEquals(32,bank.getHousesAvailable());
         Assertions.assertEquals(30000,player.getBalance());
     }
 
@@ -104,7 +105,7 @@ class BankTest {
         bank.buyHouses(player,10,3000);
 
         // Assert
-        Assertions.assertEquals(90,bank.getHousesAvailable());
+        Assertions.assertEquals(22,bank.getHousesAvailable());
     }
 
     @Test
@@ -122,7 +123,7 @@ class BankTest {
         bank.buyHotels(player,21,2);
 
         // Assert
-        Assertions.assertEquals(20,bank.getHotelsAvailable());
+        Assertions.assertEquals(12,bank.getHotelsAvailable());
         Assertions.assertEquals(30000,player.getBalance());
     }
 
@@ -132,7 +133,7 @@ class BankTest {
         bank.buyHotels(player,2,20000);
 
         // Assert
-        Assertions.assertEquals(20,bank.getHotelsAvailable());
+        Assertions.assertEquals(12,bank.getHotelsAvailable());
         Assertions.assertEquals(30000,player.getBalance());
     }
 
@@ -142,7 +143,7 @@ class BankTest {
         bank.buyHotels(player,5,2500);
 
         // Assert
-        Assertions.assertEquals(15,bank.getHotelsAvailable());
+        Assertions.assertEquals(7,bank.getHotelsAvailable());
     }
 
     @Test
