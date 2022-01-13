@@ -1,4 +1,4 @@
-package cards;
+package Cards;
 
 public class ReceiveMoneyCard extends ChanceCard{
 
