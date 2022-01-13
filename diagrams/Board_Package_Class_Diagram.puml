@@ -11,11 +11,35 @@ package Board
      -ACTIONHANDLER : ActionHandler
      -jailposition : int
 
-    -payStartBonus(Player) : void
-    -stringArrayToIntArray(String[], size:int) : int[]
-    +hasMonopoly() : boolean
-    +movePlayer(Player, spacesToMove:int) : void
-    +setPlayerPosition(Player, position:int) : void
+     -stringArrayToIntArray(String[] arr, String type): int[]
+     -reduceStringArraySize(String[] arr, int size): String[]
+     -calculateSpaceToMove(int startPosition, int endPosition): int
+     -payStartBonus(Player currentPlayer): void
+     -amountOwnedWithinTheColor(int position): int
+     -hasMonopoly(int position, Player... player): boolean
+     -ensureEvenDistribution(int position, boolean buy): boolean
+     +updatePlayerPosition(Player player, int diceValue): void
+     +setPlayerPosition(Player player, int endPos, boolean goingToJail): void
+     +setPlayerInJail(Player player): void
+     +escapeJail(Player player, int dieRoll, boolean forcedToMove, boolean haveToPay, boolean usedChanceCard): void
+     +getCurrentCost(int position): int
+     +playerTotalValue(Player player): int
+     +buyHouse(Player player, String color, int amountOfHouses): void
+     +buyHotel(Player player, String color, int amountOfHotels): void
+     +sellBuilding(Player player, String color, String type, int amount): void
+     +aLlSquaresWherePlayerHaveHouses(Player player): String[]
+     +allMonopolyColorsByPlayer(Player player): String[]
+     +getAllStreetColors(): String[]
+     +getHousePrice(String color): int
+     +amountOfHousesOnColor(String color): int
+     +allSquaresOwnedByPlayer(Player player): String[]
+     +playerGoingBankrupt(Player player): void
+     +givePlayerToActionHandler(Player[] players): void
+
+
+
+
+
 
     }
      abstract class Square {
@@ -23,6 +47,7 @@ package Board
          -position : int
      }
      class Street{
+        -HOUSEPRICE: int
         -amountOfHouses : int
 
      }
