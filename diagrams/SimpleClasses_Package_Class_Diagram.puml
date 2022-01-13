@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/class-diagram
+package SimpleClasses{
+
+    class Player{
+    -NAME : String
+    -position: int
+    -color: Color
+    -balance: int
+    -active: boolean
+    -inJail: boolean
+    -jailEscapeAttempts: int
+    -getOutJailCards: int
+    -hasExtraTurn: boolean
+
+
+
+    +toString(): String
+
+
+     }
+     class Die {
+         -faceValue : int
+         -NumOfSides: int
+
+         +roll() : void
+     }
+
+     class DiceCup {
+         -dice : Die[]
+
+         +rollDice() : void
+         +getFaceValues() : int[]
+         +getSum(): int
+     }
+}
+
+DiceCup "1 " *-- "2 " Die: Contains
+GameController <-- DiceCup
+Player --> GameController
+@enduml
