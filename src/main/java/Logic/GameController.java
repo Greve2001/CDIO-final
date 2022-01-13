@@ -15,7 +15,7 @@ public class GameController {
     private int playersLeft;
 
     //changeable variables
-    private int minPlayers = 3, maxPlayers = 6;
+    private final int minPlayers = 3, maxPlayers = 6;
     private int doublesRolled = 0;
     private final int START_MONEY = 30000;
 
@@ -25,7 +25,7 @@ public class GameController {
         diceCup = new DiceCup();
         board = new Board();
 
-        GUIController gui = new GUIController(board.getALL_SQUARES());
+        new GUIController(board.getALL_SQUARES());
 
         GUIController.createPlayers(minPlayers, maxPlayers, START_MONEY);
         setupPlayers(GUIController.getPlayerNames());
@@ -51,7 +51,7 @@ public class GameController {
     }
 
 
-    public void playGame() throws InterruptedException {
+    public void playGame() {
         boolean allowedDecision;
         do {
             allowedDecision = true;
@@ -98,9 +98,8 @@ public class GameController {
                                 GUIController.getPlayerAction(currentPlayer.getName(), Language.get("noMonopoly"));
                                 break;
                             }
-                            String[] choices3 = colorsToChooseFrom;
 
-                            String colorChosen = GUIController.givePlayerChoice(msg3, choices3);
+                            String colorChosen = GUIController.givePlayerChoice(msg3, colorsToChooseFrom);
                             int housePrice = board.getHousePrice(colorChosen); // Same as hotelprice
 
                             int amountToBuy = GUIController.getPlayerInteger(Language.get("howManyToBuy?") + housePrice);
@@ -144,9 +143,8 @@ public class GameController {
                                 GUIController.getPlayerAction(currentPlayer.getName(), Language.get("noMonopoly"));
                                 break;
                             }
-                            String[] choices3 = colorsToChooseFrom;
 
-                            String colorChosen = GUIController.givePlayerChoice(msg3, choices3);
+                            String colorChosen = GUIController.givePlayerChoice(msg3, colorsToChooseFrom);
                             int housePrice = board.getHousePrice(colorChosen); // Same as hotelprice
 
                             int amountToSell = GUIController.getPlayerInteger(Language.get("howManyToBuy?") + housePrice);
@@ -282,7 +280,7 @@ public class GameController {
         }else if (answer.equals(case3)){ // Use free of jail card
             usedChanceCard = true;
         }else{
-            //TODO Exception handling
+            System.out.println("Not know answer: " + answer);
         }
 
         if(result){
@@ -297,7 +295,7 @@ public class GameController {
         playersLeft = players.length;
 
         for (Player player : players){
-            if (player.getBalance() <= 0 || player.getActive() == false){
+            if (player.getBalance() <= 0 || !player.getActive()){
                 player.setActive(false);
                 player.setHasExtraTurn(false);
                 player.setHasExtraTurn(false);
@@ -330,10 +328,4 @@ public class GameController {
         return players;
     }
 
-
-    public class GameControllerTest{
-        public void TestTakeTurn(){
-            //takeTurn();
-        }
-    }
 }
