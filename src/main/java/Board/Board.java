@@ -665,8 +665,8 @@ public class Board {
             if(ALL_SQUARES[position].getColor().equals(field.getColor())){
                 // A or (B and D) or (C and not D)
                 if (!(amountOfHousesOnStreet == field.getAmountOfHouses() ||
-                        (amountOfHousesOnStreet -1 == field.getAmountOfHouses() && buy) ||
-                        (!(amountOfHousesOnStreet -1 == field.getAmountOfHouses()) && !buy)))
+                        (amountOfHousesOnStreet +1 == field.getAmountOfHouses() && buy) ||
+                        (!(amountOfHousesOnStreet +1 == field.getAmountOfHouses()) && !buy)))
                     return false;
             }
         }
@@ -685,4 +685,5 @@ public class Board {
         result = reduceStringArraySize(result, count);
         return result;
     }
+
 }
