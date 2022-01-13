@@ -6,6 +6,7 @@ import Logic.Player;
 import Utilities.CSVReader;
 import Utilities.Language;
 import gui_main.GUI;
+import org.jetbrains.annotations.NotNull;
 
 public class Board {
     private final Square[] ALL_SQUARES;
@@ -163,7 +164,7 @@ public class Board {
      * @param player get the current player
      * @param diceValue get the sum of the dice values
      */
-    public void updatePlayerPosition(Player player, int diceValue) {
+    public void updatePlayerPosition(@NotNull Player player, int diceValue) {
         int startPos = player.getPosition();
         int sum = startPos + diceValue; //calculate the normerical end position
         int endPosition;
