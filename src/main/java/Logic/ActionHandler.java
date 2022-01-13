@@ -208,29 +208,14 @@ public class ActionHandler {
         GUIController.showCenterMessage(card.getDescription());
         GUIController.getPlayerAction(player.getName(), Language.get("hitChance"));
 
-
         switch (card.getType()) {
-            case PAY_MONEY_TO_BANK_CARD:
-                handlePayMoneyToBank(card, player);
-                break;
-            case RECEIVE_MONEY_FROM_BANK_CARD:
-                handleReceiveMoneyFromBank(card, player);
-                break;
-            case MOVE_NR_OF_FIELDS_CARD:
-                handleMoveNrOfFields(card, player);
-                break;
-            case RECEIVE_MONEY_FROM_PLAYERS_CARD:
-                handleReceiveMoneyFromPlayers(card, player, players);
-                break;
-            case MOVE_TO_SPECIFIC_FIELD_CARD:
-                handleMoveToSpecificField(card, player);
-                break;
-            case MATADOR_GRANT_CARD:
-                handleMatadorGrantCard(card, player);
-                break;
-            case GET_OUT_OF_JAIL_CARD:
-                handleGetOutOfJailCard(player);
-                break;
+            case PAY_MONEY_TO_BANK_CARD -> handlePayMoneyToBank(card, player);
+            case RECEIVE_MONEY_FROM_BANK_CARD -> handleReceiveMoneyFromBank(card, player);
+            case MOVE_NR_OF_FIELDS_CARD -> handleMoveNrOfFields(card, player);
+            case RECEIVE_MONEY_FROM_PLAYERS_CARD -> handleReceiveMoneyFromPlayers(card, player, players);
+            case MOVE_TO_SPECIFIC_FIELD_CARD -> handleMoveToSpecificField(card, player);
+            case MATADOR_GRANT_CARD -> handleMatadorGrantCard(card, player);
+            case GET_OUT_OF_JAIL_CARD -> handleGetOutOfJailCard(player);
         }
 
     }
