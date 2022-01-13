@@ -30,7 +30,7 @@ public class Board {
         //Runs through the CSV file, for each row and created a Square with a specific supclass depending on the data found
         for (String[] data : reader.getFile()) {
             switch (data[type]) {
-                case "street":
+                case "street" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Street(
                             data[name],
                             Integer.parseInt(data[position]),
@@ -40,8 +40,7 @@ public class Board {
                             Integer.parseInt(data[price]),
                             Integer.parseInt(data[housePrice])
                     );
-                    break;
-                case "ferry":
+                case "ferry" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Ferry(
                             data[name],
                             Integer.parseInt(data[position]),
@@ -50,8 +49,7 @@ public class Board {
                             stringArrayToIntArray(data, data[type]),
                             Integer.parseInt(data[price])
                     );
-                    break;
-                case "brewery":
+                case "brewery" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Brewery(
                             data[name],
                             Integer.parseInt(data[position]),
@@ -60,57 +58,49 @@ public class Board {
                             stringArrayToIntArray(data, data[type]),
                             Integer.parseInt(data[price])
                     );
-                    break;
-                case "tax":
+                case "tax" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Tax(
                             data[name],
                             Integer.parseInt(data[position]),
                             Integer.parseInt(data[price])
                     );
-                    break;
-                case "incomeTax":
+                case "incomeTax" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new IncomeTax(
                             data[name],
                             Integer.parseInt(data[position]),
                             Integer.parseInt(data[price]),
                             Integer.parseInt(data[percentagePrice])
                     );
-                    break;
-                case "start":
+                case "start" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Start(
                             data[name],
                             Integer.parseInt(data[position]),
                             passStartAmount
                     );
-                    break;
-                case "chance":
+                case "chance" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Chance(
                             data[name],
                             Integer.parseInt(data[position])
                     );
-                    break;
-                case "prison":
+                case "prison"-> {
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Prison(
                             data[name],
                             Integer.parseInt(data[position])
                     );
                     jailPosition = Integer.parseInt(data[position]);
-                    break;
-                case "goToPrison":
+                }
+                case "goToPrison"->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new GoToPrison(
                             data[name],
                             Integer.parseInt(data[position])
                     );
-                    break;
-                case "refugee":
+                case "refugee"->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Refugee(
                             data[name],
                             Integer.parseInt(data[position])
                     );
-                    break;
-                default:
+                default ->{}
                     //TODO error handling
-                    break;
             }
         }
         reader.close();
