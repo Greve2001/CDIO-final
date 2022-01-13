@@ -200,8 +200,6 @@ public class GUIController {
 
     // Players are given predetermined colors.
     public static Color[] getPlayerColors(){
-        if (testing) return new Color[]{Color.red, Color.orange, Color.blue};
-
         return colorsToChooseFrom;
     }
 

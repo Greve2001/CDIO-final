@@ -2,6 +2,7 @@ package Logic;
 
 import Interface.GUIController;
 import SimpleClasses.Player;
+import Utilities.Language;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ class BankTest {
 
     @BeforeEach
     void setup() {
+        Language.getInstance();
         player = new Player("Goli", 30000, 0);
         bank = new Bank();
     }
