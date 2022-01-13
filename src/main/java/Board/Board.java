@@ -228,24 +228,6 @@ public class Board {
     }
 
     /**
-     * This is used for Ferry and Brewery, as there Rent is based on how many the player own.
-     * @param position used to find the color and the owner that we want to count for
-     * @return total amount of Streets found with the same color and the same owner
-     */
-    public int amountOwnedWithinTheColor(int position) {
-        int result = 0;
-        if (ALL_SQUARES[position].getOwner() != null) {
-            Player player = ALL_SQUARES[position].getOwner();
-            String color = ALL_SQUARES[position].getColor();
-            for (Square field : ALL_SQUARES) {
-                if (color.equals(field.getColor()) && player.equals(field.getOwner()))
-                    result++;
-            }
-        }
-            return result;
-    }
-
-    /**
      * the IncomeTax need to know the players total value of everything owned.
      * @param player is the one we want to check ownership of Square + properties for
      * @return the value of money in hand + Squares owned + properties owned.
@@ -626,6 +608,24 @@ public class Board {
 
     private void payStartBonus(Player currentPlayer) {
         actionHandler.boardPaymentsToBank(currentPlayer, -4000);
+    }
+
+    /**
+     * This is used for Ferry and Brewery, as there Rent is based on how many the player own.
+     * @param position used to find the color and the owner that we want to count for
+     * @return total amount of Streets found with the same color and the same owner
+     */
+    private int amountOwnedWithinTheColor(int position) {
+        int result = 0;
+        if (ALL_SQUARES[position].getOwner() != null) {
+            Player player = ALL_SQUARES[position].getOwner();
+            String color = ALL_SQUARES[position].getColor();
+            for (Square field : ALL_SQUARES) {
+                if (color.equals(field.getColor()) && player.equals(field.getOwner()))
+                    result++;
+            }
+        }
+        return result;
     }
 
     //checks whether or not all
