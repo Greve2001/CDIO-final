@@ -300,7 +300,7 @@ class BoardTest {
 
         amountToSell = 1;
         newBalance = player.getBalance() + amountToSell * (price / 2);
-        board.sellProperty(player, color, "house", amountToSell);
+        board.sellBuilding(player, color, "house", amountToSell);
 
         assertEquals(newBalance, player.getBalance());
         assertEquals(3, ALL_SQUARES[position1].getAmountOfHouses());
@@ -312,7 +312,7 @@ class BoardTest {
         ALL_SQUARES[position3].setAmountOfHouses(1);
         amountToSell = 6;
         newBalance = player.getBalance();
-        board.sellProperty(player, color, "house", amountToSell);
+        board.sellBuilding(player, color, "house", amountToSell);
 
         assertEquals(newBalance, player.getBalance());
         assertEquals(1, ALL_SQUARES[position1].getAmountOfHouses());
@@ -325,7 +325,7 @@ class BoardTest {
         ALL_SQUARES[position3].setAmountOfHouses(5);
 
         amountToSell = 3;
-        board.sellProperty(player, color, "house", amountToSell);
+        board.sellBuilding(player, color, "house", amountToSell);
 
         assertEquals(newBalance, player.getBalance());
         assertEquals(5, ALL_SQUARES[position1].getAmountOfHouses());
@@ -333,7 +333,7 @@ class BoardTest {
         assertEquals(5, ALL_SQUARES[position3].getAmountOfHouses());
 
         newBalance = player.getBalance() + amountToSell * price / 2;
-        board.sellProperty(player, color, "hotel", amountToSell);
+        board.sellBuilding(player, color, "hotel", amountToSell);
 
         assertEquals(newBalance, player.getBalance());
         assertEquals(0, ALL_SQUARES[position1].getAmountOfHouses());

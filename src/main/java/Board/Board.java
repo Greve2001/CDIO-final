@@ -372,7 +372,7 @@ public class Board {
             GUIController.getPlayerAction(player.getName(),Language.get("missingMonopoly"));
     }
 
-    public void sellProperty(Player player, String color, String type, int amount) {
+    public void sellBuilding(Player player, String color, String type, int amount) {
         int position = getFirstPropertyInAColor(color);
         int amountOfHouses = amountOfHousesOnColor(color);
         int amountOfStreets = getNameOfAllStreetsWithinAColor(color).length;
