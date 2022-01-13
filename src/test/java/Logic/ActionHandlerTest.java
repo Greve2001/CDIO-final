@@ -209,6 +209,50 @@ class ActionHandlerTest {
     }
 
     @Test
+    void moveToNearest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method moveToNearest = actionHandler.getClass().getDeclaredMethod("moveToNearest",
+                Player.class, String.class);
+        moveToNearest.setAccessible(true);
+
+        players[0].setPosition(2);
+        Object[] args = {players[0], "Ferry"};
+        moveToNearest.invoke(actionHandler, args);
+
+        int expectedPos = 5;
+        int acutalPos = players[0].getPosition();
+        assertEquals(expectedPos, acutalPos);
+        players[0].setPosition(7);
+        moveToNearest.invoke(actionHandler, args);
+
+        expectedPos = 15;
+        acutalPos = players[0].getPosition();
+        assertEquals(expectedPos, acutalPos);
+        players[0].setPosition(17);
+        moveToNearest.invoke(actionHandler, args);
+
+        expectedPos = 25;
+        acutalPos = players[0].getPosition();
+        assertEquals(expectedPos, acutalPos);
+        players[0].setPosition(22);
+        moveToNearest.invoke(actionHandler, args);
+
+        expectedPos = 25;
+        acutalPos = players[0].getPosition();
+        assertEquals(expectedPos, acutalPos);
+        players[0].setPosition(33);
+        moveToNearest.invoke(actionHandler, args);
+        expectedPos = 35;
+        acutalPos = players[0].getPosition();
+        assertEquals(expectedPos, acutalPos);
+
+        players[0].setPosition(36);
+        moveToNearest.invoke(actionHandler, args);
+        expectedPos = 5;
+        acutalPos = players[0].getPosition();
+        assertEquals(expectedPos, acutalPos);
+    }
+
+    @Test
     void declareAuctionWinner() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         Method declareAuctionWinner = actionHandler.getClass().getDeclaredMethod("declareAuctionWinner",
                 boolean[].class, Square.class, int.class);

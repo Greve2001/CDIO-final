@@ -30,7 +30,7 @@ public class Board {
         //Runs through the CSV file, for each row and created a Square with a specific supclass depending on the data found
         for (String[] data : reader.getFile()) {
             switch (data[type]) {
-                case "street":
+                case "street" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Street(
                             data[name],
                             Integer.parseInt(data[position]),
@@ -40,8 +40,7 @@ public class Board {
                             Integer.parseInt(data[price]),
                             Integer.parseInt(data[housePrice])
                     );
-                    break;
-                case "ferry":
+                case "ferry" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Ferry(
                             data[name],
                             Integer.parseInt(data[position]),
@@ -50,8 +49,7 @@ public class Board {
                             stringArrayToIntArray(data, data[type]),
                             Integer.parseInt(data[price])
                     );
-                    break;
-                case "brewery":
+                case "brewery" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Brewery(
                             data[name],
                             Integer.parseInt(data[position]),
@@ -60,57 +58,49 @@ public class Board {
                             stringArrayToIntArray(data, data[type]),
                             Integer.parseInt(data[price])
                     );
-                    break;
-                case "tax":
+                case "tax" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Tax(
                             data[name],
                             Integer.parseInt(data[position]),
                             Integer.parseInt(data[price])
                     );
-                    break;
-                case "incomeTax":
+                case "incomeTax" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new IncomeTax(
                             data[name],
                             Integer.parseInt(data[position]),
                             Integer.parseInt(data[price]),
                             Integer.parseInt(data[percentagePrice])
                     );
-                    break;
-                case "start":
+                case "start" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Start(
                             data[name],
                             Integer.parseInt(data[position]),
                             passStartAmount
                     );
-                    break;
-                case "chance":
+                case "chance" ->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Chance(
                             data[name],
                             Integer.parseInt(data[position])
                     );
-                    break;
-                case "prison":
+                case "prison"-> {
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Prison(
                             data[name],
                             Integer.parseInt(data[position])
                     );
                     jailPosition = Integer.parseInt(data[position]);
-                    break;
-                case "goToPrison":
+                }
+                case "goToPrison"->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new GoToPrison(
                             data[name],
                             Integer.parseInt(data[position])
                     );
-                    break;
-                case "refugee":
+                case "refugee"->
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Refugee(
                             data[name],
                             Integer.parseInt(data[position])
                     );
-                    break;
-                default:
+                default ->{}
                     //TODO error handling
-                    break;
             }
         }
         reader.close();
@@ -225,24 +215,6 @@ public class Board {
             }
         }
         return result;
-    }
-
-    /**
-     * This is used for Ferry and Brewery, as there Rent is based on how many the player own.
-     * @param position used to find the color and the owner that we want to count for
-     * @return total amount of Streets found with the same color and the same owner
-     */
-    public int amountOwnedWithinTheColor(int position) {
-        int result = 0;
-        if (ALL_SQUARES[position].getOwner() != null) {
-            Player player = ALL_SQUARES[position].getOwner();
-            String color = ALL_SQUARES[position].getColor();
-            for (Square field : ALL_SQUARES) {
-                if (color.equals(field.getColor()) && player.equals(field.getOwner()))
-                    result++;
-            }
-        }
-            return result;
     }
 
     /**
@@ -390,7 +362,7 @@ public class Board {
             GUIController.getPlayerAction(player.getName(),Language.get("missingMonopoly"));
     }
 
-    public void sellProperty(Player player, String color, String type, int amount) {
+    public void sellBuilding(Player player, String color, String type, int amount) {
         int position = getFirstPropertyInAColor(color);
         int amountOfHouses = amountOfHousesOnColor(color);
         int amountOfStreets = getNameOfAllStreetsWithinAColor(color).length;
@@ -628,6 +600,24 @@ public class Board {
         actionHandler.boardPaymentsToBank(currentPlayer, -4000);
     }
 
+    /**
+     * This is used for Ferry and Brewery, as there Rent is based on how many the player own.
+     * @param position used to find the color and the owner that we want to count for
+     * @return total amount of Streets found with the same color and the same owner
+     */
+    private int amountOwnedWithinTheColor(int position) {
+        int result = 0;
+        if (ALL_SQUARES[position].getOwner() != null) {
+            Player player = ALL_SQUARES[position].getOwner();
+            String color = ALL_SQUARES[position].getColor();
+            for (Square field : ALL_SQUARES) {
+                if (color.equals(field.getColor()) && player.equals(field.getOwner()))
+                    result++;
+            }
+        }
+        return result;
+    }
+
     //checks whether or not all
     private boolean hasMonopoly(int position, Player... player) {
         String color = ALL_SQUARES[position].getColor();
@@ -673,9 +663,10 @@ public class Board {
         int amountOfHousesOnStreet = ALL_SQUARES[position].getAmountOfHouses();
         for (Square field: ALL_SQUARES){
             if(ALL_SQUARES[position].getColor().equals(field.getColor())){
+                // A or (B and D) or (C and not D)
                 if (!(amountOfHousesOnStreet == field.getAmountOfHouses() ||
-                        (amountOfHousesOnStreet == field.getAmountOfHouses()+1 && buy) ||
-                        (amountOfHousesOnStreet +1 == field.getAmountOfHouses() && !buy)))
+                        (amountOfHousesOnStreet -1 == field.getAmountOfHouses() && buy) ||
+                        (!(amountOfHousesOnStreet -1 == field.getAmountOfHouses()) && !buy)))
                     return false;
             }
         }

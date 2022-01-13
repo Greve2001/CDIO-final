@@ -1,4 +1,4 @@
-package cards;
+package Cards;
 
 import Utilities.Language;
 
@@ -108,7 +108,7 @@ public class Deck {
             // Generate a random number at the length of the array and shorten by one each iteration
             int randomNumber = (int) (Math.random() * (pos + 1));
 
-            // Swap cards at the two locations
+            // Swap Cards at the two locations
             ChanceCard cardToSwap = chanceCardDeck[pos];
             chanceCardDeck[pos] = chanceCardDeck[randomNumber];
             chanceCardDeck[randomNumber] = cardToSwap;

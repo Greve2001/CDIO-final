@@ -43,8 +43,8 @@ Hvad vil du købe?,whatToBuy?
 Hvad vil du sælge?,whatToSell?
 Hvor mange vil du købe? De koster per styk: ,howManyToBuy?
 Hvor mange vil du sælge? Så meget får du pr styk: ,howManyToSell?
-Stop med at købe,stopBuying
-Stop med at sælge,stopSelling
+Stop,stop
+Afbryd,cancel
 Vælg en felt farve at købe egendom til,chooseStreetColor
 Huse,houses
 Hoteller,hotels

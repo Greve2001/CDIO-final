@@ -1,4 +1,4 @@
-package cards;
+package Cards;
 
 public enum ChanceCardType {
     PAY_MONEY_TO_BANK_CARD,

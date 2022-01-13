@@ -4,8 +4,8 @@ import Board.*;
 import Interface.GUIController;
 import SimpleClasses.Player;
 import Utilities.Language;
-import cards.ChanceCard;
-import cards.Deck;
+import Cards.ChanceCard;
+import Cards.Deck;
 
 public class ActionHandler {
     private final Bank BANK = new Bank();
@@ -22,31 +22,16 @@ public class ActionHandler {
 
     public void squareAction(Player player, Square square, int diceSum) {
         switch (square.getClass().getSimpleName()) {
-            case "Street":
-                streetAction(player, square);
-                break;
-            case "Brewery":
-                breweryAction(player, square, diceSum);
-                break;
-            case "Ferry":
-                ferryAction(player, square);
-                break;
-            case "Tax":
-                taxAction(player, square);
-                break;
-            case "IncomeTax":
-                incomeTaxAction(player, square);
-                break;
-            case "Chance":
-                cardAction(player);
-                break;
-            case "GoToPrison":
-                goToPrison(player);
-                break;
-            default:
-
-                // TODO Implement default case
-                break;
+            case "Street" -> streetAction(player, square);
+            case "Brewery" -> breweryAction(player, square, diceSum);
+            case "Ferry" -> ferryAction(player, square);
+            case "Tax" -> taxAction(player, square);
+            case "IncomeTax" -> incomeTaxAction(player, square);
+            case "Chance" -> cardAction(player);
+            case "GoToPrison" -> goToPrison(player);
+            default -> {
+            }
+            // TODO Implement default case
         }
     }
 
@@ -65,15 +50,8 @@ public class ActionHandler {
         if (square.getOwner() == null) { // Ask to buy
             buySquare(player, square, "buyBrewery");
         } else { // Pay the rent
-            boolean payDouble = BOARD.amountOwnedWithinTheColor(square.getPOSITION()) == 2;
-
             // Doubles the amount of rent if the player owns all breweries.
-            int amountToPay;
-            if (!payDouble) {
-                amountToPay = diceSum * square.getRent()[0];
-            } else {
-                amountToPay = diceSum * square.getRent()[1];
-            }
+            int amountToPay = BOARD.getCurrentCost(square.getPOSITION()) * diceSum;
 
             payRent(player, square, amountToPay);
         }
@@ -305,6 +283,24 @@ public class ActionHandler {
         player.giveOneGetOutOfJailCard();
     }
 
+    private void moveToNearest(Player player, String type) {
+        int position = player.getPosition();
+        Square[] squares = BOARD.getALL_SQUARES();
+
+        boolean notFound = true;
+        while (notFound) {
+            if (squares.length <= position + 1)
+                position = 0;
+
+            String squareType = squares[++position].getClass().getSimpleName();
+
+            if (type.equals(squareType)) {
+                notFound = false;
+            }
+        }
+
+        BOARD.setPlayerPosition(player, position, false);
+    }
 
     public void boardPaymentsToBank(Player player, int amount) {
         if (amount < 0)

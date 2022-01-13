@@ -1,4 +1,4 @@
-package cards;
+package Cards;
 
 
 public abstract class ChanceCard {

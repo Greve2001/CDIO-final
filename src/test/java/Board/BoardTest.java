@@ -112,22 +112,6 @@ class BoardTest {
     }
 
     @Test
-    void amountOwnedWithinTheColorTest() {
-        Player a = new Player("test", 30000, 0);
-
-        int position1 = 6, position2 = 8, position3 = 9;
-
-        ALL_SQUARES[position1].setOwner(a);
-        assertEquals(1, board.amountOwnedWithinTheColor(position1));
-
-        ALL_SQUARES[position2].setOwner(a);
-        assertEquals(2, board.amountOwnedWithinTheColor(position2));
-
-        ALL_SQUARES[position3].setOwner(a);
-        assertEquals(3, board.amountOwnedWithinTheColor(position3));
-    }
-
-    @Test
     void escapeJailTest() {
         Player a = new Player("test", 30000, 0);
         a.setInJail(true);
@@ -316,7 +300,7 @@ class BoardTest {
 
         amountToSell = 1;
         newBalance = player.getBalance() + amountToSell * (price / 2);
-        board.sellProperty(player, color, "house", amountToSell);
+        board.sellBuilding(player, color, "house", amountToSell);
 
         assertEquals(newBalance, player.getBalance());
         assertEquals(3, ALL_SQUARES[position1].getAmountOfHouses());
@@ -328,7 +312,7 @@ class BoardTest {
         ALL_SQUARES[position3].setAmountOfHouses(1);
         amountToSell = 6;
         newBalance = player.getBalance();
-        board.sellProperty(player, color, "house", amountToSell);
+        board.sellBuilding(player, color, "house", amountToSell);
 
         assertEquals(newBalance, player.getBalance());
         assertEquals(1, ALL_SQUARES[position1].getAmountOfHouses());
@@ -341,7 +325,7 @@ class BoardTest {
         ALL_SQUARES[position3].setAmountOfHouses(5);
 
         amountToSell = 3;
-        board.sellProperty(player, color, "house", amountToSell);
+        board.sellBuilding(player, color, "house", amountToSell);
 
         assertEquals(newBalance, player.getBalance());
         assertEquals(5, ALL_SQUARES[position1].getAmountOfHouses());
@@ -349,7 +333,7 @@ class BoardTest {
         assertEquals(5, ALL_SQUARES[position3].getAmountOfHouses());
 
         newBalance = player.getBalance() + amountToSell * price / 2;
-        board.sellProperty(player, color, "hotel", amountToSell);
+        board.sellBuilding(player, color, "hotel", amountToSell);
 
         assertEquals(newBalance, player.getBalance());
         assertEquals(0, ALL_SQUARES[position1].getAmountOfHouses());
