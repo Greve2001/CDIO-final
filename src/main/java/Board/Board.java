@@ -647,7 +647,7 @@ public class Board {
         int amountOfHousesOnStreet = ALL_SQUARES[position].getAmountOfHouses();
         for (Square field: ALL_SQUARES){
             if(ALL_SQUARES[position].getColor().equals(field.getColor())){
-                // A or (B and D) or (C and not D)
+                // A or (!B and D) or (!C and not D)
                 if (!(amountOfHousesOnStreet == field.getAmountOfHouses() ||
                         (amountOfHousesOnStreet +1 == field.getAmountOfHouses() && buy) ||
                         (!(amountOfHousesOnStreet +1 == field.getAmountOfHouses()) && !buy)))
