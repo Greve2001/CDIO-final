@@ -140,7 +140,18 @@ class BoardTest {
         assertFalse(a.isInJail());
         assertEquals(28000, a.getBalance());
 
-        //TODO test escape card use
+        a.setInJail(true);
+        forcedToMove = false;
+        haveToPay = false;
+        usedChanceCard = true;
+
+        a.setGetOutJailCards(1);
+
+        board.escapeJail(a, 0, forcedToMove, haveToPay, usedChanceCard);
+
+        assertFalse(a.isInJail());
+        assertEquals(28000, a.getBalance());
+        assertEquals(0, a.getGetOutJailCards());
     }
 
     @Test
@@ -184,6 +195,7 @@ class BoardTest {
     void testGetCurrentCostFieldStreet(){
         int result;
         int position = 1;
+        int position2 = 3;
 
         result = board.getCurrentCost(position);
         assertEquals(1200, result);
@@ -195,6 +207,11 @@ class BoardTest {
         ALL_SQUARES[position].setAmountOfHouses(2);
         result = board.getCurrentCost(position);
         assertEquals(750, result);
+
+        ALL_SQUARES[position].setAmountOfHouses(0);
+        ALL_SQUARES[position2].setOwner(player);
+        result = board.getCurrentCost(position);
+        assertEquals(100, result);
     }
 
     @Test
@@ -341,4 +358,25 @@ class BoardTest {
         assertEquals(0, ALL_SQUARES[position3].getAmountOfHouses());
     }
 
+    @Test
+    void playerGoingBankruptTest(){
+        int[] position = {1, 5, 30, 37, 39};
+
+        for (int p: position){
+            ALL_SQUARES[p].setOwner(player);
+        }
+
+        player.setBalance(0);
+
+        ALL_SQUARES[position[1]].setAmountOfHouses(5);
+        ALL_SQUARES[position[3]].setAmountOfHouses(3);
+        ALL_SQUARES[position[4]].setAmountOfHouses(3);
+
+        board.playerGoingBankrupt(player);
+
+        for (int p: position){
+            assertNull(ALL_SQUARES[p].getOwner());
+        }
+        assertEquals(0, player.getBalance());
+    }
 }
