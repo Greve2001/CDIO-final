@@ -24,19 +24,19 @@ public class Bank {
      * - when a player has to pay to another player(pay rent)
      **/
     public void playersPayToPlayer(Player player, int amount, Player... players) {
-        for (int i = 0; i < players.length; i++) {
-            if (players[i].getBalance() >= amount) {
+        for (Player value : players) {
+            if (value.getBalance() >= amount) {
                 player.setBalance(player.getBalance() + amount);
 
-                players[i].setBalance(players[i].getBalance() - amount);
+                value.setBalance(value.getBalance() - amount);
             } else {
-                player.setBalance(player.getBalance() + players[i].getBalance());
+                player.setBalance(player.getBalance() + value.getBalance());
 
-                players[i].setBalance(0);
+                value.setBalance(0);
             }
-            GUIController.showCenterMessage(player.getName() + Language.get("paid") + amount + Language.get("paidToPlayer") + players[i].getName());
+            GUIController.showCenterMessage(player.getName() + Language.get("paid") + amount + Language.get("paidToPlayer") + value.getName());
             GUIController.setPlayerBalance(player.getName(), player.getBalance());
-            GUIController.setPlayerBalance(players[i].getName(), players[i].getBalance());
+            GUIController.setPlayerBalance(value.getName(), value.getBalance());
         }
     }
 

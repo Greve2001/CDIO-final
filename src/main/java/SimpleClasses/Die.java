@@ -2,7 +2,7 @@ package SimpleClasses;
 
 public class Die {
     private int faceValue;
-    private int NROFSIDES;
+    private final int NROFSIDES;
 
     public Die(int nrOfSides){
         this.NROFSIDES=nrOfSides;

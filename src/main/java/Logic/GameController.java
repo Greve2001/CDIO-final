@@ -258,6 +258,7 @@ public class GameController {
         if(result){
             GUIController.showMessage(Language.get("youBrokeFree"));
             board.escapeJail(currentPlayer, diceCup.getSum(), forcedToMove, haveToPay, usedChanceCard);
+            currentPlayer.resetJailEscapeAttempts();
         }
         return !forcedToMove;
     }

@@ -181,7 +181,6 @@ public class GUIController {
             System.out.println("This move did not work");
         }
     }
-
     // updates GUI toshow the players balance
     public static void setPlayerBalance(String playerName, int value){
         if (testing) return;
