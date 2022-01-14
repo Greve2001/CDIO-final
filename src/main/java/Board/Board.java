@@ -141,10 +141,11 @@ public class Board {
      * @param goingToJail whether or not the player is going inside the jail (will be false if they are going to visit)
      */
     public void setPlayerPosition(Player player, int endPos, boolean goingToJail) {
-        if (endPos < player.getPosition() && !goingToJail) //if player passes start, and are not going to jaul
+        if (goingToJail){
+            player.setInJail(true);
+        }else if (endPos < player.getPosition()){
             payStartBonus(player);
-        else
-            player.setInJail(true); //if player pass start and ain't suppost to recieve money, they must be going to jail.
+        }
 
         int startPos = player.getPosition();
         player.setPosition(endPos); //updates the player position
