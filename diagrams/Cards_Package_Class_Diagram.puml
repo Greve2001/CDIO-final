@@ -14,8 +14,8 @@ package Cards
        #value : int
    }
    class Deck{
-      -chanceCardCheck :Chancecard[]
-      -drawCardCoubt : int
+      -chanceCardCheck :ChanceCard[]
+      -drawCardCount : int
 
       +pullCard(): chanceCard
       +shuffleCards(): void
@@ -30,7 +30,7 @@ package Cards
    }
    class PayMoneyToBankCard{
    }
-   class ReceieveMoneyFromBankCard{
+   class ReceiveMoneyFromBankCard{
    }
    class ReceiveMoneyFromPlayersCard{
    }
@@ -48,7 +48,7 @@ chanceCard <|-- "1    " MatadorGrantCard
 chanceCard <|--- "3" MoveNrOfFieldsCard
 chanceCard <|--- "10" MoveToSpecificFieldCard
 chanceCard <|--- "        10     " PayMoneyToBankCard
-chanceCard <|-- "12" ReceieveMoneyFromBankCard
+chanceCard <|-- "12" ReceiveMoneyFromBankCard
 chanceCard <|-- "3" ReceiveMoneyFromPlayersCard
 
 
