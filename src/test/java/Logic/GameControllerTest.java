@@ -259,25 +259,6 @@ public class GameControllerTest {
         assertNotEquals(0, players[2].getPosition());
     }
 
-    @Test
-    void testBug() throws NoSuchFieldException, IllegalAccessException {
-        GUIController.setTesting(false);
-        GameController gameController = new GameController();
-
-        gameController.setupGame();
-
-        Field diceCup = gameController.getClass().getDeclaredField("diceCup");
-        diceCup.setAccessible(true);
-        diceCup.set(gameController, new DiceCupStub(1, 1));
-
-        Player[] players = gameController.getPlayers();
-
-        gameController.playGame();
-    }
-
-
-
-
     ////////// Stubs //////////
 
     // Stub for testing

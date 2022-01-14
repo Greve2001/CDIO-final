@@ -166,7 +166,7 @@ public class GUIController {
             for (int i = 1; i <= Math.abs(spacesToMove); i++) {
                 // Calculate new position
                 int newPosition = (i * direction + startPosition) % fields.length;
-                if (newPosition < 0) newPosition = fields.length + direction * (i + startPosition);
+                if (newPosition < 0) newPosition = fields.length + i * direction + startPosition;
 
                 GUI_Field toField = gui.getFields()[newPosition]; // Get the GUI field
                 int guiPlayerIndex = getGuiPlayerIndex(playerName); // Now get the players index, since the GUI does not track it
