@@ -1,6 +1,5 @@
 package Logic;
 import Board.Board;
-import Board.Square;
 import Interface.GUIController;
 import SimpleClasses.DiceCup;
 import SimpleClasses.Player;
@@ -256,7 +255,7 @@ public class GameControllerTest {
     ////////// Stubs //////////
 
     // Stub for testing
-    class DiceCupStub extends DiceCup {
+    static class DiceCupStub extends DiceCup {
         private int val1 = 1, val2 = 1;
         public DiceCupStub(int val1, int val2){
             this.val1 = val1;
