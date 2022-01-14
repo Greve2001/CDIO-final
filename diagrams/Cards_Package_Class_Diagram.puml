@@ -5,6 +5,8 @@ skinparam groupInheritance 2
 
 
 
+
+
 skinparam linetype polyline
 package Cards
 {
@@ -34,6 +36,8 @@ package Cards
    }
    class ReceiveMoneyFromPlayersCard{
    }
+   enum ChanceCardType{
+   }
 
 
 }
@@ -46,12 +50,12 @@ ActionHandler <-- Deck
 chanceCard <|-- "2" GetOutOfJailCard
 chanceCard <|-- "1    " MatadorGrantCard
 chanceCard <|--- "3" MoveNrOfFieldsCard
-chanceCard <|--- "10" MoveToSpecificFieldCard
-chanceCard <|--- "        10     " PayMoneyToBankCard
+chanceCard <|--- "10 " MoveToSpecificFieldCard
+chanceCard <|--- "        10 " PayMoneyToBankCard
 chanceCard <|-- "12" ReceiveMoneyFromBankCard
 chanceCard <|-- "3" ReceiveMoneyFromPlayersCard
 
-
+ChanceCardType -r-> chanceCard
 
 
 
