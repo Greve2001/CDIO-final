@@ -124,10 +124,15 @@ public class GameControllerTest {
         board.setPlayerInJail(player);
         board.escapeJail(player, 0, true, true, false);
 
+        // Assert
         int actualBalance = player.getBalance();
         int expectedBalance = 0;
 
+        boolean actualBool = player.isInJail();
+        boolean expectedBool = false;
+
         assertEquals(expectedBalance, actualBalance);
+        assertEquals(expectedBool, actualBool);
     }
 
     @Test
