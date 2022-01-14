@@ -65,7 +65,10 @@ public class GameController {
             do { // Loops until only one player left.
 
                 // Give player choice; Throw, Buy, sell
+
                 String actionMsg = currentPlayer.getName() + ": " + Language.get("askAction");
+                if (currentPlayer.getHasExtraTurn()) actionMsg = Language.get("haveExtraTurn") + actionMsg;
+
                 String[] actionChoices;
                 String actionAnswer;
                 String action1 = Language.get("choice1"); // Throw Dice

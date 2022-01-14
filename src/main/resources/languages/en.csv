@@ -49,7 +49,7 @@ Choose a street color you want to buy property for,chooseStreetColor
 Houses,houses
 Hotels,hotels
 Throw dice,throwDice
-You have thrown to alike. It is your turn again.,haveExtraTurn
+You have thrown doubles. It is your turn again.,haveExtraTurn
 Choose,choose
 You don't own all streets of this color,noMonopoly
 You landed on a chance card,hitChance
