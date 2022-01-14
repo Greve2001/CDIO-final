@@ -185,8 +185,14 @@ public class Board {
             actionHandler.boardPaymentsToBank(player, 1000);
         if (forcedToMove)
             updatePlayerPosition(player, dieRoll);
-        else if (usedChanceCard) ;
-        //TODO return card logic
+        else if (usedChanceCard){
+            if (player.getGetOutJailCards() > 0){
+                player.useOneGetOutOfJailCard();
+                player.setInJail(false);
+            }else
+                GUIController.getPlayerAction(player.getName(),Language.get("chanceCardOutOfJail"));
+        }
+
     }
 
     /*
