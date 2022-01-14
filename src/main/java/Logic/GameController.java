@@ -53,16 +53,15 @@ public class GameController {
 
     // Handles the game flow.
     public void playGame() {
-        boolean allowedToDecide = true;
+        do { // Loops until only one player left.
 
-        // If player does not escape jail. They cannot make any other actions
-        if (currentPlayer.isInJail())
-            allowedToDecide = jailAttempt(); // False if not out of jail
+            boolean allowedToDecide = true;
 
+            // If player does not escape jail. They cannot make any other actions
+            if (currentPlayer.isInJail())
+                allowedToDecide = jailAttempt(); // False if not out of jail
 
-        if (allowedToDecide){ // If player is allowed to make actions.
-
-            do { // Loops until only one player left.
+            if (allowedToDecide) { // If player is allowed to make actions.
 
                 // Give player choice; Throw, Buy, sell
 
@@ -74,7 +73,7 @@ public class GameController {
                 String action1 = Language.get("choice1"); // Throw Dice
 
                 // If the player does not have monoply. No other choice than taking turn.
-                if (board.allMonopolyColorsByPlayer(currentPlayer).length > 0){
+                if (board.allMonopolyColorsByPlayer(currentPlayer).length > 0) {
                     String action2 = Language.get("choice2"); // Buy properties
                     String action3 = Language.get("choice3"); // Sell properties
                     actionChoices = new String[]{action1, action2, action3};
@@ -87,7 +86,7 @@ public class GameController {
                     else if (actionAnswer.equals(action3)) // Sell
                         manageProperty("sell");
 
-                }else { // Only give prompt to throw dice
+                } else { // Only give prompt to throw dice
                     actionChoices = new String[]{action1};
                     actionAnswer = GUIController.givePlayerChoice(actionMsg, actionChoices);
                 }
@@ -99,20 +98,22 @@ public class GameController {
                     GUIController.getPlayerAction(currentPlayer.getName(), Language.get("throwDice"));
                     takeTurn();
                 }
+            }
 
-                // Check for extra turn
-                if (!currentPlayer.getHasExtraTurn()){
-                    changeTurn();
-                    doublesRolled = 0;
-                }
-                currentPlayer.setHasExtraTurn(false); // Make sure that extra turn is reset
-                checkForBust(); // See if any player has gone bust.
+            // Check for extra turn
+            if (!currentPlayer.getHasExtraTurn()){
+                changeTurn();
+                doublesRolled = 0;
+            }
+            currentPlayer.setHasExtraTurn(false); // Make sure that extra turn is reset
+            checkForBust(); // See if any player has gone bust.
 
-            }while (!(playersLeft <= 1));
-            // Game is stopped. Find the winner
-            findWinner();
-        }
+        }while (!(playersLeft <= 1));
+        // Game is stopped. Find the winner
+        findWinner();
     }
+
+
 
     private void manageProperty(String action){
         boolean keepGoing = true;
@@ -271,7 +272,7 @@ public class GameController {
             if (player.getBalance() <= 0 || !player.getActive()){
                 player.setActive(false); // Make Inactive
                 player.setHasExtraTurn(false); // Ensure that they dont have extra turn.
-                // board.playerGoingBankrupt(player); //removes all owned property from player
+                board.playerGoingBankrupt(player); //removes all owned property from player
                 playersLeft--;
             }
         }
