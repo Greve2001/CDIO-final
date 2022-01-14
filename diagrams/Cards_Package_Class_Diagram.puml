@@ -3,41 +3,56 @@
 
 skinparam groupInheritance 2
 
+
+
 skinparam linetype polyline
 package Cards
 {
    abstract class chanceCard{
-       #amount :dobule
-       #fieldToMove :int
-       -description
-
-       +updateBalancePositive(double amount) : double
-       +updateBalanceNegative(double amount) : double
-       +moveNumOfFields(int fieldsmove) : int
+       #type : ChanceCardType
+       #description: String
+       #value : int
    }
    class Deck{
       -chanceCardCheck :Chancecard[]
       -drawCardCoubt : int
 
       +pullCard(): chanceCard
+      +shuffleCards(): void
    }
-   class ChanceCardLogic{
+   class GetOutOfJailCard{
    }
-   class MoveFieldsChanceCard{
+   class MatadorGrantCard{
+   }
+   class MoveNrOfFieldsCard{
+   }
+   class MoveToSpecificFieldCard{
+   }
+   class PayMoneyToBankCard{
+   }
+   class ReceieveMoneyFromBankCard{
+   }
+   class ReceiveMoneyFromPlayersCard{
+   }
 
-   }
-   class PayMoneyChanceCard{
 
-   }
-   class ReceiveMoneyChanceCard{
-
-   }
 }
 
-Deck -- chanceCard
-chanceCard <|-- MoveFieldsChanceCard
-chanceCard <|-- PayMoneyChanceCard
-chanceCard <|-- ReceiveMoneyChanceCard
+Deck "1  " *-- "1..41  " chanceCard: Contains \t
+
+ActionHandler <-- Deck
+
+
+chanceCard <|-- "2" GetOutOfJailCard
+chanceCard <|-- "1    " MatadorGrantCard
+chanceCard <|-- "3" MoveNrOfFieldsCard
+chanceCard <|-- "10" MoveToSpecificFieldCard
+chanceCard <|-- "        10     " PayMoneyToBankCard
+chanceCard <|-- "12" ReceieveMoneyFromBankCard
+chanceCard <|-- "3" ReceiveMoneyFromPlayersCard
+
+
+
 
 
 @enduml
