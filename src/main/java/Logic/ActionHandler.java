@@ -30,8 +30,8 @@ public class ActionHandler {
             case "Chance" -> cardAction(player);
             case "GoToPrison" -> goToPrison(player);
             default -> {
+                // If square doesn't have any associated action do nothing.
             }
-            // TODO Implement default case
         }
     }
 
@@ -43,29 +43,27 @@ public class ActionHandler {
             int amountToPay = BOARD.getCurrentCost(square.getPOSITION());
             payRent(player, square, amountToPay);
         }
-
     }
 
     private void breweryAction(Player player, Square square, int diceSum) {
         if (square.getOwner() == null) { // Ask to buy
             buySquare(player, square, "buyBrewery");
+
         } else { // Pay the rent
             // Doubles the amount of rent if the player owns all breweries.
             int amountToPay = BOARD.getCurrentCost(square.getPOSITION()) * diceSum;
-
             payRent(player, square, amountToPay);
         }
-
     }
 
     private void ferryAction(Player player, Square square) {
         if (square.getOwner() == null) { // Buy if no owner
             buySquare(player, square, "buyFerry");
+
         } else { // Pay the rent
             int amountToPay = BOARD.getCurrentCost(square.getPOSITION());
             payRent(player, square, amountToPay);
         }
-
     }
 
     // Ask the player to buy the square and withdraw amount from bank.
@@ -77,6 +75,7 @@ public class ActionHandler {
             square.setOwner(player);
             GUIController.setOwner(player.getName(), player.getColor(), square.getPOSITION());
             GUIController.updateRent(square.getPOSITION(), BOARD.getCurrentCost(square.getPOSITION()));
+
         } else {
             holdAuction(player, square);
         }
@@ -106,6 +105,7 @@ public class ActionHandler {
             if (activeBidders == 1) {
                 declareAuctionWinner(participants, square, highestBid);
                 notSold = false;
+
             } else if (participants[biddingPlayer]) { // Checks if the player is still an active bidder before letting them place a new bet.
                 highestBid = biddingRound(participants, highestBid, biddingPlayer);
             }
@@ -125,7 +125,7 @@ public class ActionHandler {
 
                 square.setOwner(players[i]);
                 BANK.payToBank(players[i], highestBid);
-                GUIController.setOwner(players[i].getName(), players[i].getColor(),  square.getPOSITION());
+                GUIController.setOwner(players[i].getName(), players[i].getColor(), square.getPOSITION());
                 GUIController.updateRent(square.getPOSITION(), BOARD.getCurrentCost(square.getPOSITION()));
             }
         }
@@ -138,6 +138,7 @@ public class ActionHandler {
         if (!wantToBid) {
             participants[biddingPlayer] = false;
             activeBidders--;
+
         } else {
             int bid;
 
@@ -180,7 +181,6 @@ public class ActionHandler {
         }
     }
 
-    // TODO fix rounding errors
     private int roundToNearest50(int valueToRound) {
         int modulo = valueToRound % 50;
         if (modulo < 25)
@@ -217,7 +217,6 @@ public class ActionHandler {
             case MATADOR_GRANT_CARD -> handleMatadorGrantCard(card, player);
             case GET_OUT_OF_JAIL_CARD -> handleGetOutOfJailCard(player);
         }
-
     }
 
     // The player PAYS money TO the bank.
@@ -268,6 +267,7 @@ public class ActionHandler {
         player.giveOneGetOutOfJailCard();
     }
 
+    // TODO Implement the chance card that uses this
     private void moveToNearest(Player player, String type) {
         int position = player.getPosition();
         Square[] squares = BOARD.getALL_SQUARES();
@@ -303,7 +303,7 @@ public class ActionHandler {
     }
 
     public void buyHotels(Player player, int price, int amount) {
-         BANK.buyHotels(player, amount, price);
+        BANK.buyHotels(player, amount, price);
     }
 
     public void sellHouses(Player player, int pricePerHouse, int numOfHouses) {
@@ -324,7 +324,7 @@ public class ActionHandler {
         return BANK.getHotelsAvailable();
     }
 
-    public void bankruptPlayerHandover(int amountOfHouses, int amountOfHotels){
+    public void bankruptPlayerHandover(int amountOfHouses, int amountOfHotels) {
         BANK.setHousesAvailable(BANK.getHousesAvailable() + amountOfHouses);
         BANK.setHotelsAvailable(BANK.getHotelsAvailable() + amountOfHotels);
     }
