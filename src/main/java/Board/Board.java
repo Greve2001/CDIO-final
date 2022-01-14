@@ -34,7 +34,6 @@ public class Board {
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Street(
                             data[name],
                             Integer.parseInt(data[position]),
-                            data[type],
                             data[color],
                             stringArrayToIntArray(data, data[type]),
                             Integer.parseInt(data[price]),
@@ -44,7 +43,6 @@ public class Board {
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Ferry(
                             data[name],
                             Integer.parseInt(data[position]),
-                            data[type],
                             data[color],
                             stringArrayToIntArray(data, data[type]),
                             Integer.parseInt(data[price])
@@ -53,7 +51,6 @@ public class Board {
                     ALL_SQUARES[Integer.parseInt(data[position])] = new Brewery(
                             data[name],
                             Integer.parseInt(data[position]),
-                            data[type],
                             data[color],
                             stringArrayToIntArray(data, data[type]),
                             Integer.parseInt(data[price])

@@ -52,7 +52,6 @@ public abstract class Square {
     }
 
     public void setPledge(boolean nun) {
-        return;
     }
 
     public void setAmountOfHouses(int i){}

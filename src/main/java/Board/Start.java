@@ -2,14 +2,14 @@ package Board;
 
 public class Start extends Square {
 
-    private int amount;
+    private final int AMOUNT;
 
     public Start(String name, int position, int amount) {
         super(name, position);
-        this.amount = amount;
+        this.AMOUNT = amount;
     }
 
     public int getAmount(){
-        return amount;
+        return AMOUNT;
     }
 }
