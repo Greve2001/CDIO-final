@@ -165,7 +165,7 @@ public class GUIController {
         try {
             for (int i = 1; i <= Math.abs(spacesToMove); i++) {
                 // Calculate new position
-                int newPosition = direction * (i + startPosition) % fields.length;
+                int newPosition = (i * direction + startPosition) % fields.length;
                 if (newPosition < 0) newPosition = fields.length + direction * (i + startPosition);
 
                 GUI_Field toField = gui.getFields()[newPosition]; // Get the GUI field

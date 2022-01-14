@@ -11,6 +11,6 @@ class GUIControllerTest {
         GUIController controller = new GUIController(board.getALL_SQUARES());
         GUIController.createPlayers(3, 6, 10000);
 
-        GUIController.movePlayer("1", 0, -4);
+        GUIController.movePlayer("1", 0, -3);
     }
 }
