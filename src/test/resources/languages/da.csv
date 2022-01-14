@@ -1,2 +1,7 @@
 translate,varName
 This string is not translated,notTranslated
+Ja,yes
+Nej,no
+choice1,choice1
+choice2,choice2
+choice3,choice3
