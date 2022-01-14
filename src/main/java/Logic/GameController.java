@@ -271,7 +271,7 @@ public class GameController {
             if (player.getBalance() <= 0 || !player.getActive()){
                 player.setActive(false); // Make Inactive
                 player.setHasExtraTurn(false); // Ensure that they dont have extra turn.
-                board.playerGoingBankrupt(player); //removes all owned property from player
+                // board.playerGoingBankrupt(player); //removes all owned property from player
                 playersLeft--;
             }
         }

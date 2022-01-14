@@ -214,14 +214,16 @@ public class GUIController {
     public static void setHouses(int position, int amount){
         if (testing) return;
 
-        Objects.requireNonNull(posToStreet(position)).setHouses(amount);
+        if (posToStreet(position) != null)
+            posToStreet(position).setHouses(amount);
     }
 
     // Same as houses
     public static void setHotel(int position, boolean bool){
         if (testing) return;
 
-        Objects.requireNonNull(posToStreet(position)).setHotel(bool);
+        if (posToStreet(position) != null)
+            posToStreet(position).setHotel(bool);
     }
 
     // Put a name on the ownable of the player. This also displays the players color on the border for easier visualisation

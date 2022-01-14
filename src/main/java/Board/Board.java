@@ -504,7 +504,7 @@ public class Board {
                 }
                 field.setAmountOfHouses(0);
                 field.setOwner(null);
-                GUIController.setOwner(null, null, field.getPOSITION());
+                GUIController.setOwner("", null, field.getPOSITION());
             }
         }
         actionHandler.bankruptPlayerHandover(amountOfHouses,amountOfHotels);
