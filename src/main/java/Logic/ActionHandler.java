@@ -250,12 +250,9 @@ public class ActionHandler {
 
     private void handleMoveToSpecificField(ChanceCard card, Player player) {
         int fieldNr = card.getValue();
-        boolean goingToJail;
 
-        if (fieldNr == BOARD.getJailPosition())
-            goingToJail = true;
-        else
-            goingToJail = false;
+        boolean goingToJail = fieldNr == BOARD.getJailPosition();
+
         BOARD.setPlayerPosition(player, fieldNr, goingToJail);
     }
 
