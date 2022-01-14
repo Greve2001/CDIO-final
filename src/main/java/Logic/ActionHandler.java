@@ -250,8 +250,13 @@ public class ActionHandler {
 
     private void handleMoveToSpecificField(ChanceCard card, Player player) {
         int fieldNr = card.getValue();
+        boolean goingToJail;
 
-        BOARD.setPlayerPosition(player, fieldNr, false);
+        if (fieldNr == BOARD.getJailPosition())
+            goingToJail = true;
+        else
+            goingToJail = false;
+        BOARD.setPlayerPosition(player, fieldNr, goingToJail);
     }
 
     private void handleMatadorGrantCard(ChanceCard card, Player player) {

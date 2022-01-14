@@ -528,6 +528,10 @@ public class Board {
         actionHandler.setPlayers(players);
     }
 
+    public int getJailPosition(){
+        return jailPosition;
+    }
+
 
     /*
      * this methods are the private method that board uses multiple places
