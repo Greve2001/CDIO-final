@@ -411,25 +411,6 @@ public class Board {
     }
 
     /**
-     * used for selling houses
-     * @param player that want to sell
-     * @return all the squares that the given player own and have a house on
-     */
-    public String[] allSquaresWherePlayerHaveHouses(Player player){
-        String[] temp = new String[ALL_SQUARES.length];
-        int count = 0;
-        for (Square field: ALL_SQUARES){
-            if (player.equals(field.getOwner())){
-                if (field.getAmountOfHouses() > 0){
-                    temp[count] = field.getName();
-                    count++;
-                }
-            }
-        }
-        return reduceStringArraySize(temp, count);
-    }
-
-    /**
      * used by gamecontroller to only allow player to select the color that they have monopoly on, for building.
      * @param player that want to build
      * @return the colors that the play have monopoly on.
