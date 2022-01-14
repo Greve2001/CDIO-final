@@ -89,7 +89,7 @@ Ownable "           1" <|--- " 2" Brewery : Is\t
 
 
 Square <|-- "1" Tax
-Square <|-- Ownable
+Square <|-- "        1" Ownable
 Square <|-- "1" incomeTax
 Square <|-- "           1" Start
 Square <|-- "             1" Refugee
@@ -98,7 +98,7 @@ Square <|-- "             1" Prison
 Square <|--  "            6" Chance
 
 GameController <-- Board
-ActionHandler --> Board
+ActionHandler <--> Board
 CSVReader --> Board
 
 
