@@ -1,7 +1,132 @@
-translate,varName
-This string is not translated,notTranslated
+translate,varName, comments
+This string is not translated,notTranslated,IntroducedForTesting
+
+
+,,Language Pack
+Indtast dit navn: ,enterName
+Ønsker du at købe grunden? ,buyStreet
+Ønsker du at købe rederiet? ,buyFerry
+Ønsker du at købe bryggeriet? ,buyBrewery
+Vælg handling,askAction
+Kast terning,choice1
+Køb egendom,choice2
+Sælg egendom,choice3
+Grund rente,baseRent
+1 hus,1house
+2 huse,2house
+3 huse,3house
+4 huse,4house
+1 hotel,hotel
+2 færger,2ferries
+3 færger,3ferries
+4 færger,4ferries
+Ejer 1 bryggeri: <br>Betal 100x det antal øjne terningerne viser,1brewery
+Ejer 2 bryggerier: <br>Betal 200x det antal øjne terningerne viser,2brewery
+Træk et prøvlykken kort,pullChancecard
+Fængsel,prison
+Parkering,parking
+Vælg antallet af spillere,selectPlayers
+Indtast navn,enterName
+Ekstraordinær skat,extraTax
+Indkomst skat,incomeTax
+Start her!,startHere
+Brug dit gå frit kort,useEscapeCard
+Forsøg at bryde ud ved at slå 2 ens,attemptEscaping
+Betal 1000kr,payFee
+Du brød ud!,youBrokeFree
+Du brød desværre ikke ud,didNotEscape
+Du har ikke flere forsøg til at komme ud. Betal bøden,noMoreTries
+Vinderen er ,winnerIs
+Gå i fængsel,goToPrison
+ betalte: ,paid
+ kr til banken,paidToBank1
+ kr til ,paidToPlayer
+ Banken betalte ,bankPaid1
+ kr til ,bankPaid2
+Hvad vil du købe?,whatToBuy?
+Hvad vil du sælge?,whatToSell?
+Hvor mange vil du købe? De koster per styk: ,howManyToBuy?
+Hvor mange vil du sælge? Så meget får du pr styk: ,howManyToSell?
+Stop,stop
+Afbryd,cancel
+Vælg en felt farve at købe egendom til,chooseStreetColor
+Huse,houses
+Hoteller,hotels
+Kast terningerne,throwDice
+Du har slået 2 ens. Det er din tur igen.,haveExtraTurn
+Vælg,choose
+Du har ikke monopol på nogle farver,noMonopoly
+Du ramte et prøv lykken kort,hitChance
+
+,,GUIErrors
+Ikke en vej. Den kan ikke ejes!,notAStreet
+Fejl. Dette felt er ikke en vej på position: ,notAStreetAt
+
+,,General
 Ja,yes
 Nej,no
-choice1,choice1
-choice2,choice2
-choice3,choice3
+Pris,price
+Leje,rent
+
+,,ActionHandler
+Betal ,payPct
+Betal indkomstskat.,payIncomeTax
+ ønsker du at afgive et bud?,wishToBid
+ dit bud? (Nuværende højeste bud er: ,askForBid
+ har vundet auktionen,hasWonAuction
+
+,,Board
+Hvor skal det næste hus placeres?,placeHouse
+Du har ikke penge nok,insuficientMoney
+Banken har ikke nok huse,bankOutOfHouses
+Du kan max have 4 huse per grund,MaxAmountOfHouses
+Ukendt fejl ved køb prøv igen,boardUnknowError
+Du skal eje alle grunde i farven for at købe bygninger,missingMonopoly
+Hvor skal det næste hotel placeres?,placeHotel
+Banken har ikke nok hoteller,bankOutOfHotels
+Du skal have 4 huse på alle grunde i farven før du kan bygge hoteller,youNeedMoreHouses
+Hvilken grund skal der sælges et hus fra?,whatToSell
+Der skal fjernes huse ,ensureEvenDistribution
+Du har ikke noget kort til at komme ud af fængslet,chanceCardOutOfJail
+
+,,ChanceCards
+
+,,PayMoneyToBankCard
+De har kørt frem for FULDT STOP. Betal 1000 kr. i bøde.,ccFuldtStop
+Betal for vognvask og smøring kr. 300.,ccVognvaskOgSmøring
+Betal kr. 200 for levering af to kasser øl.,ccLeveringAfToKasserØl
+Betal 3000 for reparation af deres vogn.,ccReparationAfVogn, x2
+De har købt 4 nye dæk til deres vogn. Betal kr. 1000.,ccNyeDæk
+De har fået en parkeringsbøde. Betal kr. 200 i bøde.,ccParkeringsbøde
+Betal deres bilforsikring kr. 1000.,ccBilforsikring
+De har været udenlands og har købt for mange smøger med hjem. Betal kr. 200 i told.,ccTold
+Tandlægeregning betal kr. 2000.,ccTandlægeregning
+,,ReceiveMoneyFromBankCard
+De har vundet i klasselotteriet. Modtag 500 kr.,ccVundetIKlasselotteriet, x2
+De modtager deres aktieudbytte. Modtag kr. 1000 af banken.,ccModtagAktieudbytte, x3
+Kommunen har eftergivet et kvartals skat. Hæv i banken kr. 3000.,ccEftergivetSkat
+De havde en række med elleve rigtige i tipning. Modtag kr. 1000.,cc11RigtigeITipning
+Grundet dyrtiden har De fået gageforhøjelse. Modtag kr. 1000.,ccGageforhøjelse
+Deres præmieobligation er udtrukket. De modtager kr. 1000 af banken.,ccPræmieobligationUdtrukket, x2
+De har solgt nogle gamle møbler på auktion. Modtag kr. 1000 af banken.,ccSalgPåAuktion
+Værdien af egen avl fra nyttehaven udgør kr. 200 som de modtager af banken.,ccVærdiAfAvlFraNyttehaven
+,,MoveNrOfFieldsCard
+Ryk tre felter frem.,ccRykTreFelterFrem
+Ryk tre felter tilbage.,ccRykTreFelterTilbage, x2
+,,ReceiveMoneyFromPlayersCard
+Det er deres fødselsdag. Modtag af hver medspiller kr. 200.,ccFødselsdag
+De har lagt ud til et sammenskudsgilde. Mærkværdigvis betaler alle straks. Modtag fra hver medspiller kr. 500.,ccSammenskudsgilde
+De skal holde familiefest og får et tilskud fra hver medspiller på 500 kroner.,ccFamiliefest
+,,MoveToSpecificFieldCard
+Ryk frem til START.,ccRykFremTilStart, x2
+Ryk frem til Frederiksberg Allé. Hvis de passerer START indkassér da kr. 4000.,ccRykFremTilFrederiksbergAllé
+Tag med Mols-linjen. Flyt brikken frem og hvis De passerer START indkassér da kr. 4000.,ccTagMedMolsLinjen
+Ryk frem til Grønningen. Hvis de passerer START indkassér da kr. 4000.,ccRykFremTilGrønningen
+Ryk frem til Vimmelskaftet. Hvis de passerer START indkassér da kr. 4000.,ccRykFremTilVimmelskaftet
+Ryk frem til Strandvejen. Hvis de passerer START indkassér da kr. 4000.,ccRykFremTilStrandvejen
+Tag ind til Rådhuspladsen.,ccTagIndTilRådhuspladsen
+Gå i fængsel. De indkasserer ikke kr. 4000 for at passere START.,ccGåIFængsel, x2
+,,MatadorGrantCard
+De modtager Matador-Legatet på kr. 40.000. Men kun hvis Deres værdier ikke overstiger kr. 15.000.,ccMatadorLegat
+,,GetOutOfJailCard
+I anledning af Kongens fødselsdag benådes De herved for fængsel. Dette kort kan opbevares indtil De får brug for det.,ccBenådningforFængsel, x2
