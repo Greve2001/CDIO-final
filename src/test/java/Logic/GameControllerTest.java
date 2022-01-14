@@ -76,17 +76,6 @@ public class GameControllerTest {
     }
 
     @Test
-    void ensureInactivePlayersCannotPlay() {
-        gameController.setupPlayers(new String[]{"1", "2", "3", "4"});
-        Player[] players = gameController.getPlayers();
-
-        Player currentPlayer = players[0];
-
-        // Again what to do? Cannot access the right methods
-        //TODO when figuring out how to make innerclass
-    }
-
-    @Test
     void TestFreeFromJailCard() {
         // Setup
         gameController.setupPlayers(new String[]{"1", "2", "3", "4"});
@@ -149,9 +138,9 @@ public class GameControllerTest {
         diceCup.set(gameController, new DiceCupStub(4, 4));
 
         // Action
-        takeTurn.invoke(gameController, null);
-        takeTurn.invoke(gameController, null);
-        takeTurn.invoke(gameController, null);
+        takeTurn.invoke(gameController);
+        takeTurn.invoke(gameController);
+        takeTurn.invoke(gameController);
 
         // Assert
         boolean actualInJail = players[0].isInJail();
@@ -175,7 +164,7 @@ public class GameControllerTest {
 
 
         // Action
-        takeTurn.invoke(gameController, null);
+        takeTurn.invoke(gameController);
 
         assertTrue(players[0].getHasExtraTurn());
     }
@@ -198,9 +187,9 @@ public class GameControllerTest {
         players[0].setInJail(true);
 
 
-        jailAttempt.invoke(gameController, null);
-        jailAttempt.invoke(gameController, null);
-        jailAttempt.invoke(gameController, null);
+        jailAttempt.invoke(gameController);
+        jailAttempt.invoke(gameController);
+        jailAttempt.invoke(gameController);
 
 
         // Assert
@@ -228,9 +217,9 @@ public class GameControllerTest {
         takeTurn.setAccessible(true);
 
         // Action
-        takeTurn.invoke(gameController, null);
-        takeTurn.invoke(gameController, null);
-        takeTurn.invoke(gameController, null);
+        takeTurn.invoke(gameController);
+        takeTurn.invoke(gameController);
+        takeTurn.invoke(gameController);
 
 
         assertTrue(players[0].isInJail());
@@ -238,7 +227,7 @@ public class GameControllerTest {
     }
 
     @Test
-    void TestInactivePlayersWontGetATurn() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, NoSuchFieldException {
+    void TestInactivePlayersWontGetATurn() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         // Setup
         gameController.setupGame();
         Player[] players = gameController.getPlayers();
@@ -252,11 +241,11 @@ public class GameControllerTest {
         // Action
         players[1].setActive(false);
 
-        takeTurn.invoke(gameController, null);
-        changeTurn.invoke(gameController, null);
+        takeTurn.invoke(gameController);
+        changeTurn.invoke(gameController);
 
-        takeTurn.invoke(gameController, null);
-        changeTurn.invoke(gameController, null);
+        takeTurn.invoke(gameController);
+        changeTurn.invoke(gameController);
 
         // Assert
         assertNotEquals(0, players[0].getPosition());
