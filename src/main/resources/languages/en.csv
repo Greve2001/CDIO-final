@@ -83,3 +83,45 @@ The bank doesn't have enough hotels in its inventory,bankOutOfHotels
 You need to own all street in the same color to buy the buildings,youNeedMoreHouses
 What street should there be sold a house from?,whatToSell
 There needs to be removed houses ,ensureEvenDistribution
+
+,,ChanceCards
+
+,,PayMoneyToBankCard
+They have driven ahead of FULL STOP. Pay a fine of 1000 kr.,ccFuldtStop
+Pay for car wash and lubrication 300 kr.,ccVognvaskOgSmøring
+Pay kr. 200 for the delivery of two cases of beer.,ccLeveringAfToKasserØl
+Pay 3000 for the repair of your car.,ccReparationAfVogn, x2
+You have bought 4 new tires to your car. Pay 1000 kr.,ccNyeDæk
+You got a parking ticket. Pay a 200 kr. fine.,ccParkeringsbøde
+Pay your car insurance 1000 kr.,ccBilforsikring
+You have been travelling and brought home too many cigarrettes. Pay 200 kr. in tax.,ccTold
+Dental bill pay 2000kr.,ccTandlægeregning
+,,ReceiveMoneyFromBankCard
+You have won the lottery. Receive 500 kr.,ccVundetIKlasselotteriet, x2
+You have received your share dividend. Receive 1000 kr. from the bank.,ccModtagAktieudbytte, x3
+The municipality have released this quarters tax. Withdraw 3000 from the bank.,ccEftergivetSkat
+They had a row with elleven correct in tipping. Receive 1000kr.,cc11RigtigeITipning
+Because of the expensive time you have received a wage increase. Receive 1000kr .,ccGageforhøjelse
+Your premium bond is with drawing. You receive 1000 kr. from the bank.,ccPræmieobligationUdtrukket, x2
+You have solgt some old furniture on auction. Receive 1000 kr. from the bank.,ccSalgPåAuktion
+The value of your produce from the utility garden is 200 kr which you receive from the bank.,ccVærdiAfAvlFraNyttehaven
+,,MoveNrOfFieldsCard
+Move three squares forward.,ccRykTreFelterFrem
+Move three squares backwards.,ccRykTreFelterTilbage, x2
+,,ReceiveMoneyFromPlayersCard
+It is your birthday. Receive 200 kr. from each player.,ccFødselsdag
+You have laid out for a pot luck dinner. Strangely everyone pays immediately. Receive 500 kr. from each player.,ccSammenskudsgilde
+You should throw a family party and every player grants you 500 kr.,ccFamiliefest
+,,MoveToSpecificFieldCard
+Move forward to START.,ccRykFremTilStart, x2
+Move forward to Frederiksberg Allé. If you passes START then receive 4000 kr.,ccRykFremTilFrederiksbergAllé
+Travel with Mols-linjen. Move the token forward and if you passes START then receive 4000 kr.,ccTagMedMolsLinjen
+Move forward to Grønningen. If you passes START then receive 4000 kr.,ccRykFremTilGrønningen
+Move forward to Vimmelskaftet. If you passes START then receive 4000 kr.,ccRykFremTilVimmelskaftet
+Move forward to Strandvejen. If you passes START then receive 4000 kr.,ccRykFremTilStrandvejen
+Go to Rådhuspladsen.,ccTagIndTilRådhuspladsen
+Go in prison. You don't receive 4000kr. if you go over START,ccGåIFængsel, x2
+,,MatadorGrantCard
+The receive the Matador-Grant on 40.000 kr. But only if your assets don't exceeds 15.000 kr. in total.,ccMatadorLegat
+,,GetOutOfJailCard
+In relation to the Kings birthday you've been pardoned from prison. This card can be stored until they need it.,ccBenådningforFængsel, x2
