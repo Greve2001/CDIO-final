@@ -45,9 +45,9 @@ ActionHandler <-- Deck
 
 chanceCard <|-- "2" GetOutOfJailCard
 chanceCard <|-- "1    " MatadorGrantCard
-chanceCard <|-- "3" MoveNrOfFieldsCard
-chanceCard <|-- "10" MoveToSpecificFieldCard
-chanceCard <|-- "        10     " PayMoneyToBankCard
+chanceCard <|--- "3" MoveNrOfFieldsCard
+chanceCard <|--- "10" MoveToSpecificFieldCard
+chanceCard <|--- "        10     " PayMoneyToBankCard
 chanceCard <|-- "12" ReceieveMoneyFromBankCard
 chanceCard <|-- "3" ReceiveMoneyFromPlayersCard
 
