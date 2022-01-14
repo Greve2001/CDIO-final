@@ -1,11 +1,11 @@
 package Logic;
 
 import Board.*;
+import Cards.*;
 import Interface.GUIController;
 import SimpleClasses.Player;
 import Utilities.Language;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -271,5 +271,117 @@ class ActionHandlerTest {
 
     @Test
     void holdAuction() {
+    }
+
+    @Nested
+    class ChanceCardTest{
+
+        ChanceCard[] chanceCard;
+
+        @BeforeEach
+        void beforeEach(){
+            chanceCard = new ChanceCard[7];
+
+            chanceCard[0] = new PayMoneyToBankCard(Language.get("ccFuldtStop"), 1000);
+            chanceCard[1] = new ReceiveMoneyFromBankCard(Language.get("ccVundetIKlasselotteriet"), 500);
+            chanceCard[2] = new MoveNrOfFieldsCard(Language.get("ccRykTreFelterFrem"), 3);
+            chanceCard[3] = new ReceiveMoneyFromPlayersCard(Language.get("ccFødselsdag"), 200);
+            chanceCard[4] = new MoveToSpecificFieldCard(Language.get("ccRykFremTilStart"), 0);
+            chanceCard[5] = new MatadorGrantCard(Language.get("ccMatadorLegat"), 40000);
+            chanceCard[6] = new GetOutOfJailCard(Language.get("ccBenådningforFængsel"));
+
+            players[0].setBalance(30000);
+            players[0].setPosition(0);
+        }
+
+        @Test
+        void payMoneyToBankTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+            Method handlePayMoneyToBank = actionHandler.getClass().getDeclaredMethod("handlePayMoneyToBank", ChanceCard.class, Player.class);
+            handlePayMoneyToBank.setAccessible(true);
+
+            Object[] args = {chanceCard[0], players[0]};
+            handlePayMoneyToBank.invoke(actionHandler,args);
+
+            assertEquals(29000, players[0].getBalance());
+        }
+
+        @Test
+        void ReceiveMoneyFromBankCardTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+            Method handleReceiveMoneyFromBank = actionHandler.getClass().getDeclaredMethod("handleReceiveMoneyFromBank", ChanceCard.class, Player.class);
+            handleReceiveMoneyFromBank.setAccessible(true);
+
+            Object[] args = {chanceCard[1], players[0]};
+            handleReceiveMoneyFromBank.invoke(actionHandler,args);
+
+            assertEquals(30500, players[0].getBalance());
+        }
+
+        @Test
+        void MoveNrOfFieldsCardTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+            Method handleMoveNrOfFields = actionHandler.getClass().getDeclaredMethod("handleMoveNrOfFields", ChanceCard.class, Player.class);
+            handleMoveNrOfFields.setAccessible(true);
+
+            Object[] args = {chanceCard[2], players[0]};
+            players[0].setPosition(17);
+            handleMoveNrOfFields.invoke(actionHandler,args);
+
+            assertEquals(30000, players[0].getBalance());
+            assertEquals(20,players[0].getPosition());
+        }
+
+        @Test
+        void ReceiveMoneyFromPlayersCardTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+            Method handleReceiveMoneyFromPlayers = actionHandler.getClass().getDeclaredMethod("handleReceiveMoneyFromPlayers", ChanceCard.class, Player.class, Player[].class);
+            handleReceiveMoneyFromPlayers.setAccessible(true);
+
+            Object[] args = {chanceCard[3], players[0], players};
+            handleReceiveMoneyFromPlayers.invoke(actionHandler,args);
+
+            assertEquals(30400, players[0].getBalance());
+            assertEquals(29800, players[1].getBalance());
+            assertEquals(29800, players[2].getBalance());
+        }
+
+        @Test
+        void MoveToSpecificFieldCardTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+            Method handleMoveToSpecificField = actionHandler.getClass().getDeclaredMethod("handleMoveToSpecificField", ChanceCard.class, Player.class);
+            handleMoveToSpecificField.setAccessible(true);
+
+            players[0].setPosition(20);
+
+            Object[] args = {chanceCard[4], players[0]};
+            handleMoveToSpecificField.invoke(actionHandler,args);
+
+            assertEquals(34000, players[0].getBalance());
+            assertEquals(0, players[0].getPosition());
+        }
+
+        @Test
+        void MatadorGrantCardTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+            Method handleMatadorGrantCard = actionHandler.getClass().getDeclaredMethod("handleMatadorGrantCard", ChanceCard.class, Player.class);
+            handleMatadorGrantCard.setAccessible(true);
+
+            Object[] args = {chanceCard[5], players[0]};
+            handleMatadorGrantCard.invoke(actionHandler,args);
+
+            assertEquals(30000, players[0].getBalance());
+
+            players[0].setBalance(15000);
+            handleMatadorGrantCard.invoke(actionHandler,args);
+
+            assertEquals(55000, players[0].getBalance());
+        }
+
+        @Test
+        void GetOutOfJailCardTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+            Method handleGetOutOfJailCard = actionHandler.getClass().getDeclaredMethod("handleGetOutOfJailCard", Player.class);
+            handleGetOutOfJailCard.setAccessible(true);
+
+            Object[] args = {players[0]};
+            handleGetOutOfJailCard.invoke(actionHandler,args);
+
+            assertEquals(30000, players[0].getBalance());
+            assertEquals(1, players[0].getGetOutJailCards());
+        }
     }
 }
