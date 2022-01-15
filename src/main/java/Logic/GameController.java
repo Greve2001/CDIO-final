@@ -146,7 +146,13 @@ public class GameController {
                 String colorChosen = GUIController.givePlayerChoice(msg, colorsToChooseFrom);
 
                 int housePrice = board.getHousePrice(colorChosen); // Same as hotelprice
-                int amount = GUIController.getPlayerInteger(Language.get("howManyToBuy?") + housePrice);
+
+                String howMany = "";
+                if (action.equals("buy")) howMany = Language.get("howManyToBuy?");
+                if (action.equals("buy")) howMany = Language.get("howManyToSell?");
+
+
+                int amount = GUIController.getPlayerInteger(howMany + housePrice);
                 if (amount <= 0){ // If inputted 0 or negative, exit
                     break;
                 }
