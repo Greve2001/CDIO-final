@@ -162,14 +162,19 @@ public class GameController {
                     if (action.equals("buy")) {
                         board.buyHouse(currentPlayer, colorChosen, amount);
                     }
-                    //if (action.equals("sell")) board.sellHouse(currentPlayer, colorChosen, amountToBuy);
+                    else if (action.equals("sell")){
+                        board.sellBuilding(currentPlayer, colorChosen, "house", amount);
+                    }
+
                 }
 
                 if (answer.equals(choices[1])) {
                     if (action.equals("buy")) {
                         board.buyHotel(currentPlayer, colorChosen, amount);
                     }
-                    //if (action.equals("sell")) board.sellHotel(currentPlayer, colorChosen, amountToBuy);
+                    else if (action.equals("sell")){
+                        board.sellBuilding(currentPlayer, colorChosen, "hotel", amount);
+                    }
                 }
             } else  // Stop
                 keepGoing = false;
@@ -320,11 +325,4 @@ public class GameController {
     public Player[] getPlayers() {
         return players;
     }
-
-    // FOR TESTING BUG
-    public Board getBoard() {
-        return board;
-    }
-
-    // END OF TESTING
 }
