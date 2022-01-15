@@ -323,7 +323,8 @@ public class Board {
             //this section handle control of setup and the purchase of the houses.
             if (player.getBalance() >= price * amountOfHotels && //if the player have enough money
                     actionHandler.getHotelsAvailable() >= amountOfHotels && //if the bank has enough houses
-                    amountOfHousesOnAllProperties == streetWithinColor * 4) { //if the total amount of houses is equal to 4 on each square
+                    amountOfHousesOnAllProperties >= streetWithinColor * 4 && //if the total amount of houses is equal to 4 on each square
+                    !(amountOfHousesOnAllProperties >= streetWithinColor * 5)) { // false, if there is hotels on all streets
 
                 actionHandler.buyHotels(player, price, amountOfHotels);
 
@@ -344,11 +345,12 @@ public class Board {
                         whereToPlaceHotel = GUIController.givePlayerChoice(Language.get("placeHotel"), choice);
                         position = getPositionFromName(whereToPlaceHotel);
 
-                        //this places the Hotels
-                        ALL_SQUARES[position].setAmountOfHouses(5);
-                        amountOfHotels--;
-                        GUIController.setHotel(position, true);
-
+                        if (!(ALL_SQUARES[position].getAmountOfHouses() == 5)) {
+                            //this places the Hotels
+                            ALL_SQUARES[position].setAmountOfHouses(5);
+                            amountOfHotels--;
+                            GUIController.setHotel(position, true);
+                        }
                     } while (amountOfHotels > 0);
                 }
             }
