@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Participant "ah:ActionHandler" as actionHandler
+Participant "p[]:Player" as player
+
+-> actionHandler:holdAuction(player,square)
+actionHandler -> actionHandler:biddingPlayer=0 ,activeBidders=0 ,new boolean[players.length]participants
+alt#red #LightGrey  i = 0; i < players.length; i++
+    actionHandler->player: getActive()
+    actionHandler<--player: return active: boolean
+    alt#Gold #Plum active==true
+        actionHandler->actionHandler:participants[i] = true
+        actionHandler->actionHandler:activeBidders++
+    end #Plum
+
+    actionHandler -> player:getName()
+    actionHandler <-- player:return playersName[i]
+    actionHandler -> player:getName()
+    actionHandler <-- player:return playerName
+    alt#Gold #Plum playersName[i] == playerName
+        actionHandler -> actionHandler:biddingPlayer=i
+    end
+end
+
+actionHandler -> actionHandler:set notSold = true, highestBid = 0
+alt#red #LightGrey notSold == true
+    alt#Gold #Plum activeBidders == 1
+        actionHandler->actionHandler:declareAuctionWinner(participants, square, highestBid)
+        actionHandler -> actionHandler:notSold = false
+    else #Plum participants[biddingPlayer] == true
+          actionHandler->actionHandler:biddingRound(participants, highestBid, biddingPlayer)
+    end
+
+    alt#Gold #Plum biddingPlayer >= players.length - 1
+         actionHandler->actionHandler:biddingPlayer = 0
+    else #Plum
+         actionHandler->actionHandler:biddingPlayer++
+    end
+end
+
+@enduml

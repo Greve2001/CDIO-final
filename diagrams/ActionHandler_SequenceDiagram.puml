@@ -9,7 +9,7 @@ Participant "ba:Bank" as bank
 Participant "bo:Board" as board
 Participant "p[]:Player" as player
 Participant "de:Deck" as deck
-Participant "GUIController" as gui
+Participant "s:Square" as square
 
 
 -> actionHandler: new(board)
@@ -22,140 +22,65 @@ actionHandler -> deck:new
 alt#Gold #LightBlue squareName=="Street"
     actionHandler -> square:getOwner()
     actionHandler <-- square:return owner:Player
-    alt#Gold owner == null
-        actionHandler -> gui:askPlayerAccept(Language.get(msg)
-        actionHandler <-- gui:return answer:boolean
-        alt#Gold answer==true
-            actionHandler -> square:getPrice()
-            actionHandler <--square: return price
-            actionHandler ->bank: payToBank(player, price)
-            actionHandler->square:setOwner(player)
-            square->square: setOwner
-            actionHandler -> player:getName()
-            actionHandler <-- player:return playerName
-            actionHandler -> player:getColor()
-            actionHandler <-- player:return playerColor
-            actionHandler -> square:getPOSITION()
-            actionHandler <-- square:return squarePosition
-            actionHandler->guiController:setOwner(playerName, playerColor, squarePosition);
-            actionHandler -> board:getCurrentCost(squarePosition)
-            actionHandler <-- board:return currentCost
-            actionHandler -> guiController:updateRent(squarePosition, currentCost);
-            guiController -> guiController:updateRent
-        else
-            actionHandler -> actionHandler:biddingPlayer=0 ,activeBidders=0 ,new boolean[players.length]participants
-            alt#red i = 0; i < players.length; i++
-                actionHandler->player: getActive()
-                actionHandler<--player: return active: boolean
-                alt#Gold active==true
-                    actionHandler->actionHandler:participants[i] = true
-                    actionHandler->actionHandler:activeBidders++
-                end
+    alt#Gold #LightGreen owner == null
+        actionHandler->actionHandler:buySquare(player, square, "buyStreet")
+    else #LightGreen
+        actionHandler->square:getPOSITION()
+        actionHandler<--square:return squarePosition
+        actionHandler->board:getCurrentCost(squarePosition)
+        actionHandler<--board: return amountToPay
+        actionHandler->actionHandler:payRent(player, square, amountToPay)
+    end
 
-                actionHandler -> player:getName()
-                actionHandler <-- player:return playersName[i]
-                actionHandler -> player:getName()
-                actionHandler <-- player:return playerName
-                alt#Gold playersName[i] == playerName
-                    actionHandler -> actionHandler:biddingPlayer=i
-                end
-            end
-
-            actionHandler -> actionHandler:set notSold = true, highestBid = 0
-            alt#red notSold == true
-                alt#Gold activeBidders == 1
-                    alt#red i = 0; i < participants.length; i++
-                        alt#Gold participants[i]== true
-                            actionHandler -> player:getName()
-                            actionHandler <-- player:return playersName[i]
-                            actionHandler -> Language:get(msg)
-                            actionHandler <-- Language: return string
-                            actionHandler -> guiController:showMessage(playersName[i] + string)
-                            actionHandler ->  square:setOwner(players[i])
-                            actionHandler -> bank:payToBank(players[i], highestBid)
-                            actionHandler -> player:getColor()
-                            actionHandler <-- player:return playerColor[i]
-                            actionHandler -> square:getPOSITION()
-                            actionHandler <-- square:return squarePosition
-                            actionHandler -> guiController:setOwner(playersName[i], playerColor[i], squarePosition)
-                            actionHandler -> board:getCurrentCost(squarePosition)
-                            actionHandler <-- board:return currentCost
-                            actionHandler -> GUIController:updateRent(squarePosition,currentCost)
-                            actionHandler -> actionHandler:notSold = false
-                        end
-                    end
-
-                else participants[biddingPlayer] == true
-                    actionHandler -> player:getName()
-                    actionHandler <-- player:return playersName[i]
-                    actionHandler -> Language:get("wishToBid")
-                    actionHandler <-- Language: return string
-                    actionHandler -> guiController:askPlayerAccept(playersName[i], string)
-                        alt#Gold wantToBid==false
-                            actionHandler -> actionHandler:participants[biddingPlayer] = false
-                            actionHandler -> actionHandler:activeBidders--
-                        else
-                            alt#red bid < highestBid + 100
-                                actionHandler -> player:getName()
-                                actionHandler <-- player:return playersName[biddingPlayer]
-                                actionHandler -> Language:get("askForBid")
-                                actionHandler <-- Language: return string
-                                actionHandler -> guiController: getPlayerInteger(playersName[biddingPlayer] + string + highestBid + " kr.)")
-
-                                alt#Gold bid >= highestBid + 100
-                                    actionHandler -> actionHandler:highestBid = bid
-                                end
-                            end
-                        end
-                end
-
-                alt#Gold biddingPlayer >= players.length - 1
-                    actionHandler->actionHandler:biddingPlayer = 0
-                else
-                    biddingPlayer++
-                end
-            end
-        end
-
-    else
+else #Pink squareName=="Brewery"
+    actionHandler -> square:getOwner()
+    actionHandler <-- square:return owner:Player
+    alt#Gold #LightGreen owner == null
+        actionHandler->actionHandler:buySquare(player, square, "buyBrewery")
+    else #LightGreen
         actionHandler->square:getPOSITION()
         actionHandler<--square:return squarePosition
         actionHandler->board:getCurrentCost(squarePosition)
         actionHandler<--board: return currentCost
-        actionHandler-> actionHandler: amountToPay=currentCost* diceSum
-
-        actionHandler->square:OwnerIsInJail()
-        actionHandler<--square:return ownerInJail:boolean
-        actionHandler->square:getPledge()
-        actionHandler<--square: return pledge:boolean
-        actionHandler->square:getOwner().getActive()
-        actionHandler<--square: return ownerActive:boolean
-
-        alt#Gold ownerInJail==false && pledge==false && ownerActive==true
-            actionHandler->square:getOwner()
-            actionHandler <-- square:return owner:Player
-            actionHandler -> bank:playersPayToPlayer(owner, amount, player);
-            bank -> bank:playersPayToPlayer
-        end
-
+        actionHandler->actionHandler:amountToPay= currentCost * diceSum
+        actionHandler->actionHandler:payRent(player, square, amountToPay)
     end
 
-else #Pink squareName=="Brewery"
-
 else #LightBlue squareName=="Ferry"
+    actionHandler -> square:getOwner()
+    actionHandler <-- square:return owner:Player
+    alt#Gold #LightGreen owner == null
+        actionHandler->actionHandler:buySquare(player, square, "buyFerry")
+    else #LightGreen
+        actionHandler->square:getPOSITION()
+        actionHandler<--square:return squarePosition
+        actionHandler->board:getCurrentCost(squarePosition)
+        actionHandler<--board: return amountToPay
+        actionHandler->actionHandler:payRent(player, square, amountToPay)
+    end
 
 else #Pink squareName=="Tax"
-
+    actionHandler->square:getAmount()
+    actionHandler<--square:return amount
+    actionHandler->bank:payToBank(player, amount)
+    bank->player:getBalance()
+    bank<--player:return balance
+    alt #LightGreen amount>balance
+        bank->player:setBalance(0)
+        player->player: setBalance
+    else
+        bank->player:setBalance(balance-amount)
+        player->player: setBalance
+    end
 else #LightBlue squareName=="IncomeTax"
+      actionHandler->actionHandler:incomeTaxAction(player, square)
 
 else #Pink squareName=="Chance"
+      actionHandler->actionHandler:cardAction(player)
 
 else #LightBlue squareName=="GoToPrison"
-
-
+      actionHandler->board:setPlayerInJail(player)
+      board->board:setPlayerInJail(player)
 end
-
-
-
 
 @enduml

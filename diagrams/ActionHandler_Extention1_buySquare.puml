@@ -1,0 +1,39 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam backgroundColor #LightGreen
+Participant "ah:ActionHandler" as actionHandler
+Participant "ba:Bank" as bank
+Participant "bo:Board" as board
+Participant "p[]:Player" as player
+Participant "de:Deck" as deck
+Participant "s:Square" as square
+Participant "GUIController" as guiController
+
+->actionHandler:buySquare(player, square, msg)
+actionHandler -> guiController:askPlayerAccept(Language.get(msg)
+actionHandler <-- guiController:return answer:boolean
+alt#Gold #White answer==true
+    actionHandler -> square:getPrice()
+    actionHandler <--square: return price
+    actionHandler ->bank: payToBank(player, price)
+
+    actionHandler->square:setOwner(player)
+    square->square: setOwner
+    actionHandler -> player:getName()
+    actionHandler <-- player:return playerName
+    actionHandler -> player:getColor()
+    actionHandler <-- player:return playerColor
+    actionHandler -> square:getPOSITION()
+    actionHandler <-- square:return squarePosition
+    actionHandler->guiController:setOwner(playerName, playerColor, squarePosition);
+    guiController -> guiController:setOwner(playerName, playerColor, squarePosition)
+    actionHandler -> board:getCurrentCost(squarePosition)
+    actionHandler <-- board:return currentCost
+    actionHandler -> guiController:updateRent(squarePosition, currentCost);
+    guiController -> guiController:updateRent(squarePosition, currentCost)
+else #White
+     actionHandler -> actionHandler:holdAuction(player,square);
+end
+@enduml

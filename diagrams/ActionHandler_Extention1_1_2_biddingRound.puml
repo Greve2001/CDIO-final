@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam backgroundColor #plum
+Participant "ah:ActionHandler" as actionHandler
+Participant "p[]:Player" as player
+Participant "GUIController" as guiController
+
+->actionHandler:biddingRound(participants, highestBid, biddingPlayer)
+actionHandler -> player:getName()
+actionHandler <-- player:return playersName[i]
+actionHandler -> Language:get("wishToBid")
+actionHandler <-- Language: return string
+actionHandler -> guiController:askPlayerAccept(playersName[i], string)
+actionHandler <-- guiController:return wantToBid:boolean
+alt#Gold #LightCoral  wantToBid==false
+          actionHandler -> actionHandler:participants[biddingPlayer] = false
+          actionHandler -> actionHandler:activeBidders--
+else #LightCoral
+      actionHandler->actionHandler: bit=0
+      alt#red #white bid < highestBid + 100
+          actionHandler -> player:getName()
+          actionHandler <-- player:return playersName[biddingPlayer]
+          actionHandler -> Language:get("askForBid")
+          actionHandler <-- Language: return string
+          actionHandler -> guiController: getPlayerInteger(playersName[biddingPlayer] + string + highestBid + " kr.)")
+          actionHandler <-- guiController:return bid:int
+          alt#Gold #white bid >= highestBid + 100
+              actionHandler -> actionHandler:highestBid = bid
+          end
+      end
+end
+@enduml

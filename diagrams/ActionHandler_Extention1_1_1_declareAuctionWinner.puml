@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam backgroundColor #plum
+Participant "ah:ActionHandler" as actionHandler
+Participant "ba:Bank" as bank
+Participant "bo:Board" as board
+Participant "p[]:Player" as player
+Participant "s:Square" as square
+Participant "GUIController" as guiController
+->actionHandler:declareAuctionWinner(participants, square, highestBid)
+alt#red #LightCoral i = 0; i < participants.length; i++
+    alt#Gold #white participants[i]== true
+        actionHandler -> player:getName()
+        actionHandler <-- player:return playersName[i]
+        actionHandler -> Language:get(msg)
+        actionHandler <-- Language: return string
+        actionHandler -> guiController:showMessage(playersName[i] + string)
+        guiController -> guiController:showMessage(playersName[i] + string)
+        actionHandler ->  square:setOwner(players[i])
+        square ->  square:setOwner(players[i])
+        actionHandler -> bank:payToBank(players[i], highestBid)
+        bank->player:getBalance()[i]
+        bank<--player:return balance
+        alt #Tan amount>balance
+             bank->player:setBalance(0)
+             player->player: setBalance
+        else
+            bank->player:setBalance(balance-amount)
+            player->player: setBalance
+        end
+
+        actionHandler -> player:getColor()
+        actionHandler <-- player:return playerColor[i]
+        actionHandler -> square:getPOSITION()
+        actionHandler <-- square:return squarePosition
+        actionHandler -> guiController:setOwner(playersName[i], playerColor[i], squarePosition)
+        guiController-> guiController:setOwner(playersName[i], playerColor[i], squarePosition)
+        actionHandler -> board:getCurrentCost(squarePosition)
+        actionHandler <-- board:return currentCost
+        actionHandler -> guiController:updateRent(squarePosition,currentCost)
+        guiController-> guiController:updateRent(squarePosition,currentCost)
+    end
+end
+@enduml
