@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+hide footbox
+skinparam backgroundColor #lightGreen
+Participant "ah:ActionHandler" as actionHandler
+Participant "ba:Bank" as bank
+Participant "s:Square" as square
+Participant "p[]:Player" as player
+
+->actionHandler:payRent(player, square, amountToPay)
+actionHandler->square:OwnerIsInJail()
+actionHandler<--square:return ownerInJail:boolean
+actionHandler->square:getPledge()
+actionHandler<--square: return pledge:boolean
+actionHandler->square:getOwner().getActive()
+actionHandler<--square: return ownerActive:boolean
+
+alt#Gold #Plum ownerInJail==false && pledge==false && ownerActive==true
+    actionHandler->square:getOwner()
+    actionHandler <-- square:return owner:Player
+    actionHandler -> bank:playersPayToPlayer(owner, amountToPay, player);
+    bank -> bank:playersPayToPlayer(owner, amountToPay, player)
+
+     alt #LightBlue int i = 0; i < players.length; i++
+          bank->player:getBalance();
+          bank<--player:return playerbalance[i];
+          bank->player:getBalance;
+          bank->player:return balance;
+          alt #Tan playerbalance[i] >= amount
+              bank->player:setBalance(balance + amount)
+              player->player:setBalance(balance + amount)
+              bank->player:setBalance[i]( playerbalance[i] - amount)
+              player->player:setBalance[i]( playerbalance[i] - amount)
+          else
+              bank->player:setBalance(balance + playerbalance[i])
+              player->player:setBalance(balance + playerbalance[i])
+              bank->player:setBalance[i](0);
+              player->player:setBalance[i](0);
+          end
+
+     end
+end
+@enduml
