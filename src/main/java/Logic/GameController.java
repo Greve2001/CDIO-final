@@ -325,4 +325,11 @@ public class GameController {
     public Player[] getPlayers() {
         return players;
     }
+
+    // FOR TESTING BUG
+    public Board getBoard() {
+        return board;
+    }
+
+    // END OF TESTING
 }
