@@ -149,7 +149,7 @@ public class GameController {
 
                 String howMany = "";
                 if (action.equals("buy")) howMany = Language.get("howManyToBuy?");
-                if (action.equals("buy")) howMany = Language.get("howManyToSell?");
+                if (action.equals("sell")) howMany = Language.get("howManyToSell?");
 
 
                 int amount = GUIController.getPlayerInteger(howMany + housePrice);
