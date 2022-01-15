@@ -2,6 +2,7 @@
 'https://plantuml.com/sequence-diagram
 
 autonumber
+hide footbox
 skinparam backgroundColor #plum
 Participant "ah:ActionHandler" as actionHandler
 Participant "ba:Bank" as bank

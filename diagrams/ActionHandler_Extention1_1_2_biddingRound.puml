@@ -2,6 +2,7 @@
 'https://plantuml.com/sequence-diagram
 
 autonumber
+hide footbox
 skinparam backgroundColor #plum
 Participant "ah:ActionHandler" as actionHandler
 Participant "p[]:Player" as player
@@ -26,7 +27,7 @@ else #LightCoral
           actionHandler <-- Language: return string
           actionHandler -> guiController: getPlayerInteger(playersName[biddingPlayer] + string + highestBid + " kr.)")
           actionHandler <-- guiController:return bid:int
-          alt#Gold #white bid >= highestBid + 100
+          alt#Gold #Tan bid >= highestBid + 100
               actionHandler -> actionHandler:highestBid = bid
           end
       end

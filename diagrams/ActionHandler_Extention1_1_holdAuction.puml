@@ -2,7 +2,7 @@
 'https://plantuml.com/sequence-diagram
 
 autonumber
-
+hide footbox
 Participant "ah:ActionHandler" as actionHandler
 Participant "p[]:Player" as player
 
