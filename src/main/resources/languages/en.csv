@@ -3,7 +3,7 @@ Insert your name: ,enterName
 Do you wish to buy this street? ,buyStreet
 Do you wish to buy this ferry? ,buyFerry
 Do you wish to buy this brewery? ,buyBrewery
-Chose action,askAction
+Choose action,askAction
 Throw dice,choice1
 Buy property,choice2
 Sell property,choice3
@@ -27,7 +27,7 @@ Extraordinary tax,extraTax
 Income tax,incomeTax
 Start here!,startHere
 Use your get out of jail card,useEscapeCard
-Try escaping by getting to alike,attemptEscaping
+Try escaping by getting rolling 2 doubles,attemptEscaping
 Pay 1000kr,payFee
 You escaped prison!,youBrokeFree
 Your escape attempt was not successful,didNotEscape

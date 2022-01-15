@@ -53,6 +53,7 @@ public class Bank {
             housesAvailable -= nr;
             int balance = player.getBalance() - (price * nr);
             player.setBalance(balance);
+            GUIController.setPlayerBalance(player.getName(), player.getBalance());
         }
     }
 
@@ -61,6 +62,7 @@ public class Bank {
             hotelsAvailable -= nr;
             int balance = player.getBalance() - (nr * price);
             player.setBalance(balance);
+            GUIController.setPlayerBalance(player.getName(), player.getBalance());
         }
     }
 

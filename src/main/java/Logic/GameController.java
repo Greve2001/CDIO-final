@@ -53,8 +53,9 @@ public class GameController {
 
     // Handles the game flow.
     public void playGame() {
-        do { // Loops until only one player left.
+        boolean extraTurnTextEnabled = false;
 
+        do { // Loops until only one player left.
             boolean allowedToDecide = true;
 
             // If player does not escape jail. They cannot make any other actions
@@ -66,7 +67,10 @@ public class GameController {
                 // Give player choice; Throw, Buy, sell
 
                 String actionMsg = currentPlayer.getName() + ": " + Language.get("askAction");
-                if (currentPlayer.getHasExtraTurn()) actionMsg = Language.get("haveExtraTurn") + actionMsg;
+                if (extraTurnTextEnabled)
+                    actionMsg = Language.get("haveExtraTurn") + actionMsg;
+
+                extraTurnTextEnabled = false;
 
                 String[] actionChoices;
                 String actionAnswer;
@@ -104,7 +108,8 @@ public class GameController {
             if (!currentPlayer.getHasExtraTurn()){
                 changeTurn();
                 doublesRolled = 0;
-            }
+            }else
+                extraTurnTextEnabled = true;
             currentPlayer.setHasExtraTurn(false); // Make sure that extra turn is reset
             checkForBust(); // See if any player has gone bust.
 
@@ -141,7 +146,13 @@ public class GameController {
                 String colorChosen = GUIController.givePlayerChoice(msg, colorsToChooseFrom);
 
                 int housePrice = board.getHousePrice(colorChosen); // Same as hotelprice
-                int amount = GUIController.getPlayerInteger(Language.get("howManyToBuy?") + housePrice);
+
+                String howMany = "";
+                if (action.equals("buy")) howMany = Language.get("howManyToBuy?");
+                if (action.equals("buy")) howMany = Language.get("howManyToSell?");
+
+
+                int amount = GUIController.getPlayerInteger(howMany + housePrice);
                 if (amount <= 0){ // If inputted 0 or negative, exit
                     break;
                 }
