@@ -334,7 +334,8 @@ public class Board {
                     for (Square field : ALL_SQUARES) {
                         if (ALL_SQUARES[position].getColor().equals(field.getColor())){
                             field.setAmountOfHouses(5);
-                            //TODO actionhandler
+                            GUIController.setHotel(field.getPOSITION(), true);
+
                         }
                     }
                 } else {

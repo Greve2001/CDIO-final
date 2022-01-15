@@ -1,7 +1,5 @@
 package Logic;
 
-import Board.*;
-import SimpleClasses.Player;
 import Utilities.Language;
 
 public class Main {
