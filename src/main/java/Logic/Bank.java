@@ -34,7 +34,7 @@ public class Bank {
 
                 value.setBalance(0);
             }
-            GUIController.showCenterMessage(player.getName() + Language.get("paid") + amount + Language.get("paidToPlayer") + value.getName());
+            GUIController.showCenterMessage(value.getName() + Language.get("paid") + amount + Language.get("paidToPlayer") + player.getName());
             GUIController.setPlayerBalance(player.getName(), player.getBalance());
             GUIController.setPlayerBalance(value.getName(), value.getBalance());
         }
