@@ -49,7 +49,7 @@ public class ActionHandler {
         if (square.getOwner() == null) { // Ask to buy
             buySquare(player, square, "buyBrewery");
 
-        } else { // Pay the rent
+        } else if (square.getOwner() != player) { // Pay the rent
             // Doubles the amount of rent if the player owns all breweries.
             int amountToPay = BOARD.getCurrentCost(square.getPOSITION()) * diceSum;
             payRent(player, square, amountToPay);
@@ -60,7 +60,7 @@ public class ActionHandler {
         if (square.getOwner() == null) { // Buy if no owner
             buySquare(player, square, "buyFerry");
 
-        } else { // Pay the rent
+        } else if (square.getOwner() != player) { // Pay the rent
             int amountToPay = BOARD.getCurrentCost(square.getPOSITION());
             payRent(player, square, amountToPay);
         }
