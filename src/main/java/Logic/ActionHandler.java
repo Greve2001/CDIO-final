@@ -39,7 +39,7 @@ public class ActionHandler {
         if (square.getOwner() == null) { // Buy it
             buySquare(player, square, "buyStreet");
 
-        } else { // Pay the rent
+        } else if (square.getOwner() != player){ // Pay the rent
             int amountToPay = BOARD.getCurrentCost(square.getPOSITION());
             payRent(player, square, amountToPay);
         }
